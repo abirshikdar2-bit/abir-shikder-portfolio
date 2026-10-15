@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abir Shikder — Full-Stack Web Developer & Creative Designer</title>
+  <meta name="description" content="Portfolio of Abir Shikder — Full-Stack Web Developer and Creative Designer based in Jashore, Bangladesh. Building high-performance, precision web applications.">
+  <meta name="keywords" content="Abir Shikder, Web Developer, Full Stack Developer, Creative Designer, UI UX Design, Next.js, React, Tailwind, Framer, Jashore Bangladesh">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN for grid & responsive utility -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            black: '#000000',
+            darkCard: '#08080a',
+            accentBlue: '#3b82f6',
+            accentEmerald: '#10b981',
+            accentPurple: '#8b5cf6'
+          },
+          fontFamily: {
+            heading: ['Outfit', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Production Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Backdrop Lighting & Architectural Grid -->
+  <div class="ambient-backdrop"></div>
+  <div class="grid-backdrop"></div>
+
+  <!-- ==================== TOP NAVIGATION BAR ==================== -->
+  <header class="topbar" id="topbar">
+    <div class="max-w-[1360px] mx-auto px-6 py-4 flex items-center justify-between">
+      
+      <!-- Brand & Role -->
+      <a href="#home" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center font-heading font-bold text-white text-sm group-hover:bg-blue-600 transition-all duration-300">
+          AS
+        </div>
+        <div class="flex flex-col">
+          <span class="brand-title">Abir Shikder</span>
+          <span class="brand-role">Web Developer & Designer</span>
+        </div>
+      </a>
+
+      <!-- Center Nav Pills (Desktop) -->
+      <nav class="hidden md:flex items-center nav-pill-bar">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#work" class="nav-item">Selected Work</a>
+        <a href="#contact" class="nav-item">Contact</a>
+        <button class="nav-item open-cv-btn bg-transparent border-none cursor-pointer">Official CV</button>
+      </nav>
+
+      <!-- Right Location & Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Live Bangladesh Time & Status -->
+        <div class="status-indicator hidden sm:flex">
+          <span class="status-pulse-dot"></span>
+          <span>Jashore, BD</span>
+          <span class="text-white/40">•</span>
+          <span id="liveClock" class="text-white font-mono">03:00 AM</span>
+        </div>
+
+        <a href="#contact" class="btn-vexoo-primary hidden lg:inline-flex text-xs py-2 px-4">
+          <span>Let's Talk</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN HERO BENTO SECTION ==================== -->
+  <main id="home" class="pt-28 pb-20 px-6 relative z-10">
+    
+    <!-- Dynamic Morphing Title Backdrop (Vexoo Headline) -->
+    <div class="hero-morph-wrapper">
+      <div class="hero-morph-blur"></div>
+      <h1 id="heroMorphTitle" class="hero-morph-title">Abir Shikder</h1>
+    </div>
+
+    <!-- The Master Bento Grid -->
+    <div class="bento-grid">
+
+      <!-- 1. About Card (Top-Left) -->
+      <a href="#about" class="bento-card card-about group text-decoration-none" data-morph-target="About">
+        <div class="bento-card-header">
+          <span class="bento-badge">
+            <i class="fa-regular fa-user text-xs text-blue-400"></i>
+            <span>About</span>
+          </span>
+          <div class="bento-arrow">
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+          </div>
+        </div>
+
+        <div class="card-about-body">
+          <p class="card-about-text">
+            Crafting thoughtful web interfaces and high-performance digital products where clean architecture meets meticulous aesthetic craft.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">Full-Stack Web</span>
+            <span class="card-tag">React & Next.js</span>
+            <span class="card-tag">UI/UX Systems</span>
+            <span class="card-tag">Tailwind CSS</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2. Portfolio Showcase Card (Top-Right) -->
+      <a href="#work" class="bento-card card-portfolio group text-decoration-none" data-morph-target="Selected Work">
+        <div class="bento-card-header">
+          <span class="bento-badge">
+            <i class="fa-solid fa-layer-group text-xs text-blue-400"></i>
+            <span>Selected Work</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-emerald-400 font-mono hidden sm:inline">15+ Projects Shipped</span>
+            <div class="bento-arrow">
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-slider-container">
+          <div class="mini-project-preview" data-open-case-study="analytics">
+            <img src="assets/images/project-analytics.jpg" alt="Apex Analytics">
+            <div class="mini-project-overlay">
+              <span class="mini-project-title">Apex Analytics Pro</span>
+              <span class="mini-project-tag">Cloud Telemetry SaaS</span>
+            </div>
+          </div>
+          <div class="mini-project-preview" data-open-case-study="ecommerce">
+            <img src="assets/images/project-ecommerce.jpg" alt="Aether Commerce">
+            <div class="mini-project-overlay">
+              <span class="mini-project-title">Aether E-Commerce</span>
+              <span class="mini-project-tag">Headless Digital Store</span>
+            </div>
+          </div>
+          <div class="mini-project-preview hidden sm:block" data-open-case-study="ai">
+            <img src="assets/images/project-ai.jpg" alt="Synthesis AI">
+            <div class="mini-project-overlay">
+              <span class="mini-project-title">Synthesis AI Studio</span>
+              <span class="mini-project-tag">Prompt Workflow Canvas</span>
+            </div>
+          </div>
+          <div class="mini-project-preview hidden sm:block" data-open-case-study="fintech">
+            <img src="assets/images/project-fintech.jpg" alt="Aether Pay">
+            <div class="mini-project-overlay">
+              <span class="mini-project-title">Aether Pay Neobank</span>
+              <span class="mini-project-tag">Digital Banking Web App</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3. Contact & Quick Connect Card (Bottom-Left) -->
+      <div class="bento-card card-contact group" data-morph-target="Get In Touch">
+        <div class="bento-card-header">
+          <span class="bento-badge">
+            <i class="fa-regular fa-paper-plane text-xs text-emerald-400"></i>
+            <span>Contact & Availability</span>
+          </span>
+          <a href="#contact" class="bento-arrow text-decoration-none">
+            <i class="fa-solid fa-arrow-down text-xs"></i>
+          </a>
+        </div>
+
+        <div class="my-auto z-10">
+          <h3 class="text-xl font-bold font-heading text-white mb-1">Let's build something extraordinary.</h3>
+          <p class="text-sm text-zinc-400 mb-4">Open for freelance inquiries, contract engineering, and high-impact full-time roles.</p>
+        </div>
+
+        <div class="contact-quick-actions">
+          <div class="quick-action-pill copy-email-btn">
+            <div class="flex items-center gap-2">
+              <i class="fa-regular fa-envelope text-blue-400"></i>
+              <span class="font-mono text-xs">abirshikdar2@gmail.com</span>
+            </div>
+            <span class="text-xs text-zinc-400 hover:text-white flex items-center gap-1 font-mono">
+              <i class="fa-regular fa-copy"></i> Copy
+            </span>
+          </div>
+
+          <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="quick-action-pill">
+            <div class="flex items-center gap-2">
+              <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+              <span class="text-xs">WhatsApp Direct (+880 1734018155)</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-zinc-400"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4. Profile Portrait Card (Bottom-Center) -->
+      <div class="bento-card card-portrait group relative" data-morph-target="Abir Shikder">
+        <div class="portrait-img-wrapper">
+          <img src="assets/images/abir-profile.jpg" alt="Abir Shikder">
+        </div>
+        <div class="portrait-badge-overlay">
+          <span>Abir Shikder</span>
+          <span class="text-emerald-400 font-mono">Available 🟢</span>
+        </div>
+      </div>
+
+      <!-- 5. Tech Stack Card (Bottom-Right Upper) -->
+      <div class="bento-card card-stack group" data-morph-target="Tech Stack">
+        <div class="bento-card-header">
+          <span class="bento-badge">
+            <i class="fa-solid fa-code text-xs text-purple-400"></i>
+            <span>Tech Stack & Tools</span>
+          </span>
+          <span class="text-xs text-zinc-500 font-mono">Modern Ecosystem</span>
+        </div>
+
+        <div class="tech-icon-cluster">
+          <div class="tech-icon-pill" data-tooltip="React.js">
+            <i class="fa-brands fa-react text-cyan-400"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Next.js">
+            <span class="font-bold text-sm">N</span>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Tailwind CSS">
+            <i class="fa-solid fa-wind text-teal-400"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="JavaScript / ES6">
+            <i class="fa-brands fa-js text-yellow-400"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="TypeScript">
+            <span class="font-bold text-xs text-blue-400 font-mono">TS</span>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Node.js">
+            <i class="fa-brands fa-node text-emerald-500"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Python">
+            <i class="fa-brands fa-python text-yellow-500"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Figma UI/UX">
+            <i class="fa-brands fa-figma text-pink-400"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Git & GitHub">
+            <i class="fa-brands fa-github text-white"></i>
+          </div>
+          <div class="tech-icon-pill" data-tooltip="Vercel Cloud">
+            <span class="text-xs font-mono">▲</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Resume / CV Card (Bottom-Right Lower) -->
+      <div class="bento-card card-resume group" data-morph-target="Resume & Milestones">
+        <div class="bento-card-header">
+          <span class="bento-badge">
+            <i class="fa-regular fa-file-lines text-xs text-amber-400"></i>
+            <span>Official Resume</span>
+          </span>
+          <div class="bento-arrow open-cv-btn">
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+          </div>
+        </div>
+
+        <div class="my-auto z-10">
+          <h4 class="text-base font-semibold text-white mb-1">Academic & Technical Credential</h4>
+          <p class="text-xs text-zinc-400 mb-3">SSC 2022 Graduate (GPA: 3.61) • Self-Taught Full-Stack Engineer.</p>
+        </div>
+
+        <div class="resume-actions">
+          <button class="btn-vexoo-primary open-cv-btn w-full justify-center">
+            <i class="fa-regular fa-eye text-xs"></i>
+            <span>View CV</span>
+          </button>
+          <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-ghost justify-center">
+            <i class="fa-solid fa-download text-xs"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== SECTION 2: ABOUT & EXPERIENCE ==================== -->
+  <section id="about" class="section-wrapper border-t border-white/5">
+    <div class="max-w-[1360px] mx-auto px-6">
+      
+      <!-- Editorial Statement Headline -->
+      <div class="max-w-4xl mb-16">
+        <span class="section-label">01 // About & Philosophy</span>
+        <h2 class="section-heading">
+          I'm Abir Shikder — a developer & designer who believes the best work lives at the intersection of <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">clarity and craft.</span>
+        </h2>
+        <p class="text-lg text-zinc-300 leading-relaxed font-light mb-6">
+          I specialize in building full-stack web applications and digital interfaces that feel considered from every angle — the layout, the typography, the micro-animations, and the clean scalable code underneath. Consistency and performance matter to me, not merely as rules, but because they are what make a product feel trustworthy and effortless to use.
+        </p>
+      </div>
+
+      <!-- Experience & Milestones Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+        
+        <!-- Left: Career Journey Timeline -->
+        <div class="lg:col-span-6">
+          <h3 class="text-xl font-bold font-heading text-white mb-8 flex items-center gap-3">
+            <i class="fa-solid fa-timeline text-blue-400 text-sm"></i>
+            <span>Experience & Academic Milestones</span>
+          </h3>
+
+          <div class="space-y-6">
+            
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div class="timeline-year">2024 — PRESENT</div>
+              <div class="timeline-role">Independent Full-Stack Developer & Freelancer</div>
+              <div class="timeline-company">Global Clients & Custom Web Engineering</div>
+              <p class="timeline-desc">
+                Architecting high-performance web applications, SaaS dashboards, and bespoke client platforms using Next.js, React, Tailwind CSS, and Node.js. Delivered 15+ successful projects with 100% positive feedback.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div class="timeline-year">2023 — 2024</div>
+              <div class="timeline-role">Creative Frontend Engineer & UI/UX Specialist</div>
+              <div class="timeline-company">Digital Product Design & Prototyping</div>
+              <p class="timeline-desc">
+                Engineered responsive design systems, headless frontend architectures, and component libraries with sub-second LCP and 98+ Google Lighthouse scores.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div class="timeline-year">2022</div>
+              <div class="timeline-role">Secondary School Certificate (SSC) Milestone</div>
+              <div class="timeline-company">Academic Foundation (GPA: 3.61)</div>
+              <p class="timeline-desc">
+                Completed science and computational foundations with distinction in Jashore, accelerating full-time dedication to software engineering and modern web development.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: What People Say (Client Testimonials) -->
+        <div class="lg:col-span-6">
+          <h3 class="text-xl font-bold font-heading text-white mb-8 flex items-center gap-3">
+            <i class="fa-regular fa-comments text-emerald-400 text-sm"></i>
+            <span>Collaborator Endorsements</span>
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Abir has that rare ability to see both the architectural big picture and the smallest UI interaction. He brought our web dashboard to life with speed and precision."
+              </p>
+              <div class="testimonial-author-name">Marcus Holm</div>
+              <div class="testimonial-author-role">Founder, Fenwick Studio</div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Working with Abir elevated our entire product presence. He doesn't just write code — he actively suggests UX enhancements that make real business impact."
+              </p>
+              <div class="testimonial-author-name">Layla Thornton</div>
+              <div class="testimonial-author-role">Product Lead, Dayloom</div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Exceptional communication, clean code, and zero friction. Abir delivered our e-commerce platform ahead of schedule with flawless responsiveness."
+              </p>
+              <div class="testimonial-author-name">Jin Park</div>
+              <div class="testimonial-author-role">Creative Director, Haulk</div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "His understanding of modern design systems and performance optimization makes him an invaluable engineering partner. Highly recommended!"
+              </p>
+              <div class="testimonial-author-name">Nadia Osei</div>
+              <div class="testimonial-author-role">Technical Producer, Morsel</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3: SELECTED WORK & CASE STUDIES ==================== -->
+  <section id="work" class="section-wrapper border-t border-white/5">
+    <div class="max-w-[1360px] mx-auto px-6">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
+        <div>
+          <span class="section-label">02 // Portfolio</span>
+          <h2 class="section-heading mb-0">Featured Engineering & Design</h2>
+        </div>
+        <p class="text-sm text-zinc-400 max-w-md mt-4 md:mt-0 font-mono">
+          Each project represents an intentional fusion of performant code, accessible interaction design, and business value.
+        </p>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Project 1: Apex Analytics Pro -->
+        <div class="project-card group">
+          <div class="project-img-box">
+            <img src="assets/images/project-analytics.jpg" alt="Apex Analytics">
+          </div>
+          <div class="project-content">
+            <span class="project-tag-pill">Cloud SaaS • Real-Time Telemetry</span>
+            <h3 class="project-title">Apex Analytics Pro</h3>
+            <p class="project-desc">
+              High-throughput cloud monitoring dashboard processing 1.2 TB/hr ingestion with real-time WebSocket telemetry, interactive WebGL curves, and sub-800ms initial load.
+            </p>
+            <div class="project-actions">
+              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="analytics">
+                <i class="fa-regular fa-file-lines text-xs"></i>
+                <span>Case Study</span>
+              </button>
+              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Aether Luxury E-Commerce -->
+        <div class="project-card group">
+          <div class="project-img-box">
+            <img src="assets/images/project-ecommerce.jpg" alt="Aether Commerce">
+          </div>
+          <div class="project-content">
+            <span class="project-tag-pill">Headless E-Commerce • Next.js</span>
+            <h3 class="project-title">Aether Luxury Audio Store</h3>
+            <p class="project-desc">
+              Cinematic shopping experience for audiophile hardware with instant slide-over shopping bag, 3D variant inspector, and frictionless multi-currency Stripe checkout.
+            </p>
+            <div class="project-actions">
+              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="ecommerce">
+                <i class="fa-regular fa-file-lines text-xs"></i>
+                <span>Case Study</span>
+              </button>
+              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Synthesis AI Workflow Studio -->
+        <div class="project-card group">
+          <div class="project-img-box">
+            <img src="assets/images/project-ai.jpg" alt="Synthesis AI">
+          </div>
+          <div class="project-content">
+            <span class="project-tag-pill">Generative AI • Workflow Canvas</span>
+            <h3 class="project-title">Synthesis AI Workflow Studio</h3>
+            <p class="project-desc">
+              Visual node-based prompt orchestration platform connecting multi-modal LLMs, latent diffusion models, and upscalers into unified collaborative boards.
+            </p>
+            <div class="project-actions">
+              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="ai">
+                <i class="fa-regular fa-file-lines text-xs"></i>
+                <span>Case Study</span>
+              </button>
+              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: Aether Pay Neobank -->
+        <div class="project-card group">
+          <div class="project-img-box">
+            <img src="assets/images/project-fintech.jpg" alt="Aether Pay">
+          </div>
+          <div class="project-content">
+            <span class="project-tag-pill">FinTech • Digital Banking</span>
+            <h3 class="project-title">Aether Pay & Neobank Platform</h3>
+            <p class="project-desc">
+              Modern digital banking portal and companion mobile web experience featuring virtual titanium card provisioning, real-time transaction categorizing, and asset allocation.
+            </p>
+            <div class="project-actions">
+              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="fintech">
+                <i class="fa-regular fa-file-lines text-xs"></i>
+                <span>Case Study</span>
+              </button>
+              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5: Abir AI Creative Suite -->
+        <div class="project-card group md:col-span-2">
+          <div class="project-img-box h-[340px]">
+            <img src="assets/images/chatgpt-hero-visual.png" alt="Abir AI Creative Suite">
+          </div>
+          <div class="project-content">
+            <span class="project-tag-pill">Full-Stack AI Productivity • Personal Lab</span>
+            <h3 class="project-title">Abir AI Design Engineer Productivity Hub</h3>
+            <p class="project-desc">
+              Comprehensive personal developer productivity ecosystem combining automated prompt engineering, live code sandboxes, and modern component prototyping tools into a high-octane dark UI workspace.
+            </p>
+            <div class="project-actions">
+              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="assistant">
+                <i class="fa-regular fa-file-lines text-xs"></i>
+                <span>Case Study</span>
+              </button>
+              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 4: CONTACT & INQUIRY ==================== -->
+  <section id="contact" class="section-wrapper border-t border-white/5">
+    <div class="max-w-[1360px] mx-auto px-6">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left: Contact Information -->
+        <div class="lg:col-span-5">
+          <span class="section-label">03 // Get In Touch</span>
+          <h2 class="section-heading mb-6">Let's discuss your next project.</h2>
+          <p class="text-zinc-400 mb-8 leading-relaxed">
+            Whether you need a full-scale web application built from scratch, a high-converting landing page, or a meticulous UI overhaul, I'm here to bring your vision to life.
+          </p>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/10">
+              <div class="flex items-center gap-3">
+                <i class="fa-regular fa-envelope text-blue-400"></i>
+                <div>
+                  <div class="text-xs text-zinc-500 font-mono">Email Address</div>
+                  <div class="text-sm font-mono text-white">abirshikdar2@gmail.com</div>
+                </div>
+              </div>
+              <button class="copy-email-btn text-xs text-zinc-400 hover:text-white font-mono bg-white/5 py-1.5 px-3 rounded-lg border border-white/10">
+                <i class="fa-regular fa-copy"></i> Copy
+              </button>
+            </div>
+
+            <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/10 hover:border-emerald-500/40 transition-all text-decoration-none">
+              <div class="flex items-center gap-3">
+                <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+                <div>
+                  <div class="text-xs text-zinc-500 font-mono">WhatsApp Direct</div>
+                  <div class="text-sm text-white">+880 1734018155</div>
+                </div>
+              </div>
+              <span class="text-xs text-emerald-400 font-mono flex items-center gap-1">
+                Chat Now <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </span>
+            </a>
+
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex items-center gap-3">
+              <i class="fa-solid fa-location-dot text-red-400"></i>
+              <div>
+                <div class="text-xs text-zinc-500 font-mono">Based In</div>
+                <div class="text-sm text-white">Jashore, Khulna Division, Bangladesh (GMT+6)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.03] flex items-center gap-3">
+            <span class="status-pulse-dot"></span>
+            <span class="text-xs font-mono text-emerald-300">
+              Current Status: 1 spot open for new projects (April — May 2026)
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Project Inquiry Form -->
+        <div class="lg:col-span-7">
+          <div class="bg-darkCard border border-white/10 rounded-3xl p-8 shadow-2xl relative">
+            <h3 class="text-xl font-bold font-heading text-white mb-6">Interactive Project Inquiry</h3>
+
+            <form id="inquiryForm" class="space-y-6">
+              
+              <!-- Project Type Selection -->
+              <div>
+                <label class="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-3">
+                  01 // What kind of project are you planning?
+                </label>
+                <div class="flex flex-wrap gap-2">
+                  <button type="button" class="project-type-pill active bg-blue-600 text-white text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="Full-Stack Web App">
+                    Full-Stack Web App
+                  </button>
+                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="Landing Page & Marketing">
+                    Landing Page & Marketing
+                  </button>
+                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="E-Commerce Platform">
+                    E-Commerce Platform
+                  </button>
+                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="UI/UX Design System">
+                    UI/UX Design System
+                  </button>
+                </div>
+              </div>
+
+              <!-- Budget Tier Selection -->
+              <div>
+                <label class="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-3">
+                  02 // Anticipated Budget Range
+                </label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$500 — $1k">
+                    $500 — $1k
+                  </button>
+                  <button type="button" class="budget-pill active bg-blue-600 text-white text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$1k — $3k">
+                    $1k — $3k
+                  </button>
+                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$3k — $5k">
+                    $3k — $5k
+                  </button>
+                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$5k+">
+                    $5k+
+                  </button>
+                </div>
+              </div>
+
+              <!-- Name & Email Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="inquiryName" class="block text-xs font-mono text-zinc-400 mb-2">Your Name</label>
+                  <input type="text" id="inquiryName" required placeholder="e.g. John Doe" class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                  <label for="inquiryEmail" class="block text-xs font-mono text-zinc-400 mb-2">Your Email</label>
+                  <input type="email" id="inquiryEmail" required placeholder="john@example.com" class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors">
+                </div>
+              </div>
+
+              <!-- Project Details -->
+              <div>
+                <label for="inquiryDetails" class="block text-xs font-mono text-zinc-400 mb-2">Project Brief & Details</label>
+                <textarea id="inquiryDetails" rows="4" placeholder="Tell me about your goals, timelines, and requirements..." class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors"></textarea>
+              </div>
+
+              <!-- Submit CTAs -->
+              <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button type="submit" class="btn-vexoo-primary flex-1 justify-center py-3">
+                  <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
+                  <span>Send via WhatsApp Direct</span>
+                </button>
+                <a href="mailto:abirshikdar2@gmail.com" class="btn-vexoo-ghost justify-center py-3 text-center">
+                  <i class="fa-regular fa-envelope text-xs"></i>
+                  <span>Send via Email</span>
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="py-12 border-t border-white/5 bg-black relative z-10">
+    <div class="max-w-[1360px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded bg-white/10 flex items-center justify-center font-heading font-bold text-xs text-white">
+          AS
+        </div>
+        <span class="text-sm font-medium text-white">Abir Shikder</span>
+        <span class="text-xs text-zinc-500 font-mono">© 2026. All rights reserved.</span>
+      </div>
+
+      <div class="flex items-center gap-6 text-sm text-zinc-400">
+        <a href="#home" class="hover:text-white transition-colors">Home</a>
+        <a href="#about" class="hover:text-white transition-colors">About</a>
+        <a href="#work" class="hover:text-white transition-colors">Selected Work</a>
+        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+        <a href="https://github.com/abirshikder" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+      </div>
+
+      <div class="text-xs text-zinc-500 font-mono">
+        Framer Vexoo Architecture • Built with Precision
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== CASE STUDY MODAL ==================== -->
+  <div id="caseStudyModal" class="vexoo-modal">
+    <div class="vexoo-modal-card">
+      <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="mb-6">
+        <span id="csTag" class="text-xs font-mono text-blue-400 uppercase tracking-wider block mb-2">Category</span>
+        <h2 id="csTitle" class="text-2xl sm:text-3xl font-bold font-heading text-white">Project Case Study</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/10 mb-6 font-mono text-xs">
+        <div>
+          <span class="text-zinc-500 block">Client</span>
+          <span id="csClient" class="text-white font-medium">Confidential</span>
+        </div>
+        <div>
+          <span class="text-zinc-500 block">Year</span>
+          <span id="csYear" class="text-white font-medium">2025</span>
+        </div>
+        <div>
+          <span class="text-zinc-500 block">Role</span>
+          <span id="csRole" class="text-white font-medium">Lead Developer</span>
+        </div>
+      </div>
+
+      <div class="rounded-xl overflow-hidden mb-6 border border-white/10 max-h-[360px]">
+        <img id="csImage" src="" alt="Project Visual" class="w-full h-full object-cover">
+      </div>
+
+      <div class="space-y-5 mb-8">
+        <div>
+          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">01 // The Challenge</h4>
+          <p id="csChallenge" class="text-sm text-zinc-300 leading-relaxed"></p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">02 // The Objective</h4>
+          <p id="csObjective" class="text-sm text-zinc-300 leading-relaxed"></p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">03 // The Engineering Solution</h4>
+          <p id="csSolution" class="text-sm text-zinc-300 leading-relaxed"></p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-mono text-emerald-400 uppercase mb-2">04 // Key Outcomes & Metrics</h4>
+          <ul id="csResults" class="space-y-2"></ul>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+        <a id="csDemoLink" href="#" target="_blank" class="btn-vexoo-primary flex-1 justify-center py-2.5">
+          <span>Explore Live Application</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        </a>
+        <a id="csGithubLink" href="#" target="_blank" class="btn-vexoo-ghost justify-center py-2.5">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>View Source</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== OFFICIAL CV LIGHTBOX MODAL ==================== -->
+  <div id="cvModal" class="vexoo-modal">
+    <div class="vexoo-modal-card max-w-3xl">
+      <button id="cvCloseBtn" class="modal-close-btn" aria-label="Close CV modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-xl font-bold font-heading text-white">Official Curriculum Vitae</h3>
+          <p class="text-xs text-zinc-400 font-mono">Abir Shikder • Verified Credential Document</p>
+        </div>
+        <div class="flex gap-2">
+          <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-primary text-xs py-2 px-3">
+            <i class="fa-solid fa-download text-xs"></i>
+            <span>Download</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-xl overflow-hidden border border-white/10 max-h-[75vh] overflow-y-auto">
+        <img src="assets/documents/Abir-Shikder-CV.jpeg" alt="Abir Shikder Official CV" class="w-full h-auto">
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="vexooToast" class="vexoo-toast">
+    <span id="toastText">Notification message</span>
+  </div>
+
+  <!-- Main JavaScript Engine -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

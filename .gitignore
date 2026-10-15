@@ -1,0 +1,11 @@
+.agents/
+.gemini/
+.vscode/
+.idea/
+*.log
+*.tmp
+.DS_Store
+Docs/
+deploy-vercel.ps1
+server.ps1
+assets/*.webp
