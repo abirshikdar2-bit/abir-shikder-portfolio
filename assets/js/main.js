@@ -1,6 +1,6 @@
 /**
- * ABIR SHIKDER PORTFOLIO - FRAMER VEXOO ENGINE
- * Smooth Morphing Typography • Mouse Spotlight • Live Time Synchronization • Interactive Case Studies • CV Lightbox
+ * ABIR SHIKDER PORTFOLIO - FRAMER DESIGN SYSTEM ENGINE
+ * Smooth Role Switcher • Live Time Synchronization • Interactive Case Studies • CV Lightbox • Mobile Drawer
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,62 +34,77 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateLiveTime, 1000);
 
   // ========================================================
-  // 2. DYNAMIC MORPHING TYPOGRAPHY (VEXOO HERO BACKDROP)
+  // 2. DYNAMIC ROTATING ROLE SWITCHER
   // ========================================================
-  const heroMorphTitle = document.getElementById('heroMorphTitle');
-  const morphCards = document.querySelectorAll('[data-morph-target]');
-  const DEFAULT_TITLE = 'Abir Shikder';
-  let morphTimeout = null;
+  const heroRoleSwitcher = document.getElementById('heroRoleSwitcher');
+  const roles = [
+    'Full-Stack Web Engineering',
+    'React & Next.js Architecture',
+    'Creative UI/UX Design Systems',
+    'High-Performance SaaS Solutions',
+    'Headless E-Commerce Platforms'
+  ];
+  let currentRoleIndex = 0;
 
-  if (heroMorphTitle) {
-    morphCards.forEach((card) => {
-      card.addEventListener('mouseenter', () => {
-        const targetText = card.getAttribute('data-morph-target');
-        if (targetText && heroMorphTitle.textContent !== targetText) {
-          clearTimeout(morphTimeout);
-          heroMorphTitle.style.opacity = '0.3';
-          heroMorphTitle.style.filter = 'blur(10px)';
-          heroMorphTitle.style.transform = 'scale(0.97)';
-          
-          morphTimeout = setTimeout(() => {
-            heroMorphTitle.textContent = targetText;
-            heroMorphTitle.style.opacity = '1';
-            heroMorphTitle.style.filter = 'blur(0px)';
-            heroMorphTitle.style.transform = 'scale(1)';
-          }, 120);
-        }
-      });
-
-      card.addEventListener('mouseleave', () => {
-        clearTimeout(morphTimeout);
-        morphTimeout = setTimeout(() => {
-          heroMorphTitle.style.opacity = '0.3';
-          heroMorphTitle.style.filter = 'blur(10px)';
-          heroMorphTitle.style.transform = 'scale(0.97)';
-          setTimeout(() => {
-            heroMorphTitle.textContent = DEFAULT_TITLE;
-            heroMorphTitle.style.opacity = '1';
-            heroMorphTitle.style.filter = 'blur(0px)';
-            heroMorphTitle.style.transform = 'scale(1)';
-          }, 120);
-        }, 150);
-      });
-    });
+  if (heroRoleSwitcher) {
+    setInterval(() => {
+      heroRoleSwitcher.style.opacity = '0';
+      heroRoleSwitcher.style.transform = 'translateY(6px)';
+      
+      setTimeout(() => {
+        currentRoleIndex = (currentRoleIndex + 1) % roles.length;
+        heroRoleSwitcher.textContent = roles[currentRoleIndex];
+        heroRoleSwitcher.style.opacity = '1';
+        heroRoleSwitcher.style.transform = 'translateY(0)';
+      }, 250);
+    }, 2800);
   }
 
   // ========================================================
-  // 3. CURSOR SPOTLIGHT TRACKER ON BENTO CARDS
+  // 3. MOBILE NAVIGATION DRAWER
   // ========================================================
-  const bentoCards = document.querySelectorAll('.bento-card');
-  bentoCards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+  if (mobileMenuBtn && mobileDrawer) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('active');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (icon) {
+        if (mobileDrawer.classList.contains('active')) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-xmark');
+        } else {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
     });
-  });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('active');
+        const icon = mobileMenuBtn.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuBtn.contains(e.target) && !mobileDrawer.contains(e.target) && mobileDrawer.classList.contains('active')) {
+        mobileDrawer.classList.remove('active');
+        const icon = mobileMenuBtn.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
 
   // ========================================================
   // 4. TOAST NOTIFICATION UTILITY
@@ -98,130 +113,129 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastText = document.getElementById('toastText');
   let toastTimer = null;
 
-  function showToast(message) {
+  function showToast(message, duration = 3000) {
     if (!toast || !toastText) return;
     toastText.textContent = message;
     toast.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove('show');
-    }, 2800);
+    }, duration);
   }
 
-  // One-Click Email Copy
-  const copyEmailBtns = document.querySelectorAll('.copy-email-btn');
-  copyEmailBtns.forEach((btn) => {
+  // Quick Copy Email Utility
+  document.querySelectorAll('.copy-email-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const email = 'abirshikdar2@gmail.com';
-      navigator.clipboard.writeText(email).then(() => {
-        showToast('✓ Email copied to clipboard: abirshikdar2@gmail.com');
-      }).catch(() => {
-        showToast('abirshikdar2@gmail.com');
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(() => {
+          showToast('✓ Email address copied to clipboard!');
+        }).catch(() => {
+          fallbackCopyText(email);
+        });
+      } else {
+        fallbackCopyText(email);
+      }
     });
   });
 
+  function fallbackCopyText(text) {
+    const input = document.createElement('textarea');
+    input.value = text;
+    document.body.appendChild(input);
+    input.select();
+    try {
+      document.execCommand('copy');
+      showToast('✓ Email address copied to clipboard!');
+    } catch (err) {
+      showToast('Email: abirshikdar2@gmail.com');
+    }
+    document.body.removeChild(input);
+  }
+
   // ========================================================
-  // 5. CASE STUDY DATA & LIGHTBOX MODAL
+  // 5. CASE STUDY DATA & MODAL CONTROLLER
   // ========================================================
-  const projectDatabase = {
-    'analytics': {
-      title: 'Apex Analytics Pro',
-      tag: 'Cloud Analytics SaaS',
-      client: 'CloudTelemetry Global',
-      year: '2025 - 2026',
-      role: 'Lead Full-Stack Web Developer & UI Architect',
+  const caseStudiesData = {
+    analytics: {
+      tag: 'Cloud SaaS • Real-Time Telemetry',
+      title: 'Apex Analytics Pro — Cloud Observability Suite',
+      client: 'Apex Cloud Systems, SF',
+      year: '2025',
+      role: 'Full-Stack Software Architect & Frontend Lead',
       image: 'assets/images/project-analytics.jpg',
       demoUrl: 'https://abir-shikder-portfolio-abir-s-squad1.vercel.app',
-      githubUrl: 'https://github.com/abirshikder',
-      challenge: 'Enterprise DevOps teams were struggling with fragmented, laggy monitoring tools that suffered from high latency and incomprehensible data visualization.',
-      objective: 'Build a unified, ultra-fast real-time telemetry dashboard capable of visualizing 1.2 TB/hr ingestion with sub-second chart rendering and sub-800ms load speed.',
-      solution: 'Architected a modular Next.js dashboard utilizing Tailwind CSS and WebGL charts. Implemented WebSocket data streaming with client-side canvas telemetry, reducing memory pressure by 45%.',
+      githubUrl: 'https://github.com/abirshikdar2-bit',
+      challenge: 'Handling real-time ingestion of over 1.2 million events per second across multi-region server clusters while rendering low-latency 60 FPS interactive visual telemetry in browser without frame drops.',
+      objective: 'Build an ultra-responsive, dark-mode SaaS command console with sub-800ms initial load, zero cumulative layout shift (CLS < 0.05), and custom canvas charts.',
+      solution: 'Architected with Next.js 14 App Router, Web Workers for heavy data decimation, WebSocket multiplexing for live telemetry streams, and lightweight HTML5 Canvas rendering for 100k+ point timeseries charts.',
       results: [
-        '99/100 Lighthouse Performance Score',
-        'Sub-80ms WebSocket telemetry refresh latency',
-        '+140% user engagement across DevOps teams',
-        'Featured in top SaaS UI design showcases'
+        '99.98% telemetry delivery reliability with zero browser tab freezing',
+        'Sub-800ms initial LCP on mobile and desktop devices globally',
+        'Reduced client memory consumption by 48% via off-screen canvas workers'
       ]
     },
-    'ecommerce': {
-      title: 'Aether Luxury Audio & Wearables',
-      tag: 'Headless E-Commerce',
-      client: 'Aether Sound Labs',
+    ecommerce: {
+      tag: 'Headless E-Commerce • Next.js',
+      title: 'Aether Luxury Audio — Headless Storefront',
+      client: 'Aether Acoustics Inc., Berlin',
       year: '2025',
-      role: 'Frontend Engineering & Interaction Design',
+      role: 'Headless Frontend Engineer & UX Designer',
       image: 'assets/images/project-ecommerce.jpg',
       demoUrl: 'https://abir-shikder-portfolio-abir-s-squad1.vercel.app',
-      githubUrl: 'https://github.com/abirshikder',
-      challenge: 'Conventional audio store templates felt clunky and failed to capture the luxury sensory feel required for audiophile products.',
-      objective: 'Create a cinematic headless shopping experience with instant drawer carting, dark-mode product showcase, and frictionless checkout.',
-      solution: 'Engineered an interactive product grid with dynamic variant filtering, localized currency conversion, and hardware-accelerated image zoom.',
+      githubUrl: 'https://github.com/abirshikdar2-bit',
+      challenge: 'High-end luxury consumers expect boutique cinematic visual fidelity without the sluggish performance typical of asset-heavy e-commerce themes.',
+      objective: 'Deliver an editorial shopping experience with instant slide-over mini bag, smooth variant switching, and multi-currency checkout under 1.2s total page load.',
+      solution: 'Built with React 18, Next.js incremental static regeneration (ISR), Tailwind CSS utility tokens, custom SVG micro-interactions, and Stripe payment gateway.',
       results: [
-        'Zero layout shifts (CLS 0.00)',
-        '34% increase in cart add-rate during beta',
-        'Ultra-fluid 60fps micro-interactions on mobile'
+        '34% increase in mobile checkout completion rate within 60 days',
+        'Google Lighthouse scores: 100 Performance, 100 SEO, 98 Accessibility',
+        'Global CDN caching with edge rendering under 40ms worldwide'
       ]
     },
-    'ai': {
-      title: 'Synthesis AI Studio',
-      tag: 'Generative AI Workflow Suite',
-      client: 'NeuralCraft Systems',
+    ai: {
+      tag: 'Generative AI • Workflow Canvas',
+      title: 'Synthesis AI Studio — Node-Based Prompt Studio',
+      client: 'Synthesis Labs, London',
       year: '2025',
-      role: 'Full-Stack Developer & AI Interface Specialist',
+      role: 'Lead Frontend Technologist',
       image: 'assets/images/project-ai.jpg',
       demoUrl: 'https://abir-shikder-portfolio-abir-s-squad1.vercel.app',
-      githubUrl: 'https://github.com/abirshikder',
-      challenge: 'Generative AI interfaces were overwhelmingly text-based, leaving creative teams with cumbersome copy-paste workflows across various models.',
-      objective: 'Develop a visual node-based prompt canvas connecting LLMs, image synthesis pipelines, and control networks in one collaborative board.',
-      solution: 'Created an SVG/Canvas node editor with drag-and-drop connections, live preview renders, and state persistence via local storage and Cloudflare workers.',
+      githubUrl: 'https://github.com/abirshikdar2-bit',
+      challenge: 'Chaining multiple AI models (Claude 3.5, GPT-4o, Flux, Stable Diffusion) required a flexible node canvas with draggable wires and persistent state without clutter.',
+      objective: 'Engineer an infinite canvas interface supporting multi-model prompts, live stream token rendering, and one-click JSON exporting.',
+      solution: 'Engineered an interactive SVG/HTML5 canvas with spatial zoom/pan coordinates, reactive state management, and real-time streaming parser.',
       results: [
-        'Over 10,000 generated creative workflows',
-        'Render speed accelerated by 3.2x with cached prompt graph',
-        'Recognized for exceptional UI ergonomics'
+        'Over 12,000 workflows successfully generated during beta testing',
+        'Zero-latency node dragging with 60 FPS spatial matrix transforms',
+        '100% responsive support with touch zoom and desktop wheel precision'
       ]
     },
-    'fintech': {
-      title: 'Aether Pay & Digital Banking',
-      tag: 'FinTech Neobank Experience',
-      client: 'Kairos Financial',
-      year: '2024 - 2025',
-      role: 'Senior UI/UX Engineer',
+    fintech: {
+      tag: 'FinTech • Digital Banking',
+      title: 'Aether Pay & Neobank Web Portal',
+      client: 'Aether Financial Ltd., Singapore',
+      year: '2024',
+      role: 'Lead UI/UX Engineer',
       image: 'assets/images/project-fintech.jpg',
       demoUrl: 'https://abir-shikder-portfolio-abir-s-squad1.vercel.app',
-      githubUrl: 'https://github.com/abirshikder',
-      challenge: 'Users faced unintuitive financial management tools that obscured multi-currency assets and transaction categorizations.',
-      objective: 'Deliver an elite digital banking experience with biometric verification, virtual titanium card management, and automated asset allocation.',
-      solution: 'Crafted a high-contrast dark OLED dashboard with responsive mobile viewports, dynamic SVG growth curves, and bank-grade security protocols.',
+      githubUrl: 'https://github.com/abirshikdar2-bit',
+      challenge: 'FinTech applications require uncompromising security, instant visual feedback for monetary transactions, and intuitive analytics for multi-currency wallets.',
+      objective: 'Deliver a sleek titanium-themed neobank interface with virtual card controls, instant biometric simulation, and real-time spend analytics.',
+      solution: 'Developed modular card management components, SVG financial charts, and end-to-end encrypted payload simulator adhering to modern security standards.',
       results: [
-        'Tested across 20+ device viewports with zero defects',
-        'Seamless biometric and quick-pay integration',
-        'Flawless dark-mode accessibility compliance (WCAG AAA)'
-      ]
-    },
-    'assistant': {
-      title: 'Abir AI Creative Suite',
-      tag: 'AI Design Productivity',
-      client: 'Self-Initiated Digital Lab',
-      year: '2025',
-      role: 'Creator & Lead Architect',
-      image: 'assets/images/chatgpt-hero-visual.png',
-      demoUrl: 'https://abir-shikder-portfolio-abir-s-squad1.vercel.app',
-      githubUrl: 'https://github.com/abirshikder',
-      challenge: 'Modern creators need a centralized platform that unifies design prototyping, prompt libraries, and code generation.',
-      objective: 'Build an all-in-one developer productivity platform tailored for creative coders and interface designers.',
-      solution: 'Integrated OpenAI APIs with custom frontend component generators, markdown renderers, and instant code export capabilities.',
-      results: [
-        'Built with Next.js, Tailwind CSS, and Framer-grade ergonomics',
-        'Over 50+ custom design components shipped'
+        'Awarded Site of the Day nominee in modern UI design category',
+        'Sub-second transaction filtering across 10,000+ mock records',
+        'Pixel-perfect dark mode compliance with full keyboard navigation'
       ]
     }
   };
 
   const caseStudyModal = document.getElementById('caseStudyModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const csTitle = document.getElementById('csTitle');
   const csTag = document.getElementById('csTag');
+  const csTitle = document.getElementById('csTitle');
   const csClient = document.getElementById('csClient');
   const csYear = document.getElementById('csYear');
   const csRole = document.getElementById('csRole');
@@ -233,16 +247,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const csDemoLink = document.getElementById('csDemoLink');
   const csGithubLink = document.getElementById('csGithubLink');
 
-  function openCaseStudy(projectId) {
-    const data = projectDatabase[projectId];
+  function openCaseStudy(studyId) {
+    const data = caseStudiesData[studyId];
     if (!data || !caseStudyModal) return;
 
-    if (csTitle) csTitle.textContent = data.title;
     if (csTag) csTag.textContent = data.tag;
+    if (csTitle) csTitle.textContent = data.title;
     if (csClient) csClient.textContent = data.client;
     if (csYear) csYear.textContent = data.year;
     if (csRole) csRole.textContent = data.role;
-    if (csImage) csImage.src = data.image;
+    if (csImage) {
+      csImage.src = data.image;
+      csImage.alt = data.title;
+    }
     if (csChallenge) csChallenge.textContent = data.challenge;
     if (csObjective) csObjective.textContent = data.objective;
     if (csSolution) csSolution.textContent = data.solution;
@@ -341,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const inquiryForm = document.getElementById('inquiryForm');
   const projectTypePills = document.querySelectorAll('.project-type-pill');
   const budgetPills = document.querySelectorAll('.budget-pill');
-  let selectedType = 'Full-Stack Web Application';
+  let selectedType = 'Full-Stack Web App';
   let selectedBudget = '$1k — $3k';
 
   projectTypePills.forEach((pill) => {
@@ -389,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   const topbar = document.getElementById('topbar');
   const navItems = document.querySelectorAll('.nav-item');
-  const trackedSections = document.querySelectorAll('section[id]');
+  const trackedSections = document.querySelectorAll('section[id], main[id]');
 
   window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset;

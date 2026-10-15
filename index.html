@@ -4,21 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Abir Shikder — Full-Stack Web Developer & Creative Designer</title>
-  <meta name="description" content="Portfolio of Abir Shikder — Full-Stack Web Developer and Creative Designer based in Jashore, Bangladesh. Building high-performance, precision web applications.">
-  <meta name="keywords" content="Abir Shikder, Web Developer, Full Stack Developer, Creative Designer, UI UX Design, Next.js, React, Tailwind, Framer, Jashore Bangladesh">
   
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Abir Shikder — Full-Stack Web Developer & Creative Designer">
+  <meta name="description" content="Portfolio of Abir Shikder, Full-Stack Web Developer & Creative Designer from Bangladesh. Specializing in modern web applications, Next.js, React, high-performance architecture, and bespoke UI/UX design.">
+  <meta name="author" content="Abir Shikder">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abir-shikder-portfolio-abir-s-squad1.vercel.app">
+  <meta property="og:title" content="Abir Shikder — Full-Stack Web Developer & Creative Designer">
+  <meta property="og:description" content="Portfolio of Abir Shikder — High-performance web development, Next.js, React, modern UI/UX design, and clean scalable software engineering.">
+  <meta property="og:image" content="assets/images/chatgpt-hero-visual.png">
+
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-  
-  <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2308090C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='50' fill='%23FFFFFF'>A</text></svg>">
+
+  <!-- Google Fonts: Outfit (Vexoo style headline) & Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome 6 Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons 6.5 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Tailwind CSS CDN for grid & responsive utility -->
+
+  <!-- Tailwind CSS CDN for utility classes -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -26,15 +36,17 @@
       theme: {
         extend: {
           colors: {
-            black: '#000000',
-            darkCard: '#08080a',
-            accentBlue: '#3b82f6',
-            accentEmerald: '#10b981',
-            accentPurple: '#8b5cf6'
+            darkBg: '#000000',
+            darkCard: '#08090d',
+            darkCardHover: '#14161f',
+            vexooBlue: '#3b82f6',
+            vexooCyan: '#06b6d4',
+            vexooPurple: '#8b5cf6',
+            vexooEmerald: '#10b981'
           },
           fontFamily: {
             heading: ['Outfit', 'sans-serif'],
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace']
           }
         }
@@ -42,10 +54,12 @@
     }
   </script>
 
-  <!-- Production Stylesheets -->
+  <!-- Core Custom Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
 </head>
-<body>
+
+<body class="bg-black text-white selection:bg-blue-600 selection:text-white">
 
   <!-- Ambient Backdrop Lighting & Architectural Grid -->
   <div class="ambient-backdrop"></div>
@@ -62,7 +76,7 @@
         </div>
         <div class="flex flex-col">
           <span class="brand-title">Abir Shikder</span>
-          <span class="brand-role">Web Developer & Designer</span>
+          <span class="brand-role">Full-Stack Developer</span>
         </div>
       </a>
 
@@ -71,6 +85,7 @@
         <a href="#home" class="nav-item active">Home</a>
         <a href="#about" class="nav-item">About</a>
         <a href="#work" class="nav-item">Selected Work</a>
+        <a href="#stack" class="nav-item">Tech Stack</a>
         <a href="#contact" class="nav-item">Contact</a>
         <button class="nav-item open-cv-btn bg-transparent border-none cursor-pointer">Official CV</button>
       </nav>
@@ -89,236 +104,271 @@
           <span>Let's Talk</span>
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
+
+        <!-- Mobile Hamburger Menu Button -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn md:hidden" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
 
+    </div>
+
+    <!-- Mobile Slide-Down Drawer -->
+    <div id="mobileDrawer" class="mobile-drawer">
+      <a href="#home" class="mobile-nav-link active">Home</a>
+      <a href="#about" class="mobile-nav-link">About & Experience</a>
+      <a href="#work" class="mobile-nav-link">Selected Work</a>
+      <a href="#stack" class="mobile-nav-link">Tech Stack</a>
+      <a href="#contact" class="mobile-nav-link">Contact</a>
+      <button class="mobile-nav-link open-cv-btn text-left bg-transparent border-none cursor-pointer">Official CV Document</button>
+      <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+        <div class="status-indicator">
+          <span class="status-pulse-dot"></span>
+          <span>Jashore, BD • GMT+6</span>
+        </div>
+        <a href="https://wa.me/8801734018155" target="_blank" class="text-emerald-400 text-sm font-mono flex items-center gap-1">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- ==================== MAIN HERO BENTO SECTION ==================== -->
-  <main id="home" class="pt-28 pb-20 px-6 relative z-10">
-    
-    <!-- Dynamic Morphing Title Backdrop (Vexoo Headline) -->
-    <div class="hero-morph-wrapper">
-      <div class="hero-morph-blur"></div>
-      <h1 id="heroMorphTitle" class="hero-morph-title">Abir Shikder</h1>
+  <!-- ==================== SECTION 1: SPACIOUS & ELEGANT HERO ==================== -->
+  <main id="home" class="hero-section">
+    <!-- Ambient Glow Sphere -->
+    <div class="hero-glow-sphere"></div>
+
+    <!-- Status Pill -->
+    <div class="hero-status-pill">
+      <span class="status-pulse-dot"></span>
+      <span>Available for Full-Stack & UI/UX Roles • Q4 2026</span>
     </div>
 
-    <!-- The Master Bento Grid -->
-    <div class="bento-grid">
+    <!-- Main Hero Title -->
+    <h1 class="hero-main-title">
+      Architecting High-Performance Web Products with <span class="hero-gradient-text">Precision & Craft.</span>
+    </h1>
 
-      <!-- 1. About Card (Top-Left) -->
-      <a href="#about" class="bento-card card-about group text-decoration-none" data-morph-target="About">
-        <div class="bento-card-header">
-          <span class="bento-badge">
-            <i class="fa-regular fa-user text-xs text-blue-400"></i>
-            <span>About</span>
-          </span>
-          <div class="bento-arrow">
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-          </div>
-        </div>
+    <!-- Dynamic Rotating Role Subtitle -->
+    <div class="hero-role-wrapper">
+      <span class="text-zinc-400">Specializing in</span>
+      <span id="heroRoleSwitcher" class="hero-role-tag">Full-Stack Web Engineering</span>
+    </div>
 
-        <div class="card-about-body">
-          <p class="card-about-text">
-            Crafting thoughtful web interfaces and high-performance digital products where clean architecture meets meticulous aesthetic craft.
-          </p>
-          <div class="card-tags">
-            <span class="card-tag">Full-Stack Web</span>
-            <span class="card-tag">React & Next.js</span>
-            <span class="card-tag">UI/UX Systems</span>
-            <span class="card-tag">Tailwind CSS</span>
-          </div>
-        </div>
+    <!-- Subtitle Description -->
+    <p class="hero-description">
+      Hi, I'm <strong class="text-white font-medium">Abir Shikder</strong> — a full-stack web developer and creative designer from Bangladesh. I build scalable, lightning-fast digital applications where robust architecture meets meticulous aesthetic craft.
+    </p>
+
+    <!-- Call-to-Action Buttons -->
+    <div class="hero-actions">
+      <a href="#work" class="btn-hero-primary">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Explore Selected Work</span>
+        <i class="fa-solid fa-arrow-down text-xs"></i>
       </a>
-
-      <!-- 2. Portfolio Showcase Card (Top-Right) -->
-      <a href="#work" class="bento-card card-portfolio group text-decoration-none" data-morph-target="Selected Work">
-        <div class="bento-card-header">
-          <span class="bento-badge">
-            <i class="fa-solid fa-layer-group text-xs text-blue-400"></i>
-            <span>Selected Work</span>
-          </span>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-emerald-400 font-mono hidden sm:inline">15+ Projects Shipped</span>
-            <div class="bento-arrow">
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="portfolio-slider-container">
-          <div class="mini-project-preview" data-open-case-study="analytics">
-            <img src="assets/images/project-analytics.jpg" alt="Apex Analytics">
-            <div class="mini-project-overlay">
-              <span class="mini-project-title">Apex Analytics Pro</span>
-              <span class="mini-project-tag">Cloud Telemetry SaaS</span>
-            </div>
-          </div>
-          <div class="mini-project-preview" data-open-case-study="ecommerce">
-            <img src="assets/images/project-ecommerce.jpg" alt="Aether Commerce">
-            <div class="mini-project-overlay">
-              <span class="mini-project-title">Aether E-Commerce</span>
-              <span class="mini-project-tag">Headless Digital Store</span>
-            </div>
-          </div>
-          <div class="mini-project-preview hidden sm:block" data-open-case-study="ai">
-            <img src="assets/images/project-ai.jpg" alt="Synthesis AI">
-            <div class="mini-project-overlay">
-              <span class="mini-project-title">Synthesis AI Studio</span>
-              <span class="mini-project-tag">Prompt Workflow Canvas</span>
-            </div>
-          </div>
-          <div class="mini-project-preview hidden sm:block" data-open-case-study="fintech">
-            <img src="assets/images/project-fintech.jpg" alt="Aether Pay">
-            <div class="mini-project-overlay">
-              <span class="mini-project-title">Aether Pay Neobank</span>
-              <span class="mini-project-tag">Digital Banking Web App</span>
-            </div>
-          </div>
-        </div>
+      <a href="#contact" class="btn-hero-secondary">
+        <i class="fa-regular fa-paper-plane"></i>
+        <span>Let's Talk</span>
       </a>
+      <button class="btn-hero-ghost open-cv-btn">
+        <i class="fa-regular fa-file-lines"></i>
+        <span>Official CV</span>
+      </button>
+    </div>
 
-      <!-- 3. Contact & Quick Connect Card (Bottom-Left) -->
-      <div class="bento-card card-contact group" data-morph-target="Get In Touch">
-        <div class="bento-card-header">
-          <span class="bento-badge">
-            <i class="fa-regular fa-paper-plane text-xs text-emerald-400"></i>
-            <span>Contact & Availability</span>
-          </span>
-          <a href="#contact" class="bento-arrow text-decoration-none">
-            <i class="fa-solid fa-arrow-down text-xs"></i>
-          </a>
+    <!-- Flagship Architecture Showcase Box -->
+    <div class="hero-showcase-box">
+      <div class="showcase-glass-header">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          <span class="text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">abirshikder.dev — flagship architecture & design showcase</span>
         </div>
-
-        <div class="my-auto z-10">
-          <h3 class="text-xl font-bold font-heading text-white mb-1">Let's build something extraordinary.</h3>
-          <p class="text-sm text-zinc-400 mb-4">Open for freelance inquiries, contract engineering, and high-impact full-time roles.</p>
-        </div>
-
-        <div class="contact-quick-actions">
-          <div class="quick-action-pill copy-email-btn">
-            <div class="flex items-center gap-2">
-              <i class="fa-regular fa-envelope text-blue-400"></i>
-              <span class="font-mono text-xs">abirshikdar2@gmail.com</span>
-            </div>
-            <span class="text-xs text-zinc-400 hover:text-white flex items-center gap-1 font-mono">
-              <i class="fa-regular fa-copy"></i> Copy
-            </span>
-          </div>
-
-          <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="quick-action-pill">
-            <div class="flex items-center gap-2">
-              <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-              <span class="text-xs">WhatsApp Direct (+880 1734018155)</span>
-            </div>
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-zinc-400"></i>
-          </a>
+        <div class="flex items-center gap-3 text-xs text-zinc-400 font-mono">
+          <span class="text-emerald-400">● 60 FPS</span>
+          <span>Sub-800ms LCP</span>
         </div>
       </div>
 
-      <!-- 4. Profile Portrait Card (Bottom-Center) -->
-      <div class="bento-card card-portrait group relative" data-morph-target="Abir Shikder">
-        <div class="portrait-img-wrapper">
-          <img src="assets/images/abir-profile.jpg" alt="Abir Shikder">
+      <div class="showcase-image-container">
+        <img src="assets/images/chatgpt-hero-visual.png" alt="Abir Shikder Design & Engineering Suite" class="showcase-image">
+        
+        <!-- Floating Micro Badges -->
+        <div class="showcase-badge-pill showcase-badge-top-left">
+          <i class="fa-solid fa-bolt text-amber-400"></i>
+          <span>Sub-800ms Load Time</span>
         </div>
-        <div class="portrait-badge-overlay">
-          <span>Abir Shikder</span>
-          <span class="text-emerald-400 font-mono">Available 🟢</span>
-        </div>
-      </div>
-
-      <!-- 5. Tech Stack Card (Bottom-Right Upper) -->
-      <div class="bento-card card-stack group" data-morph-target="Tech Stack">
-        <div class="bento-card-header">
-          <span class="bento-badge">
-            <i class="fa-solid fa-code text-xs text-purple-400"></i>
-            <span>Tech Stack & Tools</span>
-          </span>
-          <span class="text-xs text-zinc-500 font-mono">Modern Ecosystem</span>
-        </div>
-
-        <div class="tech-icon-cluster">
-          <div class="tech-icon-pill" data-tooltip="React.js">
-            <i class="fa-brands fa-react text-cyan-400"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Next.js">
-            <span class="font-bold text-sm">N</span>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Tailwind CSS">
-            <i class="fa-solid fa-wind text-teal-400"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="JavaScript / ES6">
-            <i class="fa-brands fa-js text-yellow-400"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="TypeScript">
-            <span class="font-bold text-xs text-blue-400 font-mono">TS</span>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Node.js">
-            <i class="fa-brands fa-node text-emerald-500"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Python">
-            <i class="fa-brands fa-python text-yellow-500"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Figma UI/UX">
-            <i class="fa-brands fa-figma text-pink-400"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Git & GitHub">
-            <i class="fa-brands fa-github text-white"></i>
-          </div>
-          <div class="tech-icon-pill" data-tooltip="Vercel Cloud">
-            <span class="text-xs font-mono">▲</span>
-          </div>
+        <div class="showcase-badge-pill showcase-badge-bottom-right">
+          <i class="fa-solid fa-code text-cyan-400"></i>
+          <span>Clean Scalable Architecture</span>
         </div>
       </div>
+    </div>
 
-      <!-- 6. Resume / CV Card (Bottom-Right Lower) -->
-      <div class="bento-card card-resume group" data-morph-target="Resume & Milestones">
-        <div class="bento-card-header">
-          <span class="bento-badge">
-            <i class="fa-regular fa-file-lines text-xs text-amber-400"></i>
-            <span>Official Resume</span>
-          </span>
-          <div class="bento-arrow open-cv-btn">
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-          </div>
-        </div>
-
-        <div class="my-auto z-10">
-          <h4 class="text-base font-semibold text-white mb-1">Academic & Technical Credential</h4>
-          <p class="text-xs text-zinc-400 mb-3">SSC 2022 Graduate (GPA: 3.61) • Self-Taught Full-Stack Engineer.</p>
-        </div>
-
-        <div class="resume-actions">
-          <button class="btn-vexoo-primary open-cv-btn w-full justify-center">
-            <i class="fa-regular fa-eye text-xs"></i>
-            <span>View CV</span>
-          </button>
-          <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-ghost justify-center">
-            <i class="fa-solid fa-download text-xs"></i>
-          </a>
-        </div>
+    <!-- Trust Metric Counter Bar -->
+    <div class="hero-metrics-grid">
+      <div class="metric-card">
+        <span class="metric-num">15+</span>
+        <span class="metric-label">Projects Delivered</span>
       </div>
-
+      <div class="metric-card">
+        <span class="metric-num">100%</span>
+        <span class="metric-label">Client Satisfaction</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-num">2+</span>
+        <span class="metric-label">Years Crafting</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-num">UTC+6</span>
+        <span class="metric-label">Asia/Dhaka Live Sync</span>
+      </div>
     </div>
   </main>
 
-  <!-- ==================== SECTION 2: ABOUT & EXPERIENCE ==================== -->
+  <!-- ==================== SECTION 2: ABOUT WITH PROFILE SHOWCASE ==================== -->
   <section id="about" class="section-wrapper border-t border-white/5">
     <div class="max-w-[1360px] mx-auto px-6">
       
-      <!-- Editorial Statement Headline -->
-      <div class="max-w-4xl mb-16">
-        <span class="section-label">01 // About & Philosophy</span>
+      <!-- Section Header Block -->
+      <div class="max-w-3xl mb-12">
+        <span class="section-label">01 // About Me & Philosophy</span>
         <h2 class="section-heading">
-          I'm Abir Shikder — a developer & designer who believes the best work lives at the intersection of <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">clarity and craft.</span>
+          Where Architectural Rigor Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">Meticulous Aesthetic Craft</span>
         </h2>
-        <p class="text-lg text-zinc-300 leading-relaxed font-light mb-6">
-          I specialize in building full-stack web applications and digital interfaces that feel considered from every angle — the layout, the typography, the micro-animations, and the clean scalable code underneath. Consistency and performance matter to me, not merely as rules, but because they are what make a product feel trustworthy and effortless to use.
-        </p>
       </div>
 
-      <!-- Experience & Milestones Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+      <!-- Master 2-Column Split Layout -->
+      <div class="about-grid">
+        
+        <!-- Left Column: Abir's Profile Portrait Feature Showcase -->
+        <div class="portrait-showcase-card">
+          <div class="portrait-image-wrapper">
+            <img src="assets/images/abir-profile.jpg" alt="Abir Shikder - Full-Stack Developer">
+            <div class="portrait-ambient-glow"></div>
+            
+            <!-- Floating Badge Over Image -->
+            <div class="portrait-floating-badge">
+              <div>
+                <h3 class="text-sm font-bold text-white font-heading">Abir Shikder</h3>
+                <p class="text-xs text-zinc-400 font-mono">Full-Stack Web Developer</p>
+              </div>
+              <div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full text-emerald-400 font-mono text-[11px]">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Available</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portrait Card Footer Details -->
+          <div class="portrait-footer-details">
+            <div class="meta-pill-list">
+              <div class="meta-pill-item">
+                <i class="fa-solid fa-location-dot text-red-400"></i>
+                <span>Jashore / Dhaka, Bangladesh (UTC+6)</span>
+              </div>
+              <div class="meta-pill-item">
+                <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+                <span>SSC Distinction 2022 • GPA: 3.61</span>
+              </div>
+              <div class="meta-pill-item">
+                <i class="fa-solid fa-laptop-code text-cyan-400"></i>
+                <span>Next.js • React • Node.js • Tailwind</span>
+              </div>
+              <div class="meta-pill-item">
+                <i class="fa-solid fa-language text-purple-400"></i>
+                <span>English (Professional) • Bengali (Native)</span>
+              </div>
+            </div>
+
+            <!-- Quick Action Links -->
+            <div class="portrait-quick-actions">
+              <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="quick-action-pill">
+                <div class="flex items-center gap-2">
+                  <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                  <span class="text-xs">WhatsApp Direct (+880 1734018155)</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-zinc-400"></i>
+              </a>
+
+              <div class="quick-action-pill copy-email-btn">
+                <div class="flex items-center gap-2 overflow-hidden">
+                  <i class="fa-regular fa-envelope text-blue-400"></i>
+                  <span class="font-mono text-xs truncate">abirshikdar2@gmail.com</span>
+                </div>
+                <span class="text-xs text-zinc-400 hover:text-white flex items-center gap-1 font-mono shrink-0">
+                  <i class="fa-regular fa-copy"></i> Copy
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Narrative, Philosophy & Pillars -->
+        <div class="about-narrative-card">
+          <blockquote class="story-lead-quote">
+            "I believe the best digital products live at the intersection of architectural clarity, peak performance, and meticulous craft."
+          </blockquote>
+
+          <p class="story-text">
+            I am a self-directed, passionate full-stack developer and creative designer based in Bangladesh. My focus is engineering fast, responsive web products where clean system architecture meets modern visual aesthetics.
+          </p>
+
+          <p class="story-text">
+            From completing my science foundation with distinction (GPA 3.61) in Jashore to dedicating thousands of hours mastering modern web ecosystems (React, Next.js, Node.js, Tailwind CSS), I approach every project with discipline, curiosity, and high standards. I do not just write code; I design systems that solve problems and convert visitors.
+          </p>
+
+          <!-- 3 Value Pillars Grid -->
+          <div class="pillars-grid">
+            <div class="pillar-item">
+              <div class="pillar-icon-box bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h4 class="pillar-heading">Performance First</h4>
+              <p class="pillar-desc">Sub-second LCP, minimal bundle weight, and smooth 60fps animations.</p>
+            </div>
+
+            <div class="pillar-item">
+              <div class="pillar-icon-box bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <i class="fa-solid fa-bezier-curve"></i>
+              </div>
+              <h4 class="pillar-heading">UI/UX Precision</h4>
+              <p class="pillar-desc">Pixel-perfect Figma translations, accessible contrast, and intuitive ergonomics.</p>
+            </div>
+
+            <div class="pillar-item">
+              <div class="pillar-icon-box bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <h4 class="pillar-heading">Clean Code</h4>
+              <p class="pillar-desc">Modular, semantic, maintainable codebases built to scale without tech debt.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons -->
+          <div class="flex items-center gap-3 pt-2 flex-wrap">
+            <button class="btn-vexoo-primary open-cv-btn">
+              <i class="fa-regular fa-file-lines text-xs"></i>
+              <span>View Official CV</span>
+            </button>
+            <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-ghost">
+              <i class="fa-solid fa-download text-xs"></i>
+              <span>Download Resume</span>
+            </a>
+            <a href="#contact" class="btn-vexoo-ghost">
+              <i class="fa-regular fa-paper-plane text-xs"></i>
+              <span>Get in Touch</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Experience & Collaborator Endorsements Sub-Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-8">
         
         <!-- Left: Career Journey Timeline -->
         <div class="lg:col-span-6">
@@ -353,7 +403,7 @@
               <span class="timeline-dot"></span>
               <div class="timeline-year">2022</div>
               <div class="timeline-role">Secondary School Certificate (SSC) Milestone</div>
-              <div class="timeline-company">Academic Foundation (GPA: 3.61)</div>
+              <div class="timeline-company">Academic Foundation (GPA: 3.61 Distinction)</div>
               <p class="timeline-desc">
                 Completed science and computational foundations with distinction in Jashore, accelerating full-time dedication to software engineering and modern web development.
               </p>
@@ -417,11 +467,11 @@
       
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
         <div>
-          <span class="section-label">02 // Portfolio</span>
+          <span class="section-label">02 // Portfolio & Case Studies</span>
           <h2 class="section-heading mb-0">Featured Engineering & Design</h2>
         </div>
         <p class="text-sm text-zinc-400 max-w-md mt-4 md:mt-0 font-mono">
-          Each project represents an intentional fusion of performant code, accessible interaction design, and business value.
+          Each project represents an intentional fusion of performant code, accessible interaction design, and verified business outcomes.
         </p>
       </div>
 
@@ -524,27 +574,104 @@
           </div>
         </div>
 
-        <!-- Project 5: Abir AI Creative Suite -->
-        <div class="project-card group md:col-span-2">
-          <div class="project-img-box h-[340px]">
-            <img src="assets/images/chatgpt-hero-visual.png" alt="Abir AI Creative Suite">
-          </div>
-          <div class="project-content">
-            <span class="project-tag-pill">Full-Stack AI Productivity • Personal Lab</span>
-            <h3 class="project-title">Abir AI Design Engineer Productivity Hub</h3>
-            <p class="project-desc">
-              Comprehensive personal developer productivity ecosystem combining automated prompt engineering, live code sandboxes, and modern component prototyping tools into a high-octane dark UI workspace.
-            </p>
-            <div class="project-actions">
-              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="assistant">
-                <i class="fa-regular fa-file-lines text-xs"></i>
-                <span>Case Study</span>
-              </button>
-              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
-                <span>Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 4: TECH STACK & TOOLS ==================== -->
+  <section id="stack" class="section-wrapper border-t border-white/5">
+    <div class="max-w-[1360px] mx-auto px-6">
+      
+      <div class="max-w-3xl mb-12">
+        <span class="section-label">03 // Tech Stack & Ecosystem</span>
+        <h2 class="section-heading">Modern Tools for High-Performance Engineering</h2>
+        <p class="text-zinc-400 text-sm">
+          A carefully curated stack prioritized for developer velocity, type safety, sub-second latency, and accessibility.
+        </p>
+      </div>
+
+      <div class="stack-category-grid">
+        
+        <!-- Category 1: Frontend Core -->
+        <div class="stack-category-card">
+          <div class="stack-category-header">
+            <div class="stack-category-icon bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+              <i class="fa-brands fa-react"></i>
             </div>
+            <div>
+              <h3 class="text-base font-bold text-white font-heading">Frontend Core</h3>
+              <p class="text-xs text-zinc-400 font-mono">Modern UI Systems</p>
+            </div>
+          </div>
+          <div class="stack-badge-list">
+            <span class="stack-badge-item"><i class="fa-brands fa-react text-cyan-400"></i> React.js</span>
+            <span class="stack-badge-item"><span class="font-bold">N</span> Next.js 14+</span>
+            <span class="stack-badge-item"><i class="fa-brands fa-js text-yellow-400"></i> JavaScript ES6+</span>
+            <span class="stack-badge-item"><span class="text-blue-400 font-bold">TS</span> TypeScript</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-wind text-teal-400"></i> Tailwind CSS</span>
+            <span class="stack-badge-item"><i class="fa-brands fa-html5 text-orange-400"></i> HTML5 Semantic</span>
+          </div>
+        </div>
+
+        <!-- Category 2: Backend & Data -->
+        <div class="stack-category-card">
+          <div class="stack-category-header">
+            <div class="stack-category-icon bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i class="fa-brands fa-node"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white font-heading">Backend & APIs</h3>
+              <p class="text-xs text-zinc-400 font-mono">Scalable Architecture</p>
+            </div>
+          </div>
+          <div class="stack-badge-list">
+            <span class="stack-badge-item"><i class="fa-brands fa-node text-emerald-500"></i> Node.js</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-server text-zinc-300"></i> Express.js</span>
+            <span class="stack-badge-item"><i class="fa-brands fa-python text-yellow-500"></i> Python</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-network-wired text-purple-400"></i> RESTful APIs</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-bolt text-amber-400"></i> WebSockets</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-database text-blue-400"></i> PostgreSQL / Mongo</span>
+          </div>
+        </div>
+
+        <!-- Category 3: UI/UX & Design -->
+        <div class="stack-category-card">
+          <div class="stack-category-header">
+            <div class="stack-category-icon bg-pink-500/10 text-pink-400 border border-pink-500/20">
+              <i class="fa-brands fa-figma"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white font-heading">Design Systems</h3>
+              <p class="text-xs text-zinc-400 font-mono">Figma to Code</p>
+            </div>
+          </div>
+          <div class="stack-badge-list">
+            <span class="stack-badge-item"><i class="fa-brands fa-figma text-pink-400"></i> Figma UI/UX</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-mobile-screen text-indigo-400"></i> Responsive Layouts</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-palette text-amber-400"></i> Design Tokens</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-universal-access text-teal-400"></i> WCAG Accessibility</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Micro-Animations</span>
+          </div>
+        </div>
+
+        <!-- Category 4: DevOps & Cloud -->
+        <div class="stack-category-card">
+          <div class="stack-category-header">
+            <div class="stack-category-icon bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <i class="fa-solid fa-cloud"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white font-heading">DevOps & Cloud</h3>
+              <p class="text-xs text-zinc-400 font-mono">Continuous Delivery</p>
+            </div>
+          </div>
+          <div class="stack-badge-list">
+            <span class="stack-badge-item"><i class="fa-brands fa-github text-white"></i> Git & GitHub</span>
+            <span class="stack-badge-item"><span class="font-bold">▲</span> Vercel Edge</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-gauge-high text-emerald-400"></i> Lighthouse 99+</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-shield-halved text-cyan-400"></i> Security & SSL</span>
+            <span class="stack-badge-item"><i class="fa-solid fa-magnifying-glass text-amber-400"></i> SEO Optimization</span>
           </div>
         </div>
 
@@ -553,7 +680,7 @@
     </div>
   </section>
 
-  <!-- ==================== SECTION 4: CONTACT & INQUIRY ==================== -->
+  <!-- ==================== SECTION 5: CONTACT & INQUIRY ==================== -->
   <section id="contact" class="section-wrapper border-t border-white/5">
     <div class="max-w-[1360px] mx-auto px-6">
       
@@ -561,10 +688,10 @@
         
         <!-- Left: Contact Information -->
         <div class="lg:col-span-5">
-          <span class="section-label">03 // Get In Touch</span>
+          <span class="section-label">04 // Get In Touch</span>
           <h2 class="section-heading mb-6">Let's discuss your next project.</h2>
           <p class="text-zinc-400 mb-8 leading-relaxed">
-            Whether you need a full-scale web application built from scratch, a high-converting landing page, or a meticulous UI overhaul, I'm here to bring your vision to life.
+            Whether you need a full-scale web application engineered from scratch, a high-converting landing page, or a meticulous UI overhaul, I'm here to bring your vision to life.
           </p>
 
           <div class="space-y-4 mb-8">
@@ -598,7 +725,7 @@
               <i class="fa-solid fa-location-dot text-red-400"></i>
               <div>
                 <div class="text-xs text-zinc-500 font-mono">Based In</div>
-                <div class="text-sm text-white">Jashore, Khulna Division, Bangladesh (GMT+6)</div>
+                <div class="text-sm text-white">Jashore / Dhaka Division, Bangladesh (GMT+6)</div>
               </div>
             </div>
           </div>
@@ -606,7 +733,7 @@
           <div class="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.03] flex items-center gap-3">
             <span class="status-pulse-dot"></span>
             <span class="text-xs font-mono text-emerald-300">
-              Current Status: 1 spot open for new projects (April — May 2026)
+              Current Status: Open for freelance inquiries & full-time engineering roles
             </span>
           </div>
         </div>
@@ -711,16 +838,17 @@
         <span class="text-xs text-zinc-500 font-mono">© 2026. All rights reserved.</span>
       </div>
 
-      <div class="flex items-center gap-6 text-sm text-zinc-400">
+      <div class="flex items-center gap-6 text-sm text-zinc-400 flex-wrap justify-center">
         <a href="#home" class="hover:text-white transition-colors">Home</a>
         <a href="#about" class="hover:text-white transition-colors">About</a>
         <a href="#work" class="hover:text-white transition-colors">Selected Work</a>
+        <a href="#stack" class="hover:text-white transition-colors">Tech Stack</a>
         <a href="#contact" class="hover:text-white transition-colors">Contact</a>
-        <a href="https://github.com/abirshikder" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+        <a href="https://github.com/abirshikdar2-bit" target="_blank" class="hover:text-white transition-colors">GitHub</a>
       </div>
 
       <div class="text-xs text-zinc-500 font-mono">
-        Framer Vexoo Architecture • Built with Precision
+        Framer Architecture • Engineered with Precision
       </div>
 
     </div>
