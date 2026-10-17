@@ -179,7 +179,7 @@
       <!-- KPI Stats Grid: 6 High-Impact Cards (Today, This Month, Last Month, Previous Month, Due, Total) -->
       <div class="stats-grid">
         
-        <!-- KPI 1: Today's Income -->
+        <!-- KPI 1: Today's Income (Running Day) -->
         <div class="stat-card">
           <div class="stat-header">
             <span class="stat-label">আজকের মোট ইনকাম</span>
@@ -188,54 +188,54 @@
             </div>
           </div>
           <div class="stat-value text-emeraldLight" id="kpiTodaySales">৳০</div>
-          <div class="stat-subtext text-emerald-400">
+          <div class="stat-subtext text-emerald-400" id="kpiTodaySub">
             <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
-            <span>আজকের লাইভ বিক্রয়</span>
+            <span>রানিং দিনের লাইভ বিক্রয়</span>
           </div>
         </div>
 
-        <!-- KPI 2: This Month's Income -->
+        <!-- KPI 2: Running Week's Income -->
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">চলতি মাসের সেল</span>
+            <span class="stat-label">চলতি সপ্তাহের সেল</span>
             <div class="stat-icon stat-icon-blue">
               <i class="fa-solid fa-chart-line"></i>
             </div>
           </div>
-          <div class="stat-value text-blue-400" id="kpiMonthSales">৳০</div>
-          <div class="stat-subtext text-blue-300">
-            <i class="fa-solid fa-calendar-day text-[10px]"></i>
-            <span id="kpiMonthLabel">চলতি মাস: অক্টোবর ২০২৬</span>
+          <div class="stat-value text-blue-400" id="kpiWeekSales">৳০</div>
+          <div class="stat-subtext text-blue-300" id="kpiWeekSub">
+            <i class="fa-solid fa-calendar-week text-[10px]"></i>
+            <span>রানিং সপ্তাহের লাইভ হিসাব</span>
           </div>
         </div>
 
-        <!-- KPI 3: Last Month's Income -->
+        <!-- KPI 3: Running Month's Income -->
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">গত মাসের মোট ইনকাম</span>
+            <span class="stat-label">চলতি মাসের মোট সেল</span>
             <div class="stat-icon stat-icon-gold">
               <i class="fa-solid fa-calendar-check"></i>
             </div>
           </div>
-          <div class="stat-value text-goldLight" id="kpiLastMonthSales">৳৪২,৩৫০</div>
+          <div class="stat-value text-goldLight" id="kpiMonthSales">৳০</div>
           <div class="stat-subtext text-goldLight">
-            <i class="fa-solid fa-clock-rotate-left text-[10px]"></i>
-            <span id="kpiLastMonthLabel">গত মাস: সেপ্টেম্বর ২০২৬</span>
+            <i class="fa-solid fa-calendar-day text-[10px]"></i>
+            <span id="kpiMonthLabel">রানিং মাস: অক্টোবর ২০২৬</span>
           </div>
         </div>
 
-        <!-- KPI 4: Month Before Last's Income -->
+        <!-- KPI 4: Last Month's Income (September) -->
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">তার আগের মাসের আয়</span>
+            <span class="stat-label">গত মাসের মোট ইনকাম</span>
             <div class="stat-icon stat-icon-purple">
-              <i class="fa-solid fa-chart-pie"></i>
+              <i class="fa-solid fa-clock-rotate-left"></i>
             </div>
           </div>
-          <div class="stat-value text-purple-400" id="kpiOlderMonthSales">৳৩৯,৮০০</div>
+          <div class="stat-value text-purple-400" id="kpiLastMonthSales">৳৪২,৩৫০</div>
           <div class="stat-subtext text-purple-300">
             <i class="fa-solid fa-history text-[10px]"></i>
-            <span id="kpiOlderMonthLabel">তার আগের মাস: আগস্ট ২০২৬</span>
+            <span id="kpiLastMonthLabel">গত মাস: সেপ্টেম্বর ২০২৬ (ক্লোজড)</span>
           </div>
         </div>
 
@@ -271,7 +271,7 @@
 
       </div>
 
-      <!-- Monthly Income Comparison & Performance Archives Strip -->
+      <!-- Monthly Income Comparison & 10-Month Performance Archives Strip -->
       <div class="monthly-comparison-box mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-subtle">
           <div class="flex items-center gap-2.5">
@@ -279,25 +279,37 @@
               <i class="fa-solid fa-chart-column"></i>
             </div>
             <div>
-              <h3 class="text-base font-bold font-bangla text-white">মাসভিত্তিক আয়ের খাতা ও তুলনামূলক ইতিহাস (Monthly Comparison)</h3>
-              <p class="text-xs text-zinc-400">চলতি মাস, গত মাস ও পূর্ববর্তী মাসসমূহের মোট বিক্রয় ও পারফরম্যান্স বিশ্লেষণ</p>
+              <h3 class="text-base font-bold font-bangla text-white">গত ১০ মাসের পূর্ণাঙ্গ আয়ের খাতা ও তুলনামূলক ইতিহাস (10-Month Ledger)</h3>
+              <p class="text-xs text-zinc-400">রানিং চলমান মাস (অক্টোবর ২০২৬) ও বিগত সমাপ্ত ১০ মাসের পূর্ণাঙ্গ মোট আয় ও কাস্টমার বিশ্লেষণ</p>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <span class="text-xs text-zinc-400 hidden sm:inline">মাস বাছাই:</span>
+            <span class="text-xs text-zinc-400 hidden sm:inline">মাস নির্বাচন:</span>
             <select id="monthlyComparisonSelect" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
-              <option value="current" selected>চলতি মাস (অক্টোবর ২০২৬ - লাইভ)</option>
-              <option value="last">গত মাস (সেপ্টেম্বর ২০২৬ - ক্লোজড)</option>
-              <option value="older">তার আগের মাস (আগস্ট ২০২৬ - ক্লোজড)</option>
-              <option value="oldest">৩ মাস আগে (জুলাই ২০২৬ - ক্লোজড)</option>
+              <option value="month_current" selected>চলতি মাস: অক্টোবর ২০২৬ (লাইভ)</option>
+              <option value="month_past_1">১. সেপ্টেম্বর ২০২৬ (গত মাস)</option>
+              <option value="month_past_2">২. আগস্ট ২০২৬ (২ মাস আগে)</option>
+              <option value="month_past_3">৩. জুলাই ২০২৬ (৩ মাস আগে)</option>
+              <option value="month_past_4">৪. জুন ২০২৬ (৪ মাস আগে)</option>
+              <option value="month_past_5">৫. মে ২০২৬ (৫ মাস আগে - ঈদ মৌসুম)</option>
+              <option value="month_past_6">৬. এপ্রিল ২০২৬ (৬ মাস আগে)</option>
+              <option value="month_past_7">৭. মার্চ ২০২৬ (৭ মাস আগে)</option>
+              <option value="month_past_8">৮. ফেব্রুয়ারি ২০২৬ (৮ মাস আগে)</option>
+              <option value="month_past_9">৯. জানুয়ারি ২০২৬ (৯ মাস আগে)</option>
+              <option value="month_past_10">১০. ডিসেম্বর ২০২৫ (১০ মাস আগে)</option>
             </select>
           </div>
         </div>
 
-        <!-- 4 Quick Month Cards Grid -->
-        <div class="monthly-history-cards-grid" id="monthlyHistoryCardsContainer">
-          <!-- Populated by JavaScript with active, last, and older months -->
+        <!-- Monthly History Cards Grid (Populated by JS) -->
+        <div class="monthly-history-cards-grid mb-4" id="monthlyHistoryCardsContainer">
+          <!-- Populated by JavaScript with active and past months -->
+        </div>
+
+        <!-- Comprehensive 10-Month Performance Table -->
+        <div id="tenMonthsSummaryTableContainer">
+          <!-- Populated by JavaScript with all 10 past months -->
         </div>
       </div>
 
@@ -532,34 +544,34 @@
         </button>
       </div>
 
-      <!-- Interactive Past-Date-Blocked Calendar Day Strip -->
+      <!-- Interactive Period & Past 10 Months Navigation Strip -->
       <div class="calendar-day-strip mb-5">
         <div class="flex items-center justify-between mb-2">
           <div class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
             <i class="fa-solid fa-calendar-day text-goldPrimary"></i>
-            <span>ক্যালেন্ডার ও দিন নির্বাচন (পেছনের দিন ও মাস সম্পূর্ণ ব্লক):</span>
+            <span>খাতার সময়সীমা ও মাস নির্বাচন (রানিং দিন, সপ্তাহ, মাস এবং গত ১০ মাস):</span>
           </div>
-          <span class="text-[11px] text-zinc-500 font-mono hidden sm:inline">🔒 পেছনের তারিখ লকড • শুধুমাত্র আজ ও ভবিষ্যৎ প্রযোজ্য</span>
+          <span class="text-[11px] text-zinc-500 font-mono hidden sm:inline">🔒 ভবিষ্যতের কোনো হিসাব নয় • শুধুমাত্র বাস্তব রানিং ও সমাপ্ত রেকর্ড</span>
         </div>
         
         <div class="day-pills-scroll" id="quickDayNavStrip">
-          <!-- Populated by JavaScript: Locked past days, Active today, and future days -->
+          <!-- Populated by JavaScript: Running Day, Running Week, Running Month, and Past 10 Months -->
         </div>
       </div>
 
-      <!-- Date Filter Bar & Specific Date Picker (Past dates blocked) -->
+      <!-- Scope Filter Bar & Date Picker (No future days) -->
       <div class="search-filter-bar mb-6">
         <div class="filter-pills flex-wrap">
-          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের দিন</button>
-          <button class="filter-pill sales-filter-pill" data-period="tomorrow">আগামীকাল</button>
-          <button class="filter-pill sales-filter-pill" data-period="next3">পরশু ও আগামী ৩ দিন</button>
-          <button class="filter-pill sales-filter-pill" data-period="week">চলতি সপ্তাহ</button>
-          <button class="filter-pill sales-filter-pill" data-period="all">সব হিসাব</button>
+          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের রানিং দিন</button>
+          <button class="filter-pill sales-filter-pill" data-period="running_week">চলতি রানিং সপ্তাহ</button>
+          <button class="filter-pill sales-filter-pill" data-period="running_month">চলতি রানিং মাস (অক্টোবর)</button>
+          <button class="filter-pill sales-filter-pill" data-period="past_10_months">গত ১০ মাসের হিসাব</button>
+          <button class="filter-pill sales-filter-pill" data-period="all">সব বিক্রয় রেকর্ড</button>
         </div>
 
         <div class="flex items-center gap-2">
-          <span class="text-xs text-zinc-400 hidden sm:inline"><i class="fa-regular fa-calendar text-goldPrimary mr-1"></i>ক্যালেন্ডার (আজ ও ভবিষ্যৎ):</span>
-          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary" title="অতীতের পেছনের তারিখ ব্লক করা">
+          <span class="text-xs text-zinc-400 hidden sm:inline"><i class="fa-regular fa-calendar text-goldPrimary mr-1"></i>নির্দিষ্ট তারিখ:</span>
+          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary" title="নির্দিষ্ট তারিখের বিক্রয় দেখুন">
           <button id="clearDatePickerBtn" class="text-xs text-zinc-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-subtle hidden" title="তারিখ ফিল্টার মুছুন">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -1004,6 +1016,48 @@
         <button id="whatsappReceiptBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 flex-1 w-full">
           <i class="fa-brands fa-whatsapp text-sm"></i>
           <span>📱 হোয়াটসঅ্যাপে পাঠান</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: MARKETING BROADCAST MODAL ==================== -->
+  <div id="broadcastModal" class="salono-modal">
+    <div class="salono-modal-box max-w-lg">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-bangla text-white">হোয়াটসঅ্যাপ অফার ব্রডকাস্ট</h3>
+          <p class="text-xs text-zinc-400">কাস্টমারকে ব্যক্তিগতভাবে সরাসরি হোয়াটসঅ্যাপে বার্তা পাঠান</p>
+        </div>
+      </div>
+
+      <div class="bg-surfaceElevated p-3 rounded-xl border border-subtle mb-4">
+        <label class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1.5">বার্তা প্রিভিউ (Message Preview):</label>
+        <div id="broadcastPreviewText" class="text-xs text-zinc-200 leading-relaxed font-mono whitespace-pre-wrap"></div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-xs mb-2">কোন কাস্টমারকে পাঠাবেন নির্বাচন করুন:</label>
+        <select id="broadcastCustomerSelect" class="form-control text-xs">
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button id="sendBroadcastWhatsAppBtn" class="btn-gold-action flex-1 justify-center py-2.5 text-xs bg-emerald-600 hover:bg-emerald-500 border-none">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>হোয়াটসঅ্যাপে পাঠান</span>
+        </button>
+        <button id="copyBroadcastBtn" class="bg-surfaceElevated hover:bg-surfaceHover text-white text-xs font-semibold py-2.5 px-4 rounded-xl border border-card flex items-center justify-center gap-1.5">
+          <i class="fa-regular fa-copy"></i>
+          <span>কপি করুন</span>
         </button>
       </div>
     </div>
