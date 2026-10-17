@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Salono (সেলোনো) — সেলুন ও গ্রুমিং ব্যবসার স্মার্ট ডিজিটাল ম্যানেজার</title>
+  
+  <!-- Meta & Branding -->
+  <meta name="description" content="সেলুন ব্যবসার স্মার্ট ডিজিটাল খাতা ও কাস্টমার রিমাইন্ডার সিস্টেম। কাস্টমার ধরে রাখুন, সময়মতো রিমাইন্ডার দিন, প্রতিদিনের সেলস ও ইনকাম ট্র্যাক করুন ১-ক্লিকে।">
+  <meta name="theme-color" content="#080b12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23f59e0b'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='50' fill='%23000000'>✂️</text></svg>">
+
+  <!-- Google Fonts: Hind Siliguri (Bengali) + Outfit (English/Numbers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6.5 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bgDark: '#080b12',
+            surface: '#101524',
+            surfaceElevated: '#161e32',
+            surfaceHover: '#1e2942',
+            goldPrimary: '#f59e0b',
+            goldLight: '#fbbf24',
+            emeraldPrimary: '#10b981'
+          },
+          fontFamily: {
+            bangla: ['Hind Siliguri', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Core App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Ambient Glow & Pattern -->
+  <div class="ambient-glow"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- ==================== DESKTOP SIDEBAR ==================== -->
+  <aside class="sidebar">
+    <!-- Brand Title -->
+    <div class="sidebar-brand">
+      <div class="brand-icon-box">
+        <i class="fa-solid fa-scissors"></i>
+      </div>
+      <div>
+        <h1 class="brand-title">SALONO</h1>
+        <p class="brand-subtitle font-bangla">স্মার্ট সেলুন ম্যানেজার</p>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-group">
+      <a href="#dashboard" class="nav-link active" data-target-tab="dashboard">
+        <i class="fa-solid fa-house"></i>
+        <span>ড্যাশবোর্ড</span>
+      </a>
+
+      <a href="#reminders" class="nav-link" data-target-tab="reminders">
+        <i class="fa-solid fa-bell"></i>
+        <span>রিমাইন্ডার হাব</span>
+        <span class="nav-badge-count reminder-badge-count">0</span>
+      </a>
+
+      <a href="#customers" class="nav-link" data-target-tab="customers">
+        <i class="fa-solid fa-users"></i>
+        <span>কাস্টমার খাতা</span>
+      </a>
+
+      <a href="#sales" class="nav-link" data-target-tab="sales">
+        <i class="fa-solid fa-cash-register"></i>
+        <span>ক্যাশ ও সেলস</span>
+      </a>
+
+      <a href="#marketing" class="nav-link" data-target-tab="marketing">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>মেসেজ মার্কেটিং</span>
+      </a>
+
+      <a href="#settings" class="nav-link" data-target-tab="settings">
+        <i class="fa-solid fa-gear"></i>
+        <span>দোকানের প্রোফাইল</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer / Active Salon Info -->
+    <div class="sidebar-profile">
+      <div class="salon-avatar-circle">
+        <span>💈</span>
+      </div>
+      <div class="overflow-hidden">
+        <div class="font-bold text-white text-sm truncate salon-title-display">রয়্যাল জেন্টস সেলুন</div>
+        <div class="text-xs text-gold-light truncate salon-owner-display">ওস্তাদ আবুল বাশার</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== MOBILE BOTTOM NAVIGATION (PWA) ==================== -->
+  <nav class="bottom-nav">
+    <a href="#dashboard" class="bottom-nav-item active" data-target-tab="dashboard">
+      <i class="fa-solid fa-house"></i>
+      <span>হোম</span>
+    </a>
+
+    <a href="#reminders" class="bottom-nav-item" data-target-tab="reminders">
+      <i class="fa-solid fa-bell"></i>
+      <span>রিমাইন্ডার</span>
+      <span class="bottom-badge reminder-badge-count">0</span>
+    </a>
+
+    <a href="#sales" class="bottom-nav-item" data-target-tab="sales">
+      <i class="fa-solid fa-cash-register"></i>
+      <span>সেলস</span>
+    </a>
+
+    <a href="#customers" class="bottom-nav-item" data-target-tab="customers">
+      <i class="fa-solid fa-users"></i>
+      <span>কাস্টমার</span>
+    </a>
+
+    <a href="#settings" class="bottom-nav-item" data-target-tab="settings">
+      <i class="fa-solid fa-gear"></i>
+      <span>দোকান</span>
+    </a>
+  </nav>
+
+  <!-- ==================== STICKY TOPBAR HEADER ==================== -->
+  <header class="app-topbar">
+    <div class="topbar-salon-info">
+      <div class="w-8 h-8 rounded-lg bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-sm md:hidden">
+        <i class="fa-solid fa-scissors"></i>
+      </div>
+      <div>
+        <h2 class="topbar-salon-title salon-title-display">রয়্যাল জেন্টস সেলুন</h2>
+        <div class="topbar-date-pill" id="currentDatePill">আজকের তারিখ লোড হচ্ছে...</div>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn-gold-action open-add-customer-btn">
+        <i class="fa-solid fa-user-plus text-xs"></i>
+        <span class="hidden sm:inline">নতুন কাস্টমার</span>
+      </button>
+
+      <button class="bg-surfaceElevated hover:bg-surfaceHover text-white text-xs font-semibold py-2 px-3 rounded-full border border-subtle flex items-center gap-1.5 open-custom-sale-btn" title="দ্রুত ক্যাশ এন্ট্রি">
+        <i class="fa-solid fa-plus text-emerald-400"></i>
+        <span>ক্যাশ এন্ট্রি</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <main class="main-container">
+
+    <!-- ==================== TAB 1: MAIN DASHBOARD ==================== -->
+    <section id="dashboard" class="tab-view active">
+      
+      <!-- KPI Stats Grid -->
+      <div class="stats-grid">
+        
+        <!-- KPI 1: Due Customers -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">আজকের ডিউ কাস্টমার</span>
+            <div class="stat-icon stat-icon-gold">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="kpiDueCount">0 জন</div>
+          <div class="stat-subtext text-goldLight">
+            <i class="fa-solid fa-clock text-[10px]"></i>
+            <span>চুল কাটার ডেট পার হয়েছে</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: Today's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">আজকের মোট ইনকাম</span>
+            <div class="stat-icon stat-icon-emerald">
+              <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+          </div>
+          <div class="stat-value text-emeraldLight" id="kpiTodaySales">৳০</div>
+          <div class="stat-subtext text-emerald-400">
+            <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
+            <span>ক্যাশ ও বিকাশ মিলিয়ে</span>
+          </div>
+        </div>
+
+        <!-- KPI 3: This Month's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">চলতি মাসের সেল</span>
+            <div class="stat-icon stat-icon-blue">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="kpiMonthSales">৳০</div>
+          <div class="stat-subtext text-blue-400">
+            <i class="fa-solid fa-circle-check text-[10px]"></i>
+            <span>সর্বমোট আনুমানিক সেল</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Total Customers -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">নিবন্ধিত কাস্টমার</span>
+            <div class="stat-icon stat-icon-purple">
+              <i class="fa-solid fa-address-book"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="kpiTotalClients">0 জন</div>
+          <div class="stat-subtext text-purple-400">
+            <i class="fa-solid fa-users text-[10px]"></i>
+            <span>আপনার স্থায়ী গ্রাহক</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Tiles -->
+      <div class="quick-action-strip">
+        <div class="action-tile open-add-customer-btn">
+          <div class="action-tile-icon bg-goldPrimary/10 text-goldLight border border-goldPrimary/30">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">কাস্টমার সেভ</div>
+            <div class="action-tile-desc">নাম ও নম্বর যোগ</div>
+          </div>
+        </div>
+
+        <div class="action-tile open-custom-sale-btn">
+          <div class="action-tile-icon bg-emeraldPrimary/10 text-emeraldLight border border-emeraldPrimary/30">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">হিসাব এন্ট্রি</div>
+            <div class="action-tile-desc">আয়ের টাকা যোগ</div>
+          </div>
+        </div>
+
+        <div class="action-tile" data-target-tab="reminders">
+          <div class="action-tile-icon bg-blue-500/10 text-blue-400 border border-blue-500/30">
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">রিমাইন্ডার দিন</div>
+            <div class="action-tile-desc">হোয়াটসঅ্যাপ কল</div>
+          </div>
+        </div>
+
+        <div class="action-tile" data-target-tab="marketing">
+          <div class="action-tile-icon bg-purple-500/10 text-purple-400 border border-purple-500/30">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">অফার মেসেজ</div>
+            <div class="action-tile-desc">শুক্রবার/ঈদ স্লট</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Priority Today's Haircut Due List -->
+      <div class="mb-8">
+        <div class="section-title-bar">
+          <h3 class="section-title">
+            <i class="fa-solid fa-bell text-goldPrimary"></i>
+            <span>যাদের চুল কাটার সময় হয়ে গেছে (আজকের কল লিস্ট)</span>
+          </h3>
+          <a href="#reminders" class="text-xs text-goldLight hover:underline font-medium" data-target-tab="reminders">
+            সবগুলো দেখুন →
+          </a>
+        </div>
+
+        <!-- Dynamic List Container -->
+        <div class="reminder-list-grid" id="dashboardReminderList">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Quick Sales Entry Buttons (POS Touchpad) -->
+      <div class="mb-8">
+        <div class="section-title-bar">
+          <h3 class="section-title">
+            <i class="fa-solid fa-bolt text-emeraldPrimary"></i>
+            <span>দ্রুত ক্যাশ খাতা (কাস্টমার টাকা দিলে বোতাম চাপুন)</span>
+          </h3>
+          <span class="text-xs text-zinc-500 font-mono">১-ক্লিক এন্ট্রি</span>
+        </div>
+
+        <div class="service-buttons-grid">
+          <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
+            <div class="service-icon-box">✂️</div>
+            <div class="service-name">চুল কাটা</div>
+            <div class="service-price">৳১৫০</div>
+          </button>
+
+          <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80">
+            <div class="service-icon-box">🪒</div>
+            <div class="service-name">দাড়ি ট্রিম / শেভ</div>
+            <div class="service-price">৳৮০</div>
+          </button>
+
+          <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220">
+            <div class="service-icon-box">💈</div>
+            <div class="service-name">চুল + দাড়ি কম্বো</div>
+            <div class="service-price">৳২২০</div>
+          </button>
+
+          <button class="service-btn" data-service-name="ফেসিয়াল ও ম্যাসাজ" data-service-price="400">
+            <div class="service-icon-box">💆‍♂️</div>
+            <div class="service-name">ফেসিয়াল ও ম্যাসাজ</div>
+            <div class="service-price">৳৪০০</div>
+          </button>
+
+          <button class="service-btn" data-service-name="হেয়ার কালার / মেহেদি" data-service-price="300">
+            <div class="service-icon-box">🎨</div>
+            <div class="service-name">হেয়ার কালার</div>
+            <div class="service-price">৳৩০০</div>
+          </button>
+
+          <button class="service-btn open-custom-sale-btn">
+            <div class="service-icon-box">➕</div>
+            <div class="service-name">অন্যান্য সেবা</div>
+            <div class="service-price text-zinc-400">কাস্টম টাকা</div>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 2: REMINDER HUB ==================== -->
+    <section id="reminders" class="tab-view">
+      <div class="section-title-bar">
+        <div>
+          <h2 class="text-2xl font-bold font-bangla text-white">রিমাইন্ডার ও ফলো-আপ হাব</h2>
+          <p class="text-xs text-zinc-400">কাস্টমারের সময় হওয়ার সাথে সাথে ফোন বা হোয়াটসঅ্যাপে জানিয়ে দিন</p>
+        </div>
+      </div>
+
+      <!-- Full Reminder List -->
+      <div class="reminder-list-grid" id="fullReminderList">
+        <!-- Populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: CUSTOMER DIRECTORY ==================== -->
+    <section id="customers" class="tab-view">
+      <div class="section-title-bar">
+        <div>
+          <h2 class="text-2xl font-bold font-bangla text-white">কাস্টমার খাতা ও ডিরেক্টরি</h2>
+          <p class="text-xs text-zinc-400">আপনার সমস্ত কাস্টমারের ডাটা, কাটিং সাইকেল ও পছন্দের স্টাইল</p>
+        </div>
+        <button class="btn-gold-action open-add-customer-btn">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>কাস্টমার যোগ করুন</span>
+        </button>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="search-filter-bar">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="customerSearchInput" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন...">
+        </div>
+
+        <div class="filter-pills">
+          <button class="filter-pill customer-filter-pill active" data-filter="all">সব কাস্টমার</button>
+          <button class="filter-pill customer-filter-pill" data-filter="due">কাটার সময় হয়েছে</button>
+          <button class="filter-pill customer-filter-pill" data-filter="vip">ভিআইপি রেগুলার</button>
+          <button class="filter-pill customer-filter-pill" data-filter="inactive">অনিয়মিত (৪০+ দিন)</button>
+        </div>
+      </div>
+
+      <!-- Customers Grid -->
+      <div class="customer-grid" id="customerListContainer">
+        <!-- Populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: SALES & INCOME LEDGER ==================== -->
+    <section id="sales" class="tab-view">
+      <div class="section-title-bar">
+        <div>
+          <h2 class="text-2xl font-bold font-bangla text-white">ক্যাশ খাতা ও ইনকাম হিসাব</h2>
+          <p class="text-xs text-zinc-400">প্রতিদিনের সেল রেকর্ড ও মাসিক আয়ের স্বচ্ছ বিবরণ</p>
+        </div>
+        <button class="btn-gold-action open-custom-sale-btn">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>হিসাব যোগ করুন</span>
+        </button>
+      </div>
+
+      <div class="pos-layout">
+        <!-- Left: Quick POS Buttons -->
+        <div>
+          <h4 class="text-sm font-bold text-white mb-3">দ্রুত ক্যাশ বোতাম (Touchpad)</h4>
+          <div class="service-buttons-grid mb-6">
+            <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
+              <div class="service-icon-box">✂️</div>
+              <div class="service-name">চুল কাটা</div>
+              <div class="service-price">৳১৫০</div>
+            </button>
+            <button class="service-btn" data-service-name="দাড়ি ট্রিম" data-service-price="80">
+              <div class="service-icon-box">🪒</div>
+              <div class="service-name">দাড়ি ট্রিম</div>
+              <div class="service-price">৳৮০</div>
+            </button>
+            <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220">
+              <div class="service-icon-box">💈</div>
+              <div class="service-name">চুল + দাড়ি</div>
+              <div class="service-price">৳২২০</div>
+            </button>
+            <button class="service-btn" data-service-name="ফেসিয়াল ও ম্যাসাজ" data-service-price="400">
+              <div class="service-icon-box">💆‍♂️</div>
+              <div class="service-name">ফেসিয়াল</div>
+              <div class="service-price">৳৪০০</div>
+            </button>
+            <button class="service-btn" data-service-name="হেয়ার কালার" data-service-price="300">
+              <div class="service-icon-box">🎨</div>
+              <div class="service-name">হেয়ার কালার</div>
+              <div class="service-price">৳৩০০</div>
+            </button>
+            <button class="service-btn open-custom-sale-btn">
+              <div class="service-icon-box">➕</div>
+              <div class="service-name">অন্যান্য সেবা</div>
+              <div class="service-price text-zinc-400">কাস্টম</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Recent Transactions List -->
+        <div class="ledger-card">
+          <div class="flex items-center justify-between mb-4 pb-2 border-b border-subtle">
+            <h4 class="font-bold text-white text-base">সাম্প্রতিক আয় ও লেনদেন</h4>
+            <span class="text-xs text-goldLight font-mono">লাইভ খাতা</span>
+          </div>
+          <div id="salesLedgerList" class="space-y-1">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: MARKETING & WHATSAPP HUB ==================== -->
+    <section id="marketing" class="tab-view">
+      <div class="section-title-bar">
+        <div>
+          <h2 class="text-2xl font-bold font-bangla text-white">মেসেজ মার্কেটিং ও প্রচার</h2>
+          <p class="text-xs text-zinc-400">কাস্টমারদের আকর্ষণীয় অফার পাঠিয়ে শুক্রবার বা ছুটির দিনে ভিড় টানুন</p>
+        </div>
+      </div>
+
+      <!-- Pre-Crafted Templates Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="marketingTemplateList">
+        <!-- Populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: SALON PROFILE & SETTINGS ==================== -->
+    <section id="settings" class="tab-view">
+      <div class="section-title-bar">
+        <div>
+          <h2 class="text-2xl font-bold font-bangla text-white">সেলুন প্রোফাইল ও সেটিংস</h2>
+          <p class="text-xs text-zinc-400">আপনার সেলুনের নাম, ঠিকানা ও ডিফল্ট রিমাইন্ডার সাইকেল পরিবর্তন করুন</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Left: Form -->
+        <div class="md:col-span-8 bg-surface border border-card rounded-2xl p-6">
+          <form id="salonSettingsForm">
+            <div class="form-group">
+              <label class="form-label">সেলুনের বাণিজ্যিক নাম</label>
+              <input type="text" id="setSalonName" class="form-control" required placeholder="যেমন: রয়্যাল জেন্টস সেলুন">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="form-group">
+                <label class="form-label">মালিকের নাম / ওস্তাদ</label>
+                <input type="text" id="setOwnerName" class="form-control" required placeholder="যেমন: মো. আবুল বাশার">
+              </div>
+              <div class="form-group">
+                <label class="form-label">মোবাইল / হোয়াটসঅ্যাপ নম্বর</label>
+                <input type="text" id="setPhone" class="form-control" required placeholder="017xxxxxxxx">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">দোকানের ঠিকানা / বাজার / এলাকা</label>
+              <input type="text" id="setAddress" class="form-control" placeholder="যেমন: দোকান নং ৪, মেইন রোড, যশোর">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">সাধারণ চুল কাটার সাইকেল (দিন হিসেবে)</label>
+              <select id="setDefaultCycle" class="form-control">
+                <option value="20">প্রতি ২০ দিন পর পর</option>
+                <option value="25" selected>প্রতি ২৫ দিন পর পর</option>
+                <option value="30">প্রতি ৩০ দিন পর পর</option>
+              </select>
+            </div>
+
+            <div class="pt-2 flex items-center gap-3">
+              <button type="submit" class="btn-gold-action">
+                <i class="fa-solid fa-floppy-disk text-xs"></i>
+                <span>তথ্য সংরক্ষণ করুন</span>
+              </button>
+              <button type="button" id="resetDemoDataBtn" class="bg-white/5 hover:bg-white/10 text-zinc-400 text-xs py-2 px-4 rounded-full border border-subtle">
+                ডেমো ডাটা রিস্টোর করুন
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right: Subscription & Software Info -->
+        <div class="md:col-span-4 space-y-4">
+          <div class="bg-surface border border-card rounded-2xl p-5">
+            <div class="flex items-center gap-2 text-goldLight font-bold text-sm mb-2">
+              <i class="fa-solid fa-crown text-amber-400"></i>
+              <span>সফটওয়্যার প্যাকেজ স্ট্যাটাস</span>
+            </div>
+            <div class="text-xl font-outfit font-extrabold text-white mb-1">PRO SUBSCRIPTION</div>
+            <div class="text-xs text-emerald-400 font-mono mb-4">● মেয়াদ: ডিসেম্বর ২০২৬ পর্যন্ত সক্রিয়</div>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-4">
+              আনলিমিটেড কাস্টমার সেভ, ১-ক্লিক হোয়াটসঅ্যাপ রিমাইন্ডার এবং আজীবন হিসাব রাখার সম্পূর্ণ এক্সেস সক্রিয় রয়েছে।
+            </p>
+            <div class="p-3 rounded-lg bg-surfaceElevated border border-subtle text-xs text-zinc-300 font-mono">
+              রেট: ৳১০০ / মাসিক অথবা ৳৫০০ / বার্ষিক
+            </div>
+          </div>
+
+          <div class="bg-surface border border-card rounded-2xl p-5 text-center">
+            <div class="text-2xl mb-2">💈</div>
+            <h4 class="font-bold text-white text-sm">SALONO CLOUD</h4>
+            <p class="text-xs text-zinc-500 mt-1">Version 2.4.0 • Designed for Bangladesh</p>
+            <p class="text-[11px] text-zinc-400 mt-3">
+              ডেভেলপমেন্ট পার্টনার: <strong class="text-goldLight">আবির শিকদার</strong>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL 1: ADD / EDIT CUSTOMER ==================== -->
+  <div id="addCustomerModal" class="salono-modal">
+    <div class="salono-modal-box">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <h3 id="customerModalTitle" class="text-xl font-bold font-bangla text-white mb-4">নতুন কাস্টমার নিবন্ধন</h3>
+
+      <form id="addCustomerForm">
+        <input type="hidden" id="modalCustId">
+
+        <div class="form-group">
+          <label class="form-label">কাস্টমারের নাম *</label>
+          <input type="text" id="modalCustName" class="form-control" required placeholder="যেমন: তানভীর আহমেদ">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">মোবাইল নম্বর (WhatsApp) *</label>
+            <input type="tel" id="modalCustPhone" class="form-control" required placeholder="017xxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label class="form-label">চুল কাটার সাইকেল *</label>
+            <select id="modalCustCycle" class="form-control">
+              <option value="15">প্রতি ১৫ দিন পর</option>
+              <option value="20">প্রতি ২০ দিন পর</option>
+              <option value="25" selected>প্রতি ২৫ দিন পর</option>
+              <option value="30">প্রতি ৩০ দিন পর (মাসিক)</option>
+              <option value="45">প্রতি ৪৫ দিন পর</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">সাধারণ বিলের পরিমাণ (টাকা) *</label>
+            <input type="number" id="modalCustAmount" class="form-control" required value="150" placeholder="150">
+          </div>
+          <div class="form-group">
+            <label class="form-label">পছন্দের হেয়ারকাট / স্টাইল নোট</label>
+            <input type="text" id="modalCustStyle" class="form-control" placeholder="যেমন: ফেড কাট, দাড়ি ট্রিম">
+          </div>
+        </div>
+
+        <div class="form-group flex items-center gap-2 pt-2">
+          <input type="checkbox" id="modalCustVip" class="w-4 h-4 rounded text-goldPrimary bg-surfaceElevated border-subtle">
+          <label for="modalCustVip" class="text-xs text-zinc-300 cursor-pointer">
+            ইনি একজন নিয়মিত স্পেশাল / ভিআইপি কাস্টমার (Special VIP Client)
+          </label>
+        </div>
+
+        <div class="pt-4 flex items-center gap-3">
+          <button type="submit" class="btn-gold-action flex-1 justify-center py-3">
+            <i class="fa-solid fa-check text-xs"></i>
+            <span>সংরক্ষণ করুন</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: QUICK CUSTOM SALE ==================== -->
+  <div id="customSaleModal" class="salono-modal">
+    <div class="salono-modal-box">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <h3 class="text-xl font-bold font-bangla text-white mb-4">ক্যাশ এন্ট্রি (ইনকাম খাতা)</h3>
+
+      <form id="customSaleForm">
+        <div class="form-group">
+          <label class="form-label">সেবার নাম *</label>
+          <input type="text" id="customServiceName" class="form-control" required placeholder="যেমন: চুল কাটা ও স্পেশাল শেভ">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">টাকার পরিমাণ (৳) *</label>
+            <input type="number" id="customSaleAmount" class="form-control" required placeholder="যেমন: 250">
+          </div>
+          <div class="form-group">
+            <label class="form-label">পেমেন্ট মাধ্যম</label>
+            <select id="customSalePayment" class="form-control">
+              <option value="ক্যাশ" selected>নগদ (Cash)</option>
+              <option value="বিকাশ">বিকাশ (bKash)</option>
+              <option value="নগদ/কার্ড">নগদ/রকেট</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">কাস্টমারের নাম (ঐচ্ছিক)</label>
+          <input type="text" id="customSaleClient" class="form-control" placeholder="নাম না জানা থাকলে ওয়াক-ইন থাকবে">
+        </div>
+
+        <div class="pt-4 flex items-center gap-3">
+          <button type="submit" class="btn-gold-action flex-1 justify-center py-3">
+            <i class="fa-solid fa-plus text-xs"></i>
+            <span>খাতায় টাকা যোগ করুন</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="salonoToast" class="salono-toast">
+    <span id="salonoToastMsg">বিজ্ঞপ্তি</span>
+  </div>
+
+  <!-- Core JavaScript Engine -->
+  <script src="app.js"></script>
+</body>
+</html>
