@@ -430,10 +430,24 @@ body {
   margin-bottom: 24px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .stats-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
   }
 }
 
@@ -1365,4 +1379,160 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* ==========================================
+   SMART CALENDAR DAY STRIP (PAST DATES BLOCKED)
+   ========================================== */
+.calendar-day-strip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.day-pills-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+
+.day-pills-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.day-pills-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-card);
+  border-radius: 4px;
+}
+
+.day-pill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+  min-width: 90px;
+}
+
+.day-pill:hover:not(.locked) {
+  border-color: var(--border-gold);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.day-pill.active {
+  background: var(--gold-gradient);
+  border-color: var(--gold-primary);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.day-pill.active .day-pill-sub {
+  color: #1e1b4b;
+  font-weight: 600;
+}
+
+.day-pill.locked {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  color: #71717a;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.day-pill.locked:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.day-pill-label {
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.day-pill-sub {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+/* ==========================================
+   MONTHLY INCOME COMPARISON BOX
+   ========================================== */
+.monthly-comparison-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.monthly-history-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .monthly-history-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .monthly-history-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.monthly-history-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.monthly-history-card:hover {
+  border-color: var(--border-gold);
+  transform: translateY(-2px);
+}
+
+.monthly-history-card.is-current {
+  border-color: var(--border-gold);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+/* ==========================================
+   SALE DATE & TIME PROMINENT BADGE
+   ========================================== */
+.sale-date-badge-box {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sale-entry-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
 

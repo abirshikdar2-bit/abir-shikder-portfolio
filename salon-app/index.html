@@ -176,10 +176,70 @@
     <!-- ==================== TAB 1: MAIN DASHBOARD ==================== -->
     <section id="dashboard" class="tab-view active">
       
-      <!-- KPI Stats Grid -->
+      <!-- KPI Stats Grid: 6 High-Impact Cards (Today, This Month, Last Month, Previous Month, Due, Total) -->
       <div class="stats-grid">
         
-        <!-- KPI 1: Due Customers -->
+        <!-- KPI 1: Today's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">আজকের মোট ইনকাম</span>
+            <div class="stat-icon stat-icon-emerald">
+              <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+          </div>
+          <div class="stat-value text-emeraldLight" id="kpiTodaySales">৳০</div>
+          <div class="stat-subtext text-emerald-400">
+            <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
+            <span>আজকের লাইভ বিক্রয়</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: This Month's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">চলতি মাসের সেল</span>
+            <div class="stat-icon stat-icon-blue">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+          </div>
+          <div class="stat-value text-blue-400" id="kpiMonthSales">৳০</div>
+          <div class="stat-subtext text-blue-300">
+            <i class="fa-solid fa-calendar-day text-[10px]"></i>
+            <span id="kpiMonthLabel">চলতি মাস: অক্টোবর ২০২৬</span>
+          </div>
+        </div>
+
+        <!-- KPI 3: Last Month's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">গত মাসের মোট ইনকাম</span>
+            <div class="stat-icon stat-icon-gold">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+          </div>
+          <div class="stat-value text-goldLight" id="kpiLastMonthSales">৳৪২,৩৫০</div>
+          <div class="stat-subtext text-goldLight">
+            <i class="fa-solid fa-clock-rotate-left text-[10px]"></i>
+            <span id="kpiLastMonthLabel">গত মাস: সেপ্টেম্বর ২০২৬</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Month Before Last's Income -->
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">তার আগের মাসের আয়</span>
+            <div class="stat-icon stat-icon-purple">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+          </div>
+          <div class="stat-value text-purple-400" id="kpiOlderMonthSales">৳৩৯,৮০০</div>
+          <div class="stat-subtext text-purple-300">
+            <i class="fa-solid fa-history text-[10px]"></i>
+            <span id="kpiOlderMonthLabel">তার আগের মাস: আগস্ট ২০২৬</span>
+          </div>
+        </div>
+
+        <!-- KPI 5: Due Customers -->
         <div class="stat-card">
           <div class="stat-header">
             <span class="stat-label">আজকের ডিউ কাস্টমার</span>
@@ -194,37 +254,7 @@
           </div>
         </div>
 
-        <!-- KPI 2: Today's Income -->
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">আজকের মোট ইনকাম</span>
-            <div class="stat-icon stat-icon-emerald">
-              <i class="fa-solid fa-money-bill-wave"></i>
-            </div>
-          </div>
-          <div class="stat-value text-emeraldLight" id="kpiTodaySales">৳০</div>
-          <div class="stat-subtext text-emerald-400">
-            <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
-            <span>ক্যাশ ও বিকাশ মিলিয়ে</span>
-          </div>
-        </div>
-
-        <!-- KPI 3: This Month's Income -->
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">চলতি মাসের সেল</span>
-            <div class="stat-icon stat-icon-blue">
-              <i class="fa-solid fa-chart-line"></i>
-            </div>
-          </div>
-          <div class="stat-value" id="kpiMonthSales">৳০</div>
-          <div class="stat-subtext text-blue-400">
-            <i class="fa-solid fa-circle-check text-[10px]"></i>
-            <span>সর্বমোট আনুমানিক সেল</span>
-          </div>
-        </div>
-
-        <!-- KPI 4: Total Customers -->
+        <!-- KPI 6: Total Customers -->
         <div class="stat-card">
           <div class="stat-header">
             <span class="stat-label">নিবন্ধিত কাস্টমার</span>
@@ -239,6 +269,36 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Monthly Income Comparison & Performance Archives Strip -->
+      <div class="monthly-comparison-box mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-subtle">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-sm">
+              <i class="fa-solid fa-chart-column"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold font-bangla text-white">মাসভিত্তিক আয়ের খাতা ও তুলনামূলক ইতিহাস (Monthly Comparison)</h3>
+              <p class="text-xs text-zinc-400">চলতি মাস, গত মাস ও পূর্ববর্তী মাসসমূহের মোট বিক্রয় ও পারফরম্যান্স বিশ্লেষণ</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-zinc-400 hidden sm:inline">মাস বাছাই:</span>
+            <select id="monthlyComparisonSelect" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
+              <option value="current" selected>চলতি মাস (অক্টোবর ২০২৬ - লাইভ)</option>
+              <option value="last">গত মাস (সেপ্টেম্বর ২০২৬ - ক্লোজড)</option>
+              <option value="older">তার আগের মাস (আগস্ট ২০২৬ - ক্লোজড)</option>
+              <option value="oldest">৩ মাস আগে (জুলাই ২০২৬ - ক্লোজড)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 4 Quick Month Cards Grid -->
+        <div class="monthly-history-cards-grid" id="monthlyHistoryCardsContainer">
+          <!-- Populated by JavaScript with active, last, and older months -->
+        </div>
       </div>
 
       <!-- Quick Action Tiles -->
@@ -470,6 +530,21 @@
           <i class="fa-solid fa-plus text-xs"></i>
           <span>নতুন হিসাব যোগ করুন</span>
         </button>
+      </div>
+
+      <!-- Interactive Past-Date-Blocked Calendar Day Strip -->
+      <div class="calendar-day-strip mb-5">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-calendar-day text-goldPrimary"></i>
+            <span>ক্যালেন্ডার ও দিন নির্বাচন (পেছনের দিন ও মাস সম্পূর্ণ ব্লক):</span>
+          </div>
+          <span class="text-[11px] text-zinc-500 font-mono hidden sm:inline">🔒 পেছনের তারিখ লকড • শুধুমাত্র আজ ও ভবিষ্যৎ প্রযোজ্য</span>
+        </div>
+        
+        <div class="day-pills-scroll" id="quickDayNavStrip">
+          <!-- Populated by JavaScript: Locked past days, Active today, and future days -->
+        </div>
       </div>
 
       <!-- Date Filter Bar & Specific Date Picker (Past dates blocked) -->
@@ -739,7 +814,7 @@
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <div class="flex items-center gap-3 mb-4">
+      <div class="flex items-center gap-3 mb-3">
         <div class="w-10 h-10 rounded-xl bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-lg">
           <i class="fa-solid fa-cash-register"></i>
         </div>
@@ -749,15 +824,48 @@
         </div>
       </div>
 
+      <!-- Prominent Live Date, Month, Year & Time Header Banner -->
+      <div class="sale-entry-banner mb-4 p-3.5 rounded-xl flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-goldPrimary/20 text-goldLight flex items-center justify-center text-lg">
+            <i class="fa-regular fa-calendar-check"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-bold text-goldLight uppercase tracking-wider flex items-center gap-1.5">
+              <span>📅 এন্ট্রির লাইভ তারিখ, মাস ও বছর</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <div class="text-sm sm:text-base font-bold text-white font-bangla mt-0.5">
+              <span id="modalLiveDateDisplay">১৮ অক্টোবর, ২০২৬</span>
+              <span class="text-zinc-500 mx-1.5">•</span>
+              <span class="text-goldLight font-mono" id="modalLiveTimeDisplay">০১:৫৫ PM</span>
+              <span class="text-emerald-400 text-xs ml-1.5 font-medium">(লাইভ বর্তমান)</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden sm:block text-right">
+          <span class="text-[11px] px-2.5 py-1 rounded-full bg-surfaceElevated border border-goldPrimary/30 text-goldLight font-mono">
+            স্বয়ংক্রিয় লাইভ
+          </span>
+        </div>
+      </div>
+
       <form id="customSaleForm">
-        <!-- Date & Barber Selection (Auto Timestamp) -->
+        <!-- Date & Barber Selection (Auto Timestamp with Bengali Preview) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div class="form-group mb-0">
-            <label class="form-label flex items-center gap-1.5 text-xs">
-              <i class="fa-solid fa-clock text-goldPrimary"></i>
-              <span>তারিখ ও সময় (স্বয়ংক্রিয়) *</span>
+            <label class="form-label flex items-center justify-between text-xs">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-regular fa-calendar-days text-goldPrimary"></i>
+                <span>তারিখ, মাস ও সময় (স্বয়ংক্রিয়) *</span>
+              </span>
+              <span class="text-[10px] text-zinc-500 font-mono">অতীত ব্লক</span>
             </label>
             <input type="datetime-local" id="saleDateTime" class="form-control text-xs font-mono" required>
+            <div class="text-[11px] text-goldLight mt-1.5 font-medium flex items-center gap-1.5" id="saleDateTimePreview">
+              <i class="fa-solid fa-calendar-check text-emerald-400 text-[10px]"></i>
+              <span>📅 সিলেক্টেড: লোড হচ্ছে...</span>
+            </div>
           </div>
 
           <div class="form-group mb-0">

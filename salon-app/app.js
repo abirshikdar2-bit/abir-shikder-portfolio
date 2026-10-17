@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const STORAGE_KEYS = {
     SALON: 'salono_salon_profile',
     CUSTOMERS: 'salono_customers_data',
-    SALES: 'salono_sales_records'
+    SALES: 'salono_sales_records',
+    MONTHLY_HISTORY: 'salono_monthly_history'
   };
 
   // Default Initial Seed Data for Instant Demonstration
@@ -241,6 +242,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  // Default Monthly Income Historical Data for Salon Performance Comparison
+  const DEFAULT_MONTHLY_HISTORY = [
+    {
+      id: 'month_current',
+      key: '2026-10',
+      name: 'অক্টোবর ২০২৬',
+      label: 'চলতি মাস (অক্টোবর ২০২৬)',
+      isCurrent: true,
+      baseIncome: 38500,
+      totalClients: 248,
+      avgDaily: 1420,
+      badgeText: 'চলমান লাইভ',
+      badgeClass: 'bg-emerald-500/20 text-emerald-300'
+    },
+    {
+      id: 'month_last',
+      key: '2026-09',
+      name: 'সেপ্টেম্বর ২০২৬',
+      label: 'গত মাস (সেপ্টেম্বর ২০২৬)',
+      isCurrent: false,
+      baseIncome: 42350,
+      totalClients: 274,
+      avgDaily: 1411,
+      badgeText: 'গত মাস ক্লোজড',
+      badgeClass: 'bg-goldPrimary/20 text-goldLight'
+    },
+    {
+      id: 'month_older',
+      key: '2026-08',
+      name: 'আগস্ট ২০২৬',
+      label: 'তার আগের মাস (আগস্ট ২০২৬)',
+      isCurrent: false,
+      baseIncome: 39800,
+      totalClients: 256,
+      avgDaily: 1284,
+      badgeText: '২ মাস আগে ক্লোজড',
+      badgeClass: 'bg-purple-500/20 text-purple-300'
+    },
+    {
+      id: 'month_oldest',
+      key: '2026-07',
+      name: 'জুলাই ২০২৬',
+      label: '৩ মাস আগে (জুলাই ২০২৬)',
+      isCurrent: false,
+      baseIncome: 36400,
+      totalClients: 235,
+      avgDaily: 1174,
+      badgeText: '৩ মাস আগে ক্লোজড',
+      badgeClass: 'bg-blue-500/20 text-blue-300'
+    }
+  ];
+
   function getDateOffset(daysOffset, hours = 12, mins = 0) {
     const d = new Date();
     d.setDate(d.getDate() + daysOffset);
@@ -248,10 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return d.toISOString();
   }
 
+  // Global Date Anchors for Strict Past-Date-Blocking
+  const globalTodayDateObj = new Date();
+  const globalYyyy = globalTodayDateObj.getFullYear();
+  const globalMm = String(globalTodayDateObj.getMonth() + 1).padStart(2, '0');
+  const globalDd = String(globalTodayDateObj.getDate()).padStart(2, '0');
+  const localTodayStr = `${globalYyyy}-${globalMm}-${globalDd}`;
+
   // Load from Storage or Seed
   let salon = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALON)) || DEFAULT_SALON;
   let customers = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) || DEFAULT_CUSTOMERS;
   let sales = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALES)) || DEFAULT_SALES;
+  let monthlyHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.MONTHLY_HISTORY)) || DEFAULT_MONTHLY_HISTORY;
 
   // Auto-upgrade legacy sales if missing fields
   sales = sales.map((s, idx) => ({
@@ -274,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(STORAGE_KEYS.SALON, JSON.stringify(salon));
     localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
     localStorage.setItem(STORAGE_KEYS.SALES, JSON.stringify(sales));
+    localStorage.setItem(STORAGE_KEYS.MONTHLY_HISTORY, JSON.stringify(monthlyHistory));
   }
 
   persistData();
@@ -409,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Dashboard KPIs
+  // Dashboard KPIs (Today, Current Month, Last Month, Previous Month, Dues, Clients)
   function renderDashboardKPIs() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -427,35 +489,157 @@ document.addEventListener('DOMContentLoaded', () => {
       return saleDate.getTime() === today.getTime();
     });
 
-    const todayTotal = todaySales.reduce((sum, s) => sum + Number(s.amount), 0);
+    const todayTotal = todaySales.reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
 
-    // 3. This Month's Sales
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-    const monthSales = sales.filter(s => {
-      const saleDate = new Date(s.timestamp);
-      return saleDate.getMonth() === currentMonth && saleDate.getFullYear() === currentYear;
-    });
+    // 3. Monthly Incomes (Current Month, Last Month, Month Before Last)
+    const currentMonth = monthlyHistory.find(m => m.id === 'month_current') || DEFAULT_MONTHLY_HISTORY[0];
+    const lastMonth = monthlyHistory.find(m => m.id === 'month_last') || DEFAULT_MONTHLY_HISTORY[1];
+    const olderMonth = monthlyHistory.find(m => m.id === 'month_older') || DEFAULT_MONTHLY_HISTORY[2];
 
-    // Base estimated baseline for demonstration (e.g. 38,000 + today's)
-    const monthTotal = 38500 + todayTotal;
+    const currentMonthTotal = currentMonth.baseIncome + todayTotal;
 
     // Update Elements
-    const kpiDueEl = document.getElementById('kpiDueCount');
     const kpiTodaySalesEl = document.getElementById('kpiTodaySales');
     const kpiMonthSalesEl = document.getElementById('kpiMonthSales');
+    const kpiLastMonthSalesEl = document.getElementById('kpiLastMonthSales');
+    const kpiOlderMonthSalesEl = document.getElementById('kpiOlderMonthSales');
+    const kpiDueEl = document.getElementById('kpiDueCount');
     const kpiTotalClientsEl = document.getElementById('kpiTotalClients');
 
-    if (kpiDueEl) kpiDueEl.textContent = dueCount + ' জন';
+    const kpiMonthLabel = document.getElementById('kpiMonthLabel');
+    const kpiLastMonthLabel = document.getElementById('kpiLastMonthLabel');
+    const kpiOlderMonthLabel = document.getElementById('kpiOlderMonthLabel');
+
     if (kpiTodaySalesEl) kpiTodaySalesEl.textContent = formatTaka(todayTotal);
-    if (kpiMonthSalesEl) kpiMonthSalesEl.textContent = formatTaka(monthTotal);
+    if (kpiMonthSalesEl) kpiMonthSalesEl.textContent = formatTaka(currentMonthTotal);
+    if (kpiLastMonthSalesEl) kpiLastMonthSalesEl.textContent = formatTaka(lastMonth.baseIncome);
+    if (kpiOlderMonthSalesEl) kpiOlderMonthSalesEl.textContent = formatTaka(olderMonth.baseIncome);
+    if (kpiDueEl) kpiDueEl.textContent = dueCount + ' জন';
     if (kpiTotalClientsEl) kpiTotalClientsEl.textContent = customers.length + ' জন';
+
+    if (kpiMonthLabel) kpiMonthLabel.textContent = `চলতি মাস: ${currentMonth.name}`;
+    if (kpiLastMonthLabel) kpiLastMonthLabel.textContent = `গত মাস: ${lastMonth.name}`;
+    if (kpiOlderMonthLabel) kpiOlderMonthLabel.textContent = `তার আগের মাস: ${olderMonth.name}`;
 
     // Update notification badges
     document.querySelectorAll('.reminder-badge-count').forEach(el => {
       el.textContent = dueCount;
       el.style.display = dueCount > 0 ? 'inline-flex' : 'none';
     });
+
+    // Render comparison cards
+    renderMonthlyHistoryCards(todayTotal);
+  }
+
+  // Render Monthly Income Comparison Cards
+  function renderMonthlyHistoryCards(todaySalesTotal = 0) {
+    const container = document.getElementById('monthlyHistoryCardsContainer');
+    if (!container) return;
+
+    const currentMonth = monthlyHistory.find(m => m.id === 'month_current') || DEFAULT_MONTHLY_HISTORY[0];
+    const lastMonth = monthlyHistory.find(m => m.id === 'month_last') || DEFAULT_MONTHLY_HISTORY[1];
+    const olderMonth = monthlyHistory.find(m => m.id === 'month_older') || DEFAULT_MONTHLY_HISTORY[2];
+    const oldestMonth = monthlyHistory.find(m => m.id === 'month_oldest') || DEFAULT_MONTHLY_HISTORY[3];
+
+    const currentTotal = currentMonth.baseIncome + todaySalesTotal;
+    const currentClients = currentMonth.totalClients + (sales.length > 0 ? 1 : 0);
+
+    const cardsData = [
+      {
+        id: 'current',
+        title: 'চলতি মাস (অক্টোবর ২০২৬)',
+        income: currentTotal,
+        clients: currentClients,
+        avgDaily: Math.round(currentTotal / 25),
+        badge: '● লাইভ চলমান',
+        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+        note: 'আজকের বিক্রিকৃত টাকাসহ লাইভ আপডেট',
+        isCurrent: true
+      },
+      {
+        id: 'last',
+        title: 'গত মাস (সেপ্টেম্বর ২০২৬)',
+        income: lastMonth.baseIncome,
+        clients: lastMonth.totalClients,
+        avgDaily: lastMonth.avgDaily,
+        badge: 'গত মাস ক্লোজড',
+        badgeColor: 'bg-goldPrimary/20 text-goldLight border-goldPrimary/30',
+        note: 'গত ৩০ দিনের চূড়ান্ত সর্বমোট আয়',
+        isCurrent: false
+      },
+      {
+        id: 'older',
+        title: 'তার আগের মাস (আগস্ট ২০২৬)',
+        income: olderMonth.baseIncome,
+        clients: olderMonth.totalClients,
+        avgDaily: olderMonth.avgDaily,
+        badge: '২ মাস আগে ক্লোজড',
+        badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+        note: 'পূর্ববর্তী ৩১ দিনের সমাপ্ত আয় খাতা',
+        isCurrent: false
+      },
+      {
+        id: 'oldest',
+        title: '৩ মাস আগে (জুলাই ২০২৬)',
+        income: oldestMonth.baseIncome,
+        clients: oldestMonth.totalClients,
+        avgDaily: oldestMonth.avgDaily,
+        badge: '৩ মাস আগে ক্লোজড',
+        badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+        note: 'পূর্ববর্তী ৩১ দিনের সংরক্ষিত রেকর্ড',
+        isCurrent: false
+      }
+    ];
+
+    container.innerHTML = cardsData.map(c => `
+      <div class="monthly-history-card ${c.isCurrent ? 'is-current' : ''}" data-month-card-id="${c.id}">
+        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-subtle">
+          <span class="text-xs font-bold text-white font-bangla">${c.title}</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full border font-mono font-medium ${c.badgeColor}">
+            ${c.badge}
+          </span>
+        </div>
+
+        <div class="space-y-0.5 mb-2.5">
+          <div class="text-[11px] text-zinc-400">সর্বমোট ইনকাম / সেল:</div>
+          <div class="font-outfit font-extrabold text-xl ${c.isCurrent ? 'text-goldLight' : 'text-white'}">
+            ${formatTaka(c.income)}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-subtle/50 text-[11px]">
+          <div>
+            <span class="text-zinc-500 block">কাস্টমার সংখ্যা</span>
+            <span class="text-zinc-300 font-semibold font-outfit">${c.clients} জন</span>
+          </div>
+          <div>
+            <span class="text-zinc-500 block">গড় দৈনিক আয়</span>
+            <span class="text-emerald-400 font-semibold font-outfit">${formatTaka(c.avgDaily)}</span>
+          </div>
+        </div>
+
+        <div class="text-[10px] text-zinc-400 mt-2.5 bg-black/20 px-2 py-1 rounded flex items-center gap-1">
+          <i class="fa-solid fa-circle-check text-[9px] text-goldPrimary"></i>
+          <span class="truncate">${c.note}</span>
+        </div>
+      </div>
+    `).join('');
+
+    // Wire Monthly Comparison Selector
+    const monthSelect = document.getElementById('monthlyComparisonSelect');
+    if (monthSelect) {
+      monthSelect.onchange = (e) => {
+        const val = e.target.value;
+        const targetCard = container.querySelector(`[data-month-card-id="${val}"]`);
+        if (targetCard) {
+          container.querySelectorAll('.monthly-history-card').forEach(c => c.classList.remove('ring-2', 'ring-goldPrimary'));
+          targetCard.classList.add('ring-2', 'ring-goldPrimary');
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          const selText = e.target.options[e.target.selectedIndex].text;
+          showToast(`✓ ${selText} এর সম্পূর্ণ হিসাব দেখানো হচ্ছে`);
+        }
+      };
+    }
   }
 
   // Dashboard Reminder Feed (Top Priority)
@@ -729,15 +913,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ${sortedToday.map(s => `
               <tr>
                 <td>
-                  <div class="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <i class="fa-regular fa-calendar-days text-[11px] text-goldPrimary"></i>
-                    <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
-                  </div>
-                  <div class="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono mt-0.5">
-                    <i class="fa-regular fa-clock text-[10px] text-zinc-500"></i>
-                    <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-                    <span class="text-zinc-600">•</span>
-                    <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                  <div class="sale-date-badge-box">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-goldPrimary/10 border border-goldPrimary/30 text-xs font-bold text-goldLight">
+                      <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
+                      <span>তারিখ: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 text-[11px] text-zinc-300 font-mono mt-1 pl-0.5">
+                      <span class="text-zinc-400">সময়:</span>
+                      <span class="text-white font-bold">${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                      <span class="text-zinc-600">•</span>
+                      <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -787,25 +973,26 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="md:hidden mobile-sales-cards">
         ${sortedToday.map(s => `
           <div class="sale-card-single">
-            <div class="flex flex-wrap items-center justify-between pb-2 border-b border-subtle gap-2">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-semibold text-goldLight bg-goldPrimary/10 px-2.5 py-0.5 rounded border border-goldPrimary/20 flex items-center gap-1">
-                  <i class="fa-regular fa-calendar-days text-[10px]"></i>
-                  <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
-                </span>
-                <span class="text-xs font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded border border-subtle flex items-center gap-1">
-                  <i class="fa-regular fa-clock text-[10px] text-zinc-400"></i>
-                  <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-                </span>
-                <span class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</span>
+            <div class="p-2 rounded-lg bg-surfaceElevated border border-subtle mb-2.5 flex items-center justify-between flex-wrap gap-1.5">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-goldLight">
+                <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
+                <span>তারিখ ও মাস: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
               </div>
+              <div class="text-xs font-mono text-zinc-300 flex items-center gap-1">
+                <i class="fa-regular fa-clock text-zinc-400 text-[10px]"></i>
+                <span>সময়: ${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pb-2 border-b border-subtle gap-2">
+              <span class="text-[11px] text-zinc-400 font-mono">মেমো নং: #${s.memoNo || 'SL-100'}</span>
               <div class="text-right">
                 <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
                 <span class="text-[10px] ml-1 px-1.5 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-purple-500/10 text-purple-400'}">${s.paymentMethod}</span>
               </div>
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between pt-2">
               <div>
                 <h4 class="font-bold text-white text-sm">${s.customerName}</h4>
                 <div class="text-xs text-goldLight mt-0.5">✂️ ${s.serviceName}</div>
@@ -944,15 +1131,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ${sorted.map(s => `
               <tr>
                 <td>
-                  <div class="flex items-center gap-1.5 font-bold text-white text-xs">
-                    <i class="fa-regular fa-calendar-days text-[11px] text-goldPrimary"></i>
-                    <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
-                  </div>
-                  <div class="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono mt-0.5">
-                    <i class="fa-regular fa-clock text-[10px] text-zinc-500"></i>
-                    <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-                    <span class="text-zinc-600">•</span>
-                    <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                  <div class="sale-date-badge-box">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-goldPrimary/10 border border-goldPrimary/30 text-xs font-bold text-goldLight">
+                      <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
+                      <span>তারিখ: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 text-[11px] text-zinc-300 font-mono mt-1 pl-0.5">
+                      <span class="text-zinc-400">সময়:</span>
+                      <span class="text-white font-bold">${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                      <span class="text-zinc-600">•</span>
+                      <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -1000,25 +1189,26 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="md:hidden mobile-sales-cards">
         ${sorted.map(s => `
           <div class="sale-card-single">
-            <div class="flex flex-wrap items-center justify-between pb-2 border-b border-subtle gap-2">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-semibold text-goldLight bg-goldPrimary/10 px-2.5 py-0.5 rounded border border-goldPrimary/20 flex items-center gap-1">
-                  <i class="fa-regular fa-calendar-days text-[10px]"></i>
-                  <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
-                </span>
-                <span class="text-xs font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded border border-subtle flex items-center gap-1">
-                  <i class="fa-regular fa-clock text-[10px] text-zinc-400"></i>
-                  <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-                </span>
-                <span class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</span>
+            <div class="p-2 rounded-lg bg-surfaceElevated border border-subtle mb-2.5 flex items-center justify-between flex-wrap gap-1.5">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-goldLight">
+                <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
+                <span>তারিখ ও মাস: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
               </div>
+              <div class="text-xs font-mono text-zinc-300 flex items-center gap-1">
+                <i class="fa-regular fa-clock text-zinc-400 text-[10px]"></i>
+                <span>সময়: ${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pb-2 border-b border-subtle gap-2">
+              <span class="text-[11px] text-zinc-400 font-mono">মেমো নং: #${s.memoNo || 'SL-100'}</span>
               <div class="text-right">
                 <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
                 <span class="text-[10px] ml-1 px-1.5 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-purple-500/10 text-purple-400'}">${s.paymentMethod}</span>
               </div>
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between pt-2">
               <div>
                 <h4 class="font-bold text-white text-sm">${s.customerName}</h4>
                 <div class="text-xs text-goldLight mt-0.5">✂️ ${s.serviceName}</div>
@@ -1110,8 +1300,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="font-bold text-white">#${memoNo}</span>
         </div>
         <div class="flex justify-between">
-          <span class="text-zinc-400">তারিখ ও সময়:</span>
-          <span class="text-white">${formattedDate}</span>
+          <span class="text-zinc-400">তারিখ ও মাস:</span>
+          <span class="font-bold text-white">${formatBengaliDate(sale.timestamp, 'dateMonthYear')}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-zinc-400">লেনদেনের সময়:</span>
+          <span class="text-goldLight font-bold">${formatBengaliDate(sale.timestamp, 'timeOnly')}</span>
         </div>
         <div class="flex justify-between">
           <span class="text-zinc-400">কাস্টমার:</span>
@@ -1315,6 +1509,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Quick Service Sale Entry (From POS Register)
   function handleQuickSale(serviceName, amount) {
     const numAmount = Number(amount);
+    const now = new Date();
+    const dateFormatted = formatBengaliDate(now, 'dateMonthYear');
+    const timeFormatted = formatBengaliDate(now, 'timeOnly');
     const newSale = {
       id: 'sale_' + Date.now(),
       memoNo: 'SL-' + String(sales.length + 101).padStart(3, '0'),
@@ -1326,14 +1523,14 @@ document.addEventListener('DOMContentLoaded', () => {
       totalAmount: numAmount,
       paidAmount: numAmount,
       dueAmount: 0,
-      timestamp: new Date().toISOString(),
+      timestamp: now.toISOString(),
       paymentMethod: 'ক্যাশ',
       notes: ''
     };
     sales.push(newSale);
     persistData();
     refreshAllUI();
-    showToast(`✓ ${serviceName} বাবদ +${formatTaka(amount)} যুক্ত হয়েছে!`);
+    showToast(`✓ ${serviceName} বাবদ +${formatTaka(amount)} যোগ হয়েছে! [📅 ${dateFormatted} | ⏰ ${timeFormatted}]`);
   }
 
   // Open Add Customer Modal
@@ -1433,12 +1630,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectedServicesCount = document.getElementById('selectedServicesCount');
   const modalServiceChips = document.getElementById('modalServiceChips');
 
+  // Live Bengali Date & Time Preview for Modal Header
+  function updateModalDateDisplay(dateObj) {
+    const d = dateObj || new Date();
+    const dateBengali = d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+    const weekdayBengali = d.toLocaleDateString('bn-BD', { weekday: 'long' });
+    const timeBengali = d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+
+    const liveDateEl = document.getElementById('modalLiveDateDisplay');
+    const liveTimeEl = document.getElementById('modalLiveTimeDisplay');
+    const previewEl = document.getElementById('saleDateTimePreview');
+
+    if (liveDateEl) liveDateEl.textContent = `${dateBengali} (${weekdayBengali})`;
+    if (liveTimeEl) liveTimeEl.textContent = timeBengali;
+    if (previewEl) {
+      previewEl.innerHTML = `
+        <i class="fa-solid fa-calendar-check text-emerald-400 text-[10px]"></i>
+        <span>📅 নির্বাচিত: <strong class="text-white">${dateBengali}</strong> | ⏰ সময়: <strong class="text-white">${timeBengali}</strong></span>
+      `;
+    }
+  }
+
   function openSmartSaleModal() {
     if (!customSaleModal || !customSaleForm) return;
     customSaleForm.reset();
     modalSelectedChips = [];
 
-    // 1. Auto-populate Local Datetime and block past dates
+    // 1. Auto-populate Local Datetime and strictly block past dates
     const now = new Date();
     const offsetMs = now.getTimezoneOffset() * 60000;
     const localIso = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
@@ -1446,6 +1664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       saleDateTimeInput.value = localIso;
       saleDateTimeInput.min = `${localTodayStr}T00:00`;
     }
+    updateModalDateDisplay(now);
 
     // 2. Populate Customers dropdown
     if (saleCustomerSelect) {
@@ -1469,6 +1688,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saleDueAmount) saleDueAmount.value = '0';
 
     customSaleModal.classList.add('active');
+  }
+
+  // Real-time listener for datetime input in modal (Blocking past and updating display)
+  if (saleDateTimeInput) {
+    saleDateTimeInput.addEventListener('input', (e) => {
+      const selectedVal = e.target.value;
+      if (selectedVal) {
+        const selectedDateStr = selectedVal.slice(0, 10);
+        if (selectedDateStr < localTodayStr) {
+          const now = new Date();
+          const offsetMs = now.getTimezoneOffset() * 60000;
+          saleDateTimeInput.value = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
+          showToast('⚠️ পেছনের কোনো তারিখ বা মাস সিলেক্ট করা যাবে না! শুধুমাত্র আজ ও ভবিষ্যৎ প্রযোজ্য।');
+          updateModalDateDisplay(now);
+          return;
+        }
+        updateModalDateDisplay(new Date(selectedVal));
+      }
+    });
   }
 
   // Customer dropdown change handler
@@ -1645,28 +1883,116 @@ document.addEventListener('DOMContentLoaded', () => {
   const salesLedgerDatePicker = document.getElementById('salesLedgerDatePicker');
   const clearDatePickerBtn = document.getElementById('clearDatePickerBtn');
 
-  // Compute local today YYYY-MM-DD
-  const todayDateObj = new Date();
-  const yyyy = todayDateObj.getFullYear();
-  const mm = String(todayDateObj.getMonth() + 1).padStart(2, '0');
-  const dd = String(todayDateObj.getDate()).padStart(2, '0');
-  const localTodayStr = `${yyyy}-${mm}-${dd}`;
+  // Interactive Day Navigation Strip with Past Dates Strictly Blocked
+  function renderQuickDayNavStrip() {
+    const strip = document.getElementById('quickDayNavStrip');
+    if (!strip) return;
+
+    const days = [
+      { offset: -2, label: 'গত পরশু', isPast: true },
+      { offset: -1, label: 'গতকাল', isPast: true },
+      { offset: 0, label: 'আজকের দিন', isToday: true },
+      { offset: 1, label: 'আগামীকাল', isFuture: true },
+      { offset: 2, label: 'পরশু', isFuture: true },
+      { offset: 3, label: 'পরশুর পর', isFuture: true },
+      { offset: 4, label: '৪ দিন পর', isFuture: true },
+      { offset: 5, label: '৫ দিন পর', isFuture: true },
+      { offset: 6, label: '৬ দিন পর', isFuture: true },
+      { offset: 7, label: '১ সপ্তাহ পর', isFuture: true }
+    ];
+
+    const todayDate = new Date();
+
+    strip.innerHTML = days.map(d => {
+      const targetDate = new Date(todayDate.getTime() + d.offset * 24 * 60 * 60 * 1000);
+      const isoYMD = targetDate.toISOString().slice(0, 10);
+      const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+
+      if (d.isPast) {
+        return `
+          <button type="button" class="day-pill locked" data-blocked-date="${isoYMD}" title="পেছনের তারিখ নির্বাচন করা যাবে না (ব্লকড)">
+            <span class="day-pill-label flex items-center gap-1 text-zinc-400">
+              <i class="fa-solid fa-lock text-[10px] text-red-400"></i>
+              <span>${d.label}</span>
+            </span>
+            <span class="day-pill-sub text-red-400/80">${dateBengali} (ব্লক)</span>
+          </button>
+        `;
+      } else if (d.isToday) {
+        const isActive = (currentLedgerPeriod === 'today' || currentLedgerPeriod === isoYMD);
+        return `
+          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="today" data-date-str="${isoYMD}">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-solid fa-star text-[10px]"></i>
+              <span>${d.label}</span>
+            </span>
+            <span class="day-pill-sub">${dateBengali} (সক্রিয়)</span>
+          </button>
+        `;
+      } else {
+        const isActive = (currentLedgerPeriod === isoYMD || (d.offset === 1 && currentLedgerPeriod === 'tomorrow') || (d.offset === 2 && currentLedgerPeriod === 'next3'));
+        return `
+          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${isoYMD}" data-date-str="${isoYMD}">
+            <span class="day-pill-label">${d.label}</span>
+            <span class="day-pill-sub">${dateBengali}</span>
+          </button>
+        `;
+      }
+    }).join('');
+
+    // Attach click events to past locked days
+    strip.querySelectorAll('.day-pill.locked').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('⚠️ পেছনের কোনো তারিখ বা মাস সিলেক্ট করা যাবে না! শুধুমাত্র আজ এবং ভবিষ্যতের তারিখ গ্রহণযোগ্য।');
+      });
+    });
+
+    // Attach click events to active & future days
+    strip.querySelectorAll('.day-pill:not(.locked)').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const period = btn.getAttribute('data-day-period');
+        currentLedgerPeriod = period;
+
+        // sync with filter pills and date picker
+        salesFilterPills.forEach(p => {
+          if (p.getAttribute('data-period') === period) p.classList.add('active');
+          else p.classList.remove('active');
+        });
+
+        if (salesLedgerDatePicker) {
+          if (period === 'today') {
+            salesLedgerDatePicker.value = '';
+          } else if (period.includes('-')) {
+            salesLedgerDatePicker.value = period;
+          }
+        }
+
+        renderQuickDayNavStrip();
+        renderComprehensiveSalesLedger();
+      });
+    });
+  }
 
   // Block previous/past dates in calendar picker
   if (salesLedgerDatePicker) {
     salesLedgerDatePicker.min = localTodayStr;
-    salesLedgerDatePicker.addEventListener('change', (e) => {
+    const handleDatePickerChange = (e) => {
       if (e.target.value) {
         if (e.target.value < localTodayStr) {
           e.target.value = localTodayStr;
-          showToast('⚠️ পেছনের তারিখ নির্বাচন করা যাবে না! শুধুমাত্র আজ ও ভবিষ্যতের তারিখ প্রযোজ্য।');
+          showToast('⚠️ পেছনের কোনো তারিখ বা মাস নির্বাচন করা যাবে না! শুধুমাত্র আজ ও ভবিষ্যৎ প্রযোজ্য।');
         }
         currentLedgerPeriod = e.target.value;
         salesFilterPills.forEach(p => p.classList.remove('active'));
         if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
+        renderQuickDayNavStrip();
         renderComprehensiveSalesLedger();
       }
-    });
+    };
+    salesLedgerDatePicker.addEventListener('change', handleDatePickerChange);
+    salesLedgerDatePicker.addEventListener('input', handleDatePickerChange);
   }
 
   salesFilterPills.forEach(pill => {
@@ -1676,6 +2002,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentLedgerPeriod = pill.getAttribute('data-period');
       if (salesLedgerDatePicker) salesLedgerDatePicker.value = '';
       if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
+      renderQuickDayNavStrip();
       renderComprehensiveSalesLedger();
     });
   });
@@ -1689,6 +2016,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (p.getAttribute('data-period') === 'today') p.classList.add('active');
         else p.classList.remove('active');
       });
+      renderQuickDayNavStrip();
       renderComprehensiveSalesLedger();
     });
   }
@@ -1753,6 +2081,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDashboardKPIs();
     renderReminderList('dashboardReminderList', 'due_only');
     renderDashboardTodaySales();
+    renderQuickDayNavStrip();
     renderComprehensiveSalesLedger();
   }
 
