@@ -2901,103 +2901,115 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let bookedCount = 0;
+    let completedCount = 0;
+    let availableCount = 0;
 
-    chairSlotsGrid.innerHTML = TIME_SLOTS.map(slot => {
-      const activeBookings = bookings.filter(b => 
-        b.date === selectedDate && 
-        b.timeSlot === slot.time && 
-        (b.status === 'confirmed' || b.status === 'pending') &&
-        (selectedBarber === 'all' || b.barberName === selectedBarber)
-      );
+    const visibleSlotsHtml = TIME_SLOTS.map(slot => {
+      // Find all bookings for this slot and date
+      const slotBookings = bookings.filter(b => {
+        if (!b) return false;
+        const bDate = (b.date || '').trim();
+        const bTime = (b.timeSlot || '').trim().toUpperCase();
+        const sTime = slot.time.trim().toUpperCase();
 
-      const isBooked = activeBookings.length > 0;
-      if (isBooked) bookedCount++;
+        if (bDate !== selectedDate.trim()) return false;
+        if (bTime !== sTime) return false;
 
-      if (isBooked) {
-        const b = activeBookings[0];
-        const isPending = b.status === 'pending';
+        if (selectedBarber !== 'all') {
+          const barberMatch = b.barberName && (
+            b.barberName.trim() === selectedBarber.trim() ||
+            b.barberName.includes(selectedBarber) ||
+            selectedBarber.includes(b.barberName)
+          );
+          if (!barberMatch) return false;
+        }
+
+        return true;
+      });
+
+      // Status classification
+      const activeCompleted = slotBookings.find(b => b.status === 'completed');
+      const activeConfirmed = slotBookings.find(b => b.status === 'confirmed');
+      const activePending = slotBookings.find(b => b.status === 'pending');
+
+      // 1. IF COMPLETED: Omit completely from slots grid as instructed ("বিল করা হয়ে যাওয়ার পরে ওই সিটটা একেবারেই বাদ দিয়ে দিবা। showই হবে না")
+      if (activeCompleted) {
+        completedCount++;
+        return '';
+      }
+
+      // 2. IF CONFIRMED: Show RED / BUSY / BOOKED!
+      if (activeConfirmed) {
+        bookedCount++;
+        const b = activeConfirmed;
         const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(' + ') : 'সেলুন সার্ভিস';
         const totalBill = b.totalEstimatedAmount || 200;
         const advance = b.advancePaid || 30;
         const payable = b.payableAmount !== undefined ? b.payableAmount : Math.max(0, totalBill - advance);
 
         return `
-          <div class="slot-card ${isPending ? 'border-amber-500/50 bg-amber-500/[0.03]' : 'booked'}">
+          <div class="slot-card booked border-2 border-rose-500/50 bg-gradient-to-b from-rose-950/30 via-surfaceElevated to-surface shadow-md">
             <div>
-              <div class="flex items-center justify-between mb-2 pb-2 border-b ${isPending ? 'border-amber-500/20' : 'border-rose-500/20'}">
+              <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-rose-500/25">
                 <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
-                  <i class="fa-regular fa-clock ${isPending ? 'text-amber-400' : 'text-rose-400'}"></i>
+                  <i class="fa-solid fa-lock text-rose-400"></i>
                   <span>${slot.label}</span>
                 </span>
-                ${isPending ? `
-                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1 animate-pulse">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    <span>⏳ পেন্ডিং রিকোয়েস্ট</span>
-                  </span>
-                ` : `
-                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-booked flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
-                    <span>🔴 বুকড (ব্যস্ত চেয়ার)</span>
-                  </span>
-                `}
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-rose-500/25 text-rose-300 border border-rose-500/40 flex items-center gap-1.5 shadow-sm">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                  <span>🔴 সিট নিশ্চিত বুকড (লকড 🔒)</span>
+                </span>
               </div>
 
-              <!-- Customer & Service Details with Duration -->
-              <div class="space-y-1.5 mb-3">
-                <div class="flex items-center justify-between text-xs">
+              <!-- Visual Red Warning Alert -->
+              <div class="mb-2.5 px-2.5 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-[11px] text-rose-200 flex items-center gap-2">
+                <i class="fa-solid fa-ban text-rose-400 text-xs"></i>
+                <span class="font-semibold">এই সিটটি অলরেডি বুকড। বুকিং গ্রহণ বন্ধ।</span>
+              </div>
+
+              <!-- Customer & Service Details -->
+              <div class="space-y-1.5 mb-3 text-xs">
+                <div class="flex items-center justify-between">
                   <span class="text-zinc-400">বুককারী:</span>
-                  <span class="font-bold text-white">${b.customerName}</span>
+                  <span class="font-bold text-white"><span class="text-goldLight font-mono mr-1">#${b.tokenNo}</span>${b.customerName}</span>
                 </div>
-                <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center justify-between">
                   <span class="text-zinc-400">মোবাইল:</span>
-                  <span class="text-goldLight font-mono">${b.customerPhone || 'উপলব্ধ নয়'}</span>
+                  <span class="text-zinc-200 font-mono">${b.customerPhone || 'উপলব্ধ নয়'}</span>
                 </div>
-                <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center justify-between">
                   <span class="text-zinc-400">কারিগর:</span>
                   <span class="text-blue-300 font-medium">${b.barberName}</span>
                 </div>
-                <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center justify-between">
                   <span class="text-zinc-400">সেবা:</span>
                   <span class="text-zinc-200 font-medium truncate max-w-[170px]" title="${srvNames}">✂️ ${srvNames}</span>
                 </div>
-                <div class="p-2 rounded-lg bg-black/30 border border-subtle flex items-center justify-between text-[11px] mt-2">
-                  <span class="text-zinc-400 flex items-center gap-1">
-                    <i class="fa-regular fa-hourglass-half text-amber-400"></i>
-                    <span>আনুমানিক সময়:</span>
-                  </span>
-                  <span class="font-bold text-goldLight font-mono">${b.totalDuration || 30} মিনিট</span>
-                </div>
                 
-                <!-- Financial Breakdown: Advance & Remaining Payable Bill -->
+                <!-- Financial Breakdown -->
                 <div class="grid grid-cols-2 gap-1.5 pt-1.5 text-[11px]">
-                  <div class="bg-surfaceElevated border border-subtle p-1.5 rounded">
+                  <div class="bg-surface border border-subtle p-1.5 rounded-lg">
                     <div class="text-[10px] text-zinc-400">অগ্রিম জমা:</div>
                     <div class="font-bold text-emerald-400 font-mono">৳${advance} <span class="text-[9px] text-zinc-400">(${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'})</span></div>
                   </div>
-                  <div class="bg-amber-500/10 border border-amber-500/30 p-1.5 rounded">
-                    <div class="text-[10px] text-amber-300 font-bold">বাকি পাওনা (Payable):</div>
+                  <div class="bg-amber-500/15 border border-amber-500/35 p-1.5 rounded-lg">
+                    <div class="text-[10px] text-amber-300 font-bold">বাকি বিল (Payable):</div>
                     <div class="font-extrabold text-amber-400 font-mono text-xs">৳${payable}</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="pt-2 border-t border-subtle flex items-center gap-1.5">
-              ${isPending ? `
-                <button type="button" class="btn-confirm-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
-                  <i class="fa-solid fa-check text-[10px]"></i>
-                  <span>নিশ্চিত করুন</span>
-                </button>
-              ` : `
-                <button type="button" class="btn-convert-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="কাস্টমার আসলে এই বাটনে চাপলে ৩০৳ বাদ দিয়ে মূল ক্যাশ এন্ট্রি হবে">
-                  <i class="fa-solid fa-cash-register text-[10px]"></i>
-                  <span>বিল মেমোতে নিন</span>
-                </button>
-              `}
-              <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
+            <!-- Owner Action Buttons: Convert to Sale, WhatsApp, Cancel, Delete (NO Book Button) -->
+            <div class="pt-2 border-t border-rose-500/20 flex items-center gap-1.5">
+              <button type="button" class="btn-convert-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all shadow-sm" data-booking-id="${b.id}" title="কাস্টমার আসলে ক্যাশ মেমোতে নিন (৩০৳ বাদ দিয়ে বাকি ${payable}৳ আদায় হবে)">
+                <i class="fa-solid fa-cash-register text-[10px]"></i>
+                <span>বিল মেমো নিন</span>
+              </button>
+              <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-emerald-500/30 text-[11px] transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে নিশ্চিতকরণ মেমো পাঠান">
                 <i class="fa-brands fa-whatsapp"></i>
               </button>
-              <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="বুকিং বাতিল করুন">
+              <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="বুকিং বাতিল করুন">
                 <i class="fa-solid fa-ban"></i>
               </button>
               <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
@@ -3006,40 +3018,126 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         `;
-      } else {
+      }
+
+      // 3. IF PENDING: Show AMBER / PENDING RESERVATION!
+      if (activePending) {
+        bookedCount++;
+        const b = activePending;
+        const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(' + ') : 'সেলুন সার্ভিস';
+        const totalBill = b.totalEstimatedAmount || 200;
+        const advance = b.advancePaid || 30;
+        const payable = b.payableAmount !== undefined ? b.payableAmount : Math.max(0, totalBill - advance);
+
         return `
-          <div class="slot-card available">
+          <div class="slot-card border-2 border-amber-500/50 bg-gradient-to-b from-amber-950/25 via-surfaceElevated to-surface shadow-md">
             <div>
-              <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-500/20">
+              <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-amber-500/25">
                 <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
-                  <i class="fa-regular fa-clock text-emerald-400"></i>
+                  <i class="fa-regular fa-clock text-amber-400"></i>
                   <span>${slot.label}</span>
                 </span>
-                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-available flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>🟢 ফাঁকা (বুকিংযোগ্য)</span>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-amber-500/25 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 shadow-sm animate-pulse">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>⏳ পেন্ডিং রিকোয়েস্ট (লকড 🔒)</span>
                 </span>
               </div>
 
-              <div class="py-3 text-center space-y-1">
-                <div class="text-2xl">💺</div>
-                <p class="text-xs font-medium text-zinc-300">চেয়ার সম্পূর্ণ ফাঁকা আছে</p>
-                <p class="text-[11px] text-zinc-500">৩০৳ বিকাশ/নগদ টোকেন ফি দিয়ে এখনই অগ্রিম সিডিউল বুক করুন</p>
+              <!-- Notice: Pending Approval -->
+              <div class="mb-2.5 px-2.5 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-[11px] text-amber-200 flex items-center gap-2">
+                <i class="fa-solid fa-hourglass-half text-amber-400 text-xs"></i>
+                <span class="font-semibold">অনলাইন রিকোয়েস্ট জমা হয়েছে। আসনটি সাময়িকভাবে রিজার্ভড।</span>
+              </div>
+
+              <!-- Customer & Service Details -->
+              <div class="space-y-1.5 mb-3 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">বুককারী:</span>
+                  <span class="font-bold text-white"><span class="text-goldLight font-mono mr-1">#${b.tokenNo}</span>${b.customerName}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">মোবাইল:</span>
+                  <span class="text-zinc-200 font-mono">${b.customerPhone || 'উপলব্ধ নয়'}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">কারিগর:</span>
+                  <span class="text-blue-300 font-medium">${b.barberName}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">সেবা:</span>
+                  <span class="text-zinc-200 font-medium truncate max-w-[170px]" title="${srvNames}">✂️ ${srvNames}</span>
+                </div>
+                
+                <!-- Financial Breakdown -->
+                <div class="grid grid-cols-2 gap-1.5 pt-1.5 text-[11px]">
+                  <div class="bg-surface border border-subtle p-1.5 rounded-lg">
+                    <div class="text-[10px] text-zinc-400">অগ্রিম জমা:</div>
+                    <div class="font-bold text-emerald-400 font-mono">৳${advance} <span class="text-[9px] text-zinc-400">(${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'})</span></div>
+                  </div>
+                  <div class="bg-amber-500/15 border border-amber-500/35 p-1.5 rounded-lg">
+                    <div class="text-[10px] text-amber-300 font-bold">বাকি বিল (Payable):</div>
+                    <div class="font-extrabold text-amber-400 font-mono text-xs">৳${payable}</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <button type="button" class="btn-book-slot w-full py-2 px-3 rounded-lg bg-surfaceElevated hover:bg-surfaceHover text-goldLight hover:text-white border border-card text-xs font-bold flex items-center justify-center gap-1.5 transition-all mt-2" data-slot-date="${selectedDate}" data-slot-time="${slot.time}">
-              <i class="fa-solid fa-calendar-plus text-xs"></i>
-              <span>এই স্লটটি বুক করুন (৩০৳)</span>
-            </button>
+            <!-- Owner Action Buttons: Confirm, WhatsApp, Cancel, Delete -->
+            <div class="pt-2 border-t border-amber-500/20 flex items-center gap-1.5">
+              <button type="button" class="btn-confirm-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all shadow-sm" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
+                <i class="fa-solid fa-check text-[10px]"></i>
+                <span>নিশ্চিত করুন</span>
+              </button>
+              <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-emerald-500/30 text-[11px] transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
+                <i class="fa-brands fa-whatsapp"></i>
+              </button>
+              <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/40 text-rose-300 border border-rose-500/30 text-[11px] font-bold transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
           </div>
         `;
       }
-    }).join('');
 
-    const availableCount = TIME_SLOTS.length - bookedCount;
+      // 4. IF FREE: Show GREEN / AVAILABLE!
+      availableCount++;
+      return `
+        <div class="slot-card available border-2 border-emerald-500/35 bg-gradient-to-b from-emerald-950/20 via-surfaceElevated to-surface shadow-md">
+          <div>
+            <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-500/20">
+              <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
+                <i class="fa-regular fa-clock text-emerald-400"></i>
+                <span>${slot.label}</span>
+              </span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>🟢 সম্পূর্ণ ফাঁকা (বুকিংযোগ্য)</span>
+              </span>
+            </div>
+
+            <div class="py-3 text-center space-y-1">
+              <div class="text-2xl">💺</div>
+              <p class="text-xs font-semibold text-zinc-200">চেয়ার সম্পূর্ণ ফাঁকা আছে</p>
+              <p class="text-[11px] text-zinc-400">৩০৳ বিকাশ/নগদ অগ্রিম টোকেন ফি দিয়ে এখনই আসনটি নিশ্চিত করুন</p>
+            </div>
+          </div>
+
+          <button type="button" class="btn-book-slot w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md mt-2" data-slot-date="${selectedDate}" data-slot-time="${slot.time}">
+            <i class="fa-solid fa-calendar-check text-xs"></i>
+            <span>এই স্লটটি বুক করুন (৩০৳ ফি)</span>
+          </button>
+        </div>
+      `;
+    }).filter(html => html !== '').join('');
+
+    chairSlotsGrid.innerHTML = visibleSlotsHtml;
+
+    const summaryText = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড/পেন্ডিং: <strong class="text-rose-400">${bookedCount}</strong> টি${completedCount > 0 ? ` | ✓ সম্পন্ন: <strong class="text-blue-400">${completedCount}</strong> টি` : ''}`;
     if (bookingSlotCountSummary) {
-      bookingSlotCountSummary.innerHTML = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড/পেন্ডিং: <strong class="text-rose-400">${bookedCount}</strong> টি`;
+      bookingSlotCountSummary.innerHTML = summaryText;
     }
 
     // Attach listeners to available slot book buttons
@@ -3100,7 +3198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetBookings.length === 0) {
       bookingsTableBody.innerHTML = `
         <tr>
-          <td colspan="10" class="py-8 text-center text-zinc-400">
+          <td colspan="7" class="py-8 text-center text-zinc-400">
             <i class="fa-regular fa-calendar-xmark text-2xl mb-1 text-zinc-500 block"></i>
             <span>কোনো অগ্রিম বুকিং পাওয়া যায়নি।</span>
           </td>
@@ -3115,89 +3213,122 @@ document.addEventListener('DOMContentLoaded', () => {
       const advance = b.advancePaid || 30;
       const payable = b.payableAmount !== undefined ? b.payableAmount : Math.max(0, totalBill - advance);
 
-      const statusBadge = b.status === 'pending' 
-        ? `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30 text-[10px] inline-flex items-center gap-1 animate-pulse"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>⏳ পেন্ডিং</span></span>`
-        : (b.status === 'confirmed' 
-            ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">✓ নিশ্চিত (Active)</span>`
-            : (b.status === 'completed'
-                ? `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30 text-[10px]">সম্পন্ন (Billed)</span>`
-                : `<span class="px-2 py-0.5 rounded-full bg-zinc-500/20 text-zinc-400 border border-subtle text-[10px]">বাতিল</span>`));
+      // Clean single-line status badge (never wraps)
+      let statusBadge = '';
+      if (b.status === 'pending') {
+        statusBadge = `<span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/35 text-xs whitespace-nowrap inline-flex items-center gap-1.5 shadow-sm"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span><span>পেন্ডিং</span></span>`;
+      } else if (b.status === 'confirmed') {
+        statusBadge = `<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/35 text-xs whitespace-nowrap inline-flex items-center gap-1.5 shadow-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>নিশ্চিত</span></span>`;
+      } else if (b.status === 'completed') {
+        statusBadge = `<span class="px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 font-bold border border-blue-500/35 text-xs whitespace-nowrap inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-check text-[10px]"></i><span>বিল সম্পন্ন</span></span>`;
+      } else {
+        statusBadge = `<span class="px-2.5 py-1 rounded-full bg-zinc-500/20 text-zinc-400 border border-subtle text-xs whitespace-nowrap inline-flex items-center gap-1"><span>✕ বাতিল</span></span>`;
+      }
+
+      // Clean action buttons layout
+      let actionButtons = '';
+      if (b.status === 'pending') {
+        actionButtons = `
+          <button type="button" class="btn-confirm-booking px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all flex items-center gap-1 shadow-sm" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
+            <i class="fa-solid fa-check text-[10px]"></i><span>নিশ্চিত</span>
+          </button>
+          <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/40 text-rose-300 border border-rose-500/30 text-xs transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-emerald-500/30 text-xs transition-all" data-booking-id="${b.id}" title="WhatsApp-এ মেসেজ পাঠান">
+            <i class="fa-brands fa-whatsapp"></i>
+          </button>
+          <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-xs transition-all" data-booking-id="${b.id}" title="মুছে ফেলুন">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+      } else if (b.status === 'confirmed') {
+        actionButtons = `
+          <button type="button" class="btn-convert-booking px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all flex items-center gap-1 shadow-sm" data-booking-id="${b.id}" title="ক্যাশ মেমোতে নিন (৩০৳ বাদ দিয়ে বাকি ${payable}৳ আদায়)">
+            <i class="fa-solid fa-cash-register text-[10px]"></i><span>মেমো বিল</span>
+          </button>
+          <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-xs transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+            <i class="fa-solid fa-ban"></i>
+          </button>
+          <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-emerald-500/30 text-xs transition-all" data-booking-id="${b.id}" title="WhatsApp-এ মেসেজ পাঠান">
+            <i class="fa-brands fa-whatsapp"></i>
+          </button>
+          <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-xs transition-all" data-booking-id="${b.id}" title="মুছে ফেলুন">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+      } else if (b.status === 'completed') {
+        actionButtons = `
+          <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-emerald-500/30 text-xs transition-all" data-booking-id="${b.id}" title="WhatsApp রশিদ পাঠান">
+            <i class="fa-brands fa-whatsapp"></i>
+          </button>
+          <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-xs transition-all" data-booking-id="${b.id}" title="মুছে ফেলুন">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+      } else {
+        actionButtons = `
+          <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-xs transition-all" data-booking-id="${b.id}" title="মুছে ফেলুন">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+      }
 
       return `
-        <tr class="hover:bg-white/5 transition-colors">
+        <tr class="hover:bg-white/[0.04] transition-colors border-b border-subtle">
+          <!-- 1. Customer & Token -->
+          <td class="py-3 px-3.5">
+            <div class="font-bold text-white text-sm tracking-wide">${b.customerName}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="font-mono font-bold text-goldLight bg-goldPrimary/15 border border-goldPrimary/30 px-1.5 py-0.5 rounded text-[11px]">#${b.tokenNo || 'BK-100'}</span>
+              <span class="text-xs text-zinc-400 font-mono"><i class="fa-solid fa-phone text-[9px] mr-1 text-zinc-500"></i>${b.customerPhone || 'ফোন নেই'}</span>
+            </div>
+          </td>
+
+          <!-- 2. Date & Time -->
+          <td class="py-3 px-3 whitespace-nowrap">
+            <div class="text-xs font-semibold text-zinc-200">${formatBengaliDate(b.date, 'dateMonthYear')}</div>
+            <div class="text-[11px] text-goldLight font-mono font-bold mt-0.5 flex items-center gap-1">
+              <i class="fa-regular fa-clock text-[10px]"></i>
+              <span>${b.timeSlot}</span>
+            </div>
+          </td>
+
+          <!-- 3. Services, Barber & Duration -->
           <td class="py-3 px-3">
-            <span class="font-mono font-bold text-goldLight bg-goldPrimary/10 border border-goldPrimary/30 px-2 py-0.5 rounded text-xs">
-              #${b.tokenNo || 'BK-100'}
-            </span>
+            <div class="text-xs font-semibold text-zinc-100 truncate max-w-[200px]" title="${srvNames}">✂️ ${srvNames}</div>
+            <div class="text-[11px] text-zinc-400 flex items-center gap-1.5 mt-0.5">
+              <span class="text-blue-300">👤 ${b.barberName}</span>
+              <span class="text-zinc-600">•</span>
+              <span class="text-amber-400 font-mono font-semibold">⏱️ ${b.totalDuration || 30} মি.</span>
+            </div>
           </td>
-          <td class="py-3 px-3">
-            <div class="font-bold text-white text-xs">${b.customerName}</div>
-            <div class="text-[11px] text-zinc-400 font-mono mt-0.5"><i class="fa-solid fa-phone text-[9px] mr-1"></i>${b.customerPhone || 'ফোন নম্বর নেই'}</div>
+
+          <!-- 4. Total Bill & Advance Paid -->
+          <td class="py-3 px-3 text-right whitespace-nowrap">
+            <div class="text-xs font-bold text-white font-mono">মোট: ৳${totalBill}</div>
+            <div class="text-[11px] text-emerald-400 font-mono mt-0.5 font-medium">
+              অগ্রিম: -৳${advance} <span class="text-zinc-500 text-[10px]">(${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'})</span>
+            </div>
           </td>
-          <td class="py-3 px-3">
-            <div class="text-xs text-white">${formatBengaliDate(b.date, 'dateMonthYear')}</div>
-            <div class="text-[11px] text-goldLight font-mono font-bold mt-0.5">⏰ ${b.timeSlot}</div>
+
+          <!-- 5. Remaining Payable Bill -->
+          <td class="py-3 px-3 text-right whitespace-nowrap">
+            <div class="inline-flex flex-col items-end">
+              <span class="text-xs font-extrabold text-amber-300 font-mono bg-amber-500/15 border border-amber-500/35 px-2.5 py-1 rounded-lg shadow-sm">৳${payable}</span>
+              <span class="text-[9px] text-zinc-400 mt-0.5 font-medium">বাকি পাওনা বিল</span>
+            </div>
           </td>
-          <td class="py-3 px-3">
-            <div class="text-xs text-zinc-200 truncate max-w-[150px]" title="${srvNames}">✂️ ${srvNames}</div>
-            <div class="text-[10px] text-blue-400 mt-0.5">${b.barberName}</div>
-          </td>
-          <td class="py-3 px-3 font-mono text-xs text-zinc-300 text-center">
-            ⏱️ ${b.totalDuration || 30} মি.
-          </td>
-          <td class="py-3 px-3 text-right">
-            <div class="text-xs font-bold text-white font-mono">৳${totalBill}</div>
-          </td>
-          <td class="py-3 px-3 text-right">
-            <div class="text-xs font-bold text-emerald-400 font-mono">+৳${advance}</div>
-            <div class="text-[10px] text-zinc-400 font-mono">${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'} (Trx: ${b.trxId || 'N/A'})</div>
-          </td>
-          <td class="py-3 px-3 text-right">
-            <div class="text-xs font-extrabold text-amber-300 font-mono bg-amber-500/15 border border-amber-500/30 px-2 py-1 rounded inline-block">৳${payable}</div>
-            <div class="text-[9px] text-zinc-400 mt-0.5">বাকি পাওনা বিল</div>
-          </td>
-          <td class="py-3 px-3 text-center">
+
+          <!-- 6. Status -->
+          <td class="py-3 px-3 text-center whitespace-nowrap">
             ${statusBadge}
           </td>
-          <td class="py-3 px-3 text-center">
-            <div class="flex items-center justify-center gap-1">
-              ${b.status === 'pending' ? `
-                <button type="button" class="btn-confirm-booking text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded font-bold transition-all shadow-sm" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
-                  <i class="fa-solid fa-check text-[10px] mr-1"></i> নিশ্চিত
-                </button>
-                <button type="button" class="btn-cancel-booking text-xs bg-rose-600/20 hover:bg-rose-600/40 text-rose-300 px-2 py-1 rounded border border-rose-500/30 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
-                  <i class="fa-solid fa-xmark text-[10px] mr-1"></i> বাতিল
-                </button>
-                <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
-                  <i class="fa-brands fa-whatsapp"></i>
-                </button>
-                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              ` : (b.status === 'confirmed' ? `
-                <button type="button" class="btn-convert-booking text-xs bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 px-2.5 py-1 rounded border border-emerald-500/30 transition-all font-bold" data-booking-id="${b.id}" title="ক্যাশ মেমোতে নিন (৩০৳ বাদ দিয়ে বাকি ${payable}৳ আদায় হবে)">
-                  <i class="fa-solid fa-receipt text-[10px] mr-1"></i> মেমো বিল
-                </button>
-                <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে নিশ্চিতকরণ মেমো পাঠান">
-                  <i class="fa-brands fa-whatsapp"></i>
-                </button>
-                <button type="button" class="btn-cancel-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
-                  <i class="fa-solid fa-ban"></i>
-                </button>
-                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              ` : `
-                <span class="text-[11px] text-zinc-400 font-mono">${b.status === 'completed' ? 'মেমো সম্পন্ন ✓' : 'বাতিলকৃত'}</span>
-                ${b.customerPhone ? `
-                  <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all ml-1" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
-                    <i class="fa-brands fa-whatsapp"></i>
-                  </button>
-                ` : ''}
-                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all ml-1" data-booking-id="${b.id}" title="মুছে ফেলুন">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              `)}
+
+          <!-- 7. Actions -->
+          <td class="py-3 px-3 text-center whitespace-nowrap">
+            <div class="flex items-center justify-center gap-1.5">
+              ${actionButtons}
             </div>
           </td>
         </tr>
