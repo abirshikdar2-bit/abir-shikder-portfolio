@@ -544,29 +544,31 @@
         </button>
       </div>
 
-      <!-- Interactive Period & Past 10 Months Navigation Strip -->
+      <!-- Interactive Period & Upcoming Days Strip (Past Blocked, Upcoming Available) -->
       <div class="calendar-day-strip mb-5">
         <div class="flex items-center justify-between mb-2">
           <div class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-            <i class="fa-solid fa-calendar-day text-goldPrimary"></i>
-            <span>খাতার সময়সীমা ও মাস নির্বাচন (রানিং দিন, সপ্তাহ, মাস এবং গত ১০ মাস):</span>
+            <i class="fa-solid fa-calendar-days text-goldPrimary"></i>
+            <span>খাতার দিন ও মাস নির্বাচন (পেছনের দিন/মাস ব্লকড 🔒 • আজ ও আগামী দিনগুলো সক্রিয়):</span>
           </div>
-          <span class="text-[11px] text-zinc-500 font-mono hidden sm:inline">🔒 ভবিষ্যতের কোনো হিসাব নয় • শুধুমাত্র বাস্তব রানিং ও সমাপ্ত রেকর্ড</span>
+          <span class="text-[11px] text-zinc-400 font-mono hidden sm:inline">🔒 পেছনের তারিখ ব্লকড • আজ ও আগামী দিন/মাস নির্বাচনযোগ্য</span>
         </div>
         
         <div class="day-pills-scroll" id="quickDayNavStrip">
-          <!-- Populated by JavaScript: Running Day, Running Week, Running Month, and Past 10 Months -->
+          <!-- Populated by JavaScript: Past Days Locked, Today & Upcoming Future Days/Months Available -->
         </div>
       </div>
 
-      <!-- Scope Filter Bar & Date Picker (No future days) -->
+      <!-- Scope Filter Bar & Date Picker (Past dates blocked, Future dates allowed) -->
       <div class="search-filter-bar mb-6">
         <div class="filter-pills flex-wrap">
-          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের রানিং দিন</button>
-          <button class="filter-pill sales-filter-pill" data-period="running_week">চলতি রানিং সপ্তাহ</button>
-          <button class="filter-pill sales-filter-pill" data-period="running_month">চলতি রানিং মাস (অক্টোবর)</button>
-          <button class="filter-pill sales-filter-pill" data-period="past_10_months">গত ১০ মাসের হিসাব</button>
-          <button class="filter-pill sales-filter-pill" data-period="all">সব বিক্রয় রেকর্ড</button>
+          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের দিন</button>
+          <button class="filter-pill sales-filter-pill" data-period="tomorrow">আগামীকাল</button>
+          <button class="filter-pill sales-filter-pill" data-period="next3">পরশু ও আগামী ৩ দিন</button>
+          <button class="filter-pill sales-filter-pill" data-period="next_week">আগামী ১ সপ্তাহ</button>
+          <button class="filter-pill sales-filter-pill" data-period="running_month">চলতি মাস (অক্টোবর)</button>
+          <button class="filter-pill sales-filter-pill" data-period="next_month">আগামী মাস (নভেম্বর)</button>
+          <button class="filter-pill sales-filter-pill" data-period="all">সব রেকর্ড</button>
         </div>
 
         <div class="flex items-center gap-2">

@@ -1320,12 +1320,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return isSameDay(d, now);
       });
       headingText = `আজকের রানিং দিন (${formatBengaliDate(now, 'dateMonthYear')})`;
+    } else if (currentLedgerPeriod === 'tomorrow') {
+      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), tomorrow));
+      headingText = `আগামীকাল (${formatBengaliDate(tomorrow, 'dateMonthYear')})-এর অগ্রিম সেল ও শিডিউল`;
+    } else if (currentLedgerPeriod === 'next3') {
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+      const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59);
+      filtered = filtered.filter(s => {
+        const t = new Date(s.timestamp).getTime();
+        return t >= start.getTime() && t <= end.getTime();
+      });
+      headingText = 'পরশু ও আগামী ৩ দিনের বুকিং শিডিউল তালিকা';
+    } else if (currentLedgerPeriod === 'next_week') {
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+      const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59);
+      filtered = filtered.filter(s => {
+        const t = new Date(s.timestamp).getTime();
+        return t >= start.getTime() && t <= end.getTime();
+      });
+      headingText = 'আগামী ৭ দিনের বুকিং ও সেল শিডিউল';
+    } else if (currentLedgerPeriod === 'running_month' || currentLedgerPeriod === 'month') {
+      filtered = filtered.filter(s => isWithinRunningMonth(s.timestamp));
+      headingText = 'চলতি মাস (অক্টোবর ২০২৬)-এর বিক্রয় রেকর্ড';
+    } else if (currentLedgerPeriod === 'next_month') {
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return d.getMonth() === 10 && d.getFullYear() === 2026;
+      });
+      headingText = 'আগামী মাস: নভেম্বর ২০২৬-এর শিডিউল ও বুকিং খাতা';
+    } else if (currentLedgerPeriod === 'month_dec') {
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return d.getMonth() === 11 && d.getFullYear() === 2026;
+      });
+      headingText = 'পরবর্তী মাস: ডিসেম্বর ২০২৬-এর শিডিউল ও বুকিং খাতা';
+    } else if (currentLedgerPeriod === 'month_jan27') {
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return d.getMonth() === 0 && d.getFullYear() === 2027;
+      });
+      headingText = 'নতুন বছর: জানুয়ারি ২০২৭-এর শিডিউল ও বুকিং';
     } else if (currentLedgerPeriod === 'running_week' || currentLedgerPeriod === 'week') {
       filtered = filtered.filter(s => isWithinRunningWeek(s.timestamp));
       headingText = 'চলতি রানিং সপ্তাহের বিক্রয় বিবরণী';
-    } else if (currentLedgerPeriod === 'running_month' || currentLedgerPeriod === 'month') {
-      filtered = filtered.filter(s => isWithinRunningMonth(s.timestamp));
-      headingText = 'চলতি রানিং মাস (অক্টোবর ২০২৬)-এর বিক্রয় রেকর্ড';
     } else if (currentLedgerPeriod === 'past_10_months') {
       isPastMonthScope = true;
       headingText = 'বিগত ১০ মাসের ধারাবাহিক সমাপ্ত খাতা (10 Months Ledger)';
@@ -1334,14 +1372,11 @@ document.addEventListener('DOMContentLoaded', () => {
       pastMonthObj = monthlyHistory.find(m => m.id === currentLedgerPeriod);
       headingText = pastMonthObj ? `${pastMonthObj.name}-এর সমাপ্ত মাসিক খাতা` : 'অতীত মাসের হিসাব';
     } else if (currentLedgerPeriod === 'all') {
-      headingText = 'সকল বিক্রয় ও আয় রেকর্ড (আজ পর্যন্ত)';
+      headingText = 'সকল বিক্রয় ও শিডিউল রেকর্ড';
     } else if (currentLedgerPeriod.includes('-')) {
       const targetDate = new Date(currentLedgerPeriod + 'T00:00:00');
-      filtered = filtered.filter(s => {
-        const d = new Date(s.timestamp);
-        return isSameDay(d, targetDate);
-      });
-      headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর সেল বিবরণী`;
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), targetDate));
+      headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর সেল ও শিডিউল বিবরণী`;
     }
 
     // Special view for Past 10 Months & Individual Past Months
@@ -1497,13 +1532,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     if (filtered.length === 0) {
+      const isFutureScope = (currentLedgerPeriod === 'tomorrow' || currentLedgerPeriod === 'next3' || currentLedgerPeriod === 'next_week' || currentLedgerPeriod === 'next_month' || currentLedgerPeriod === 'month_dec' || (currentLedgerPeriod.includes('-') && currentLedgerPeriod > localTodayStr));
       container.innerHTML = `
         <div class="p-8 text-center bg-surface border border-card rounded-xl text-zinc-400">
-          <i class="fa-solid fa-receipt text-zinc-600 text-3xl mb-2"></i>
-          <p class="font-medium text-white">এই ফিল্টারে কোনো সেল এন্ট্রি পাওয়া যায়নি।</p>
-          <p class="text-xs text-zinc-500 mt-1">উপরে 'আজকের রানিং দিন' বা 'চলতি রানিং সপ্তাহ' নির্বাচন করুন অথবা নতুন ক্যাশ এন্ট্রি দিন।</p>
+          <div class="w-12 h-12 rounded-full bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-xl mx-auto mb-3">
+            <i class="${isFutureScope ? 'fa-regular fa-calendar-plus' : 'fa-solid fa-receipt'}"></i>
+          </div>
+          <p class="font-bold text-white text-base">${isFutureScope ? 'এই তারিখে এখনো কোনো অগ্রিম বুকিং বা সেল এন্ট্রি নেই' : 'এই ফিল্টারে কোনো সেল এন্ট্রি পাওয়া যায়নি।'}</p>
+          <p class="text-xs text-zinc-400 mt-1 mb-4">${isFutureScope ? 'আগামী দিনের কাস্টমারের জন্য এখনই অগ্রিম সার্ভিস বা বুকিং এন্ট্রি যোগ করতে পারেন।' : 'নতুন ক্যাশ এন্ট্রি দিতে নিচের বাটনে চাপুন।'}</p>
+          <button class="btn-gold-action mx-auto open-custom-sale-btn text-xs py-2 px-4" data-prefill-date="${currentLedgerPeriod}">
+            <i class="fa-solid fa-plus text-xs"></i>
+            <span>${isFutureScope ? 'এই তারিখে অগ্রিম এন্ট্রি দিন' : 'নতুন সেল এন্ট্রি দিন'}</span>
+          </button>
         </div>
       `;
+
+      container.querySelectorAll('.open-custom-sale-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const prefill = btn.getAttribute('data-prefill-date') || null;
+          openSmartSaleModal(prefill);
+        });
+      });
       return;
     }
 
@@ -2136,20 +2186,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function openSmartSaleModal() {
+  function openSmartSaleModal(prefillDateStr = null) {
     if (!customSaleModal || !customSaleForm) return;
     customSaleForm.reset();
     modalSelectedChips = [];
 
-    // 1. Auto-populate Local Datetime and block future dates (salons only record running or today's sales)
+    // 1. Auto-populate Local Datetime (block past dates, strictly allow today and future dates)
     const now = new Date();
-    const offsetMs = now.getTimezoneOffset() * 60000;
-    const localIso = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
+    let initialDate = now;
+    if (prefillDateStr) {
+      if (prefillDateStr === 'tomorrow') {
+        initialDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      } else if (prefillDateStr.includes('-')) {
+        const parsed = new Date(prefillDateStr + 'T12:00:00');
+        if (!isNaN(parsed.getTime())) initialDate = parsed;
+      }
+    }
+    const offsetMs = initialDate.getTimezoneOffset() * 60000;
+    const localIso = new Date(initialDate.getTime() - offsetMs).toISOString().slice(0, 16);
     if (saleDateTimeInput) {
       saleDateTimeInput.value = localIso;
-      saleDateTimeInput.max = `${localTodayStr}T23:59`;
+      saleDateTimeInput.min = `${localTodayStr}T00:00`; // Strictly block past dates!
+      saleDateTimeInput.removeAttribute('max'); // Today and future dates/months fully allowed!
     }
-    updateModalDateDisplay(now);
+    updateModalDateDisplay(initialDate);
 
     // 2. Populate Customers dropdown
     if (saleCustomerSelect) {
@@ -2175,17 +2235,17 @@ document.addEventListener('DOMContentLoaded', () => {
     customSaleModal.classList.add('active');
   }
 
-  // Real-time listener for datetime input in modal (Blocking future entries and updating display)
+  // Real-time listener for datetime input in modal (Blocking past entries, allowing today & future)
   if (saleDateTimeInput) {
     saleDateTimeInput.addEventListener('input', (e) => {
       const selectedVal = e.target.value;
       if (selectedVal) {
         const selectedDateStr = selectedVal.slice(0, 10);
-        if (selectedDateStr > localTodayStr) {
+        if (selectedDateStr < localTodayStr) {
           const now = new Date();
           const offsetMs = now.getTimezoneOffset() * 60000;
           saleDateTimeInput.value = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
-          showToast('⚠️ ভবিষ্যতের কোনো তারিখে অগ্রিম সেল এন্ট্রি করা যাবে না! শুধুমাত্র আজ অথবা পেছনের তারিখ প্রযোজ্য।');
+          showToast('⚠️ পেছনের কোনো তারিখ বা মাস সিলেক্ট করা যাবে না (ব্লকড)! শুধুমাত্র আজ এবং আগামী দিনগুলো প্রযোজ্য।');
           updateModalDateDisplay(now);
           return;
         }
@@ -2368,75 +2428,120 @@ document.addEventListener('DOMContentLoaded', () => {
   const salesLedgerDatePicker = document.getElementById('salesLedgerDatePicker');
   const clearDatePickerBtn = document.getElementById('clearDatePickerBtn');
 
-  // Interactive Running Periods & Past 10 Months Navigation Strip
+  // Interactive Day & Month Navigation Strip (Past Days Blocked 🔒 • Today & Upcoming Days/Months Available)
   function renderQuickDayNavStrip() {
     const strip = document.getElementById('quickDayNavStrip');
     if (!strip) return;
 
-    // Running periods & 10 past months (Strictly no future days)
-    const periods = [
-      {
-        id: 'today',
-        label: '⭐ আজকের রানিং দিন',
-        sub: 'আজকের লাইভ বিক্রয়',
-        icon: 'fa-solid fa-star'
-      },
-      {
-        id: 'running_week',
-        label: '📅 চলতি রানিং সপ্তাহ',
-        sub: 'চলতি সপ্তাহের মোট হিসাব',
-        icon: 'fa-solid fa-calendar-week'
-      },
-      {
-        id: 'running_month',
-        label: '📊 চলতি রানিং মাস',
-        sub: 'অক্টোবর ২০২৬',
-        icon: 'fa-solid fa-calendar-check'
-      },
-      {
-        id: 'past_10_months',
-        label: '📚 গত ১০ মাসের খাতা',
-        sub: 'সমাপ্ত ১০ মাসের পূর্ণ খাতা',
-        icon: 'fa-solid fa-book-bookmark'
-      },
-      // Individual 10 Past Months
-      ...monthlyHistory.filter(m => !m.isCurrent).map(m => ({
-        id: m.id,
-        label: m.name,
-        sub: m.periodTitle || 'সমাপ্ত খাতা',
-        icon: 'fa-solid fa-calendar-minus'
-      }))
+    const todayDate = new Date();
+
+    const items = [
+      // 1. Past Days (Strictly Blocked / Locked)
+      { type: 'day', offset: -2, label: 'গত পরশু', isPast: true },
+      { type: 'day', offset: -1, label: 'গতকাল', isPast: true },
+      // 2. Today (Active / Available)
+      { type: 'day', offset: 0, periodId: 'today', label: '⭐ আজকের দিন', isToday: true },
+      // 3. Upcoming Future Days (Fully Available & Selectable)
+      { type: 'day', offset: 1, periodId: 'tomorrow', label: 'আগামীকাল', isFuture: true },
+      { type: 'day', offset: 2, periodId: 'day_2', label: 'পরশু', isFuture: true },
+      { type: 'day', offset: 3, periodId: 'day_3', label: 'পরশুর পর', isFuture: true },
+      { type: 'day', offset: 4, periodId: 'day_4', label: '৪ দিন পর', isFuture: true },
+      { type: 'day', offset: 5, periodId: 'day_5', label: '৫ দিন পর', isFuture: true },
+      { type: 'day', offset: 6, periodId: 'day_6', label: '৬ দিন পর', isFuture: true },
+      { type: 'day', offset: 7, periodId: 'day_7', label: '১ সপ্তাহ পর', isFuture: true },
+      // 4. Upcoming Future Months (যেসব মাস আসতেছে - Fully Available & Selectable)
+      { type: 'month', periodId: 'running_month', label: 'চলতি মাস (অক্টোবর)', sub: 'রানিং ২০২৬', isCurrentMonth: true },
+      { type: 'month', periodId: 'next_month', label: 'আগামী মাস (নভেম্বর)', sub: 'আসন্ন ২০২৬', isFutureMonth: true },
+      { type: 'month', periodId: 'month_dec', label: 'পরবর্তী মাস (ডিসেম্বর)', sub: 'আসন্ন ২০২৬', isFutureMonth: true },
+      { type: 'month', periodId: 'month_jan27', label: 'নতুন বছর (জানুয়ারি)', sub: 'আসন্ন ২০২৭', isFutureMonth: true }
     ];
 
-    strip.innerHTML = periods.map(p => {
-      const isActive = (currentLedgerPeriod === p.id);
-      return `
-        <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${p.id}">
-          <span class="day-pill-label flex items-center gap-1.5">
-            <i class="${p.icon} text-[10px] ${isActive ? 'text-goldLight' : 'text-zinc-400'}"></i>
-            <span>${p.label}</span>
-          </span>
-          <span class="day-pill-sub">${p.sub}</span>
-        </button>
-      `;
+    strip.innerHTML = items.map(item => {
+      if (item.isPast) {
+        const targetDate = new Date(todayDate.getTime() + item.offset * 24 * 60 * 60 * 1000);
+        const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+        return `
+          <button type="button" class="day-pill locked" title="পেছনের দিন নির্বাচন করা যাবে না (ব্লক করা হয়েছে)">
+            <span class="day-pill-label flex items-center gap-1 text-zinc-400">
+              <i class="fa-solid fa-lock text-[10px] text-red-400"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub text-red-400/80">${dateBengali} (ব্লক)</span>
+          </button>
+        `;
+      } else if (item.isToday) {
+        const isoYMD = todayDate.toISOString().slice(0, 10);
+        const dateBengali = todayDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+        const isActive = (currentLedgerPeriod === 'today' || currentLedgerPeriod === isoYMD);
+        return `
+          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="today" data-date-str="${isoYMD}">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-solid fa-star text-[10px]"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub">${dateBengali} (সক্রিয়)</span>
+          </button>
+        `;
+      } else if (item.type === 'day' && item.isFuture) {
+        const targetDate = new Date(todayDate.getTime() + item.offset * 24 * 60 * 60 * 1000);
+        const isoYMD = targetDate.toISOString().slice(0, 10);
+        const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+        const isActive = (currentLedgerPeriod === item.periodId || currentLedgerPeriod === isoYMD);
+        return `
+          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${isoYMD}" data-date-str="${isoYMD}">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-regular fa-calendar text-[10px] text-blue-400"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub text-zinc-300">${dateBengali}</span>
+          </button>
+        `;
+      } else if (item.type === 'month') {
+        const isActive = (currentLedgerPeriod === item.periodId);
+        return `
+          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${item.periodId}">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-regular fa-calendar-days text-[10px] text-purple-400"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub text-zinc-300">${item.sub}</span>
+          </button>
+        `;
+      }
     }).join('');
 
-    // Attach click events
-    strip.querySelectorAll('.day-pill').forEach(btn => {
+    // Attach click events to locked past days
+    strip.querySelectorAll('.day-pill.locked').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('⚠️ পেছনের কোনো তারিখ বা মাস নির্বাচন করা যাবে না (ব্লক করা হয়েছে)! শুধুমাত্র আজ এবং আগামী দিনগুলো প্রযোজ্য।');
+      });
+    });
+
+    // Attach click events to active & future days and months
+    strip.querySelectorAll('.day-pill:not(.locked)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const period = btn.getAttribute('data-day-period');
         currentLedgerPeriod = period;
 
-        // sync with filter pills
+        // sync with filter pills and date picker
         salesFilterPills.forEach(p => {
           if (p.getAttribute('data-period') === period) p.classList.add('active');
           else p.classList.remove('active');
         });
 
         if (salesLedgerDatePicker) {
-          salesLedgerDatePicker.value = '';
-          if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
+          if (period === 'today') {
+            salesLedgerDatePicker.value = '';
+            if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
+          } else if (period.includes('-')) {
+            salesLedgerDatePicker.value = period;
+            if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
+          } else {
+            salesLedgerDatePicker.value = '';
+            if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
+          }
         }
 
         renderQuickDayNavStrip();
@@ -2445,14 +2550,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Calendar picker for selecting a specific date (up to today, strictly blocking future dates)
+  // Calendar picker for selecting a specific date (Past dates blocked, today and upcoming dates available)
   if (salesLedgerDatePicker) {
-    salesLedgerDatePicker.max = localTodayStr;
+    salesLedgerDatePicker.min = localTodayStr; // Past dates strictly blocked in picker!
+    salesLedgerDatePicker.removeAttribute('max'); // Today and future dates fully enabled!
     const handleDatePickerChange = (e) => {
       if (e.target.value) {
-        if (e.target.value > localTodayStr) {
+        if (e.target.value < localTodayStr) {
           e.target.value = localTodayStr;
-          showToast('⚠️ ভবিষ্যতের কোনো সেল এন্ট্রি নেই! শুধুমাত্র আজকের রানিং বা বিগত দিনের হিসাব দেখা যাবে।');
+          showToast('⚠️ পেছনের কোনো তারিখ বা মাস নির্বাচন করা যাবে না (ব্লক করা হয়েছে)! শুধুমাত্র আজ ও আগামী দিনগুলো প্রযোজ্য।');
         }
         currentLedgerPeriod = e.target.value;
         salesFilterPills.forEach(p => p.classList.remove('active'));
