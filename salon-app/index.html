@@ -77,6 +77,12 @@
         <span>ড্যাশবোর্ড</span>
       </a>
 
+      <a href="#bookings" class="nav-link" data-target-tab="bookings">
+        <i class="fa-solid fa-calendar-check text-goldLight"></i>
+        <span>অগ্রিম বুকিং স্লট</span>
+        <span class="nav-badge-count booking-badge-count" id="navBookingBadge">2</span>
+      </a>
+
       <a href="#reminders" class="nav-link" data-target-tab="reminders">
         <i class="fa-solid fa-bell"></i>
         <span>রিমাইন্ডার হাব</span>
@@ -98,21 +104,35 @@
         <span>মেসেজ মার্কেটিং</span>
       </a>
 
+      <a href="#pricing" class="nav-link" data-target-tab="pricing">
+        <i class="fa-solid fa-gem text-amber-400"></i>
+        <span>প্যাকেজ ও সাবস্ক্রিপশন</span>
+      </a>
+
       <a href="#settings" class="nav-link" data-target-tab="settings">
         <i class="fa-solid fa-gear"></i>
         <span>দোকানের প্রোফাইল</span>
       </a>
     </nav>
 
-    <!-- Sidebar Footer / Active Salon Info -->
+    <!-- Sidebar Footer / Active Salon Info & Multi-Salon Tenant Switch -->
     <div class="sidebar-profile">
-      <div class="salon-avatar-circle">
-        <span>💈</span>
+      <div class="flex items-center gap-2 mb-2">
+        <div class="salon-avatar-circle">
+          <span>💈</span>
+        </div>
+        <div class="overflow-hidden">
+          <div class="font-bold text-white text-sm truncate salon-title-display">রয়্যাল জেন্টস সেলুন</div>
+          <div class="text-xs text-goldLight truncate salon-owner-display">ওস্তাদ আবুল বাশার</div>
+        </div>
       </div>
-      <div class="overflow-hidden">
-        <div class="font-bold text-white text-sm truncate salon-title-display">রয়্যাল জেন্টস সেলুন</div>
-        <div class="text-xs text-gold-light truncate salon-owner-display">ওস্তাদ আবুল বাশার</div>
-      </div>
+      <button class="w-full text-left px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-subtle text-[11px] text-zinc-300 flex items-center justify-between transition-colors open-multi-salon-btn" title="অন্য সেলুন অ্যাকাউন্টে যান বা নতুন সেলুন যোগ করুন">
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-store text-goldLight"></i>
+          <span>সেলুন পরিবর্তন / নতুন যোগ</span>
+        </span>
+        <i class="fa-solid fa-chevron-right text-[9px] text-zinc-500"></i>
+      </button>
     </div>
   </aside>
 
@@ -123,10 +143,10 @@
       <span>হোম</span>
     </a>
 
-    <a href="#reminders" class="bottom-nav-item" data-target-tab="reminders">
-      <i class="fa-solid fa-bell"></i>
-      <span>রিমাইন্ডার</span>
-      <span class="bottom-badge reminder-badge-count">0</span>
+    <a href="#bookings" class="bottom-nav-item" data-target-tab="bookings">
+      <i class="fa-solid fa-calendar-check text-goldLight"></i>
+      <span>বুকিং</span>
+      <span class="bottom-badge booking-badge-count" id="bottomBookingBadge">2</span>
     </a>
 
     <a href="#sales" class="bottom-nav-item" data-target-tab="sales">
@@ -134,9 +154,9 @@
       <span>সেলস</span>
     </a>
 
-    <a href="#customers" class="bottom-nav-item" data-target-tab="customers">
-      <i class="fa-solid fa-users"></i>
-      <span>কাস্টমার</span>
+    <a href="#pricing" class="bottom-nav-item" data-target-tab="pricing">
+      <i class="fa-solid fa-gem text-amber-400"></i>
+      <span>প্ল্যান</span>
     </a>
 
     <a href="#settings" class="bottom-nav-item" data-target-tab="settings">
@@ -152,12 +172,23 @@
         <i class="fa-solid fa-scissors"></i>
       </div>
       <div>
-        <h2 class="topbar-salon-title salon-title-display">রয়্যাল জেন্টস সেলুন</h2>
+        <div class="flex items-center gap-2">
+          <h2 class="topbar-salon-title salon-title-display">রয়্যাল জেন্টস সেলুন</h2>
+          <button class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-subtle text-goldLight hover:bg-white/10 hidden sm:inline-flex items-center gap-1 open-multi-salon-btn" title="মাল্টি-সেলুন সুইচ">
+            <i class="fa-solid fa-repeat text-[9px]"></i>
+            <span>সেলুন সুইচ</span>
+          </button>
+        </div>
         <div class="topbar-date-pill" id="currentDatePill">আজকের তারিখ লোড হচ্ছে...</div>
       </div>
     </div>
 
     <div class="topbar-actions">
+      <button class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold py-2 px-3 rounded-full flex items-center gap-1.5 shadow-sm open-booking-modal-btn" title="অগ্রিম চেয়ার বুকিং নিন (৩০৳ ফি)">
+        <i class="fa-solid fa-calendar-plus text-xs"></i>
+        <span>অগ্রিম বুকিং</span>
+      </button>
+
       <button class="btn-gold-action open-add-customer-btn">
         <i class="fa-solid fa-user-plus text-xs"></i>
         <span class="hidden sm:inline">নতুন কাস্টমার</span>
@@ -332,6 +363,26 @@
           <div>
             <div class="action-tile-title">হিসাব এন্ট্রি</div>
             <div class="action-tile-desc">আয়ের টাকা যোগ</div>
+          </div>
+        </div>
+
+        <div class="action-tile" data-target-tab="bookings">
+          <div class="action-tile-icon bg-amber-500/10 text-goldLight border border-amber-500/30">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">বুকিং স্লট</div>
+            <div class="action-tile-desc">চেয়ার সিডিউল ও বুক</div>
+          </div>
+        </div>
+
+        <div class="action-tile" data-target-tab="pricing">
+          <div class="action-tile-icon bg-yellow-500/10 text-amber-400 border border-yellow-500/30">
+            <i class="fa-solid fa-gem"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">সফটওয়্যার প্ল্যান</div>
+            <div class="action-tile-desc">১৫০৳ ও ৬০০৳ প্যাকেজ</div>
           </div>
         </div>
 
@@ -735,25 +786,291 @@
               <span>সফটওয়্যার প্যাকেজ স্ট্যাটাস</span>
             </div>
             <div class="text-xl font-outfit font-extrabold text-white mb-1">PRO SUBSCRIPTION</div>
-            <div class="text-xs text-emerald-400 font-mono mb-4">● মেয়াদ: ডিসেম্বর ২০২৬ পর্যন্ত সক্রিয়</div>
+            <div class="text-xs text-emerald-400 font-mono mb-4">● মেয়াদ: ২০২৭ পর্যন্ত সক্রিয় (আনলিমিটেড)</div>
             <p class="text-xs text-zinc-400 leading-relaxed mb-4">
-              আনলিমিটেড কাস্টমার সেভ, ১-ক্লিক হোয়াটসঅ্যাপ রিমাইন্ডার এবং আজীবন হিসাব রাখার সম্পূর্ণ এক্সেস সক্রিয় রয়েছে।
+              আনলিমিটেড কাস্টমার সেভ, ১-ক্লিক হোয়াটসঅ্যাপ রিমাইন্ডার, অগ্রিম বুকিং ও আজীবন ক্লাউড হিসাবের সম্পূর্ণ এক্সেস সক্রিয় রয়েছে।
             </p>
-            <div class="p-3 rounded-lg bg-surfaceElevated border border-subtle text-xs text-zinc-300 font-mono">
-              রেট: ৳১০০ / মাসিক অথবা ৳৫০০ / বার্ষিক
+            <div class="p-3 rounded-lg bg-surfaceElevated border border-subtle text-xs text-zinc-300 font-mono mb-3">
+              অফিসিয়াল রেট: ৳১৫০ / মাসিক অথবা ৳৬০০ / বাৎসরিক (৬৫%+ ছাড়)
             </div>
+            <button type="button" class="btn-gold-action w-full justify-center py-2 text-xs" data-target-tab="pricing">
+              <i class="fa-solid fa-gem text-xs"></i>
+              <span>প্যাকেজ ও সাবস্ক্রিপশন দেখুন</span>
+            </button>
           </div>
 
           <div class="bg-surface border border-card rounded-2xl p-5 text-center">
             <div class="text-2xl mb-2">💈</div>
             <h4 class="font-bold text-white text-sm">SALONO CLOUD</h4>
-            <p class="text-xs text-zinc-500 mt-1">Version 2.4.0 • Designed for Bangladesh</p>
+            <p class="text-xs text-zinc-500 mt-1">Version 2.5.0 • Designed for Bangladesh</p>
             <p class="text-[11px] text-zinc-400 mt-3">
               ডেভেলপমেন্ট পার্টনার: <strong class="text-goldLight">আবির শিকদার</strong>
             </p>
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: ADVANCE BOOKINGS & LIVE CHAIR SLOTS ==================== -->
+    <section id="bookings" class="tab-view">
+      <!-- Header Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-subtle">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-goldLight border border-amber-500/30">
+              ⚡ রিয়েল-টাইম চেয়ার সিডিউল
+            </span>
+            <span class="text-xs text-zinc-400 font-mono">● ৩০৳ অগ্রিম ফি সিস্টেম</span>
+          </div>
+          <h2 class="text-2xl font-bold font-bangla text-white flex items-center gap-2">
+            <span>📅 অগ্রিম বুকিং ও চেয়ার স্লট সিডিউল</span>
+          </h2>
+          <p class="text-xs text-zinc-400 mt-1">
+            কাস্টমাররা যেকোনো তারিখ ও সময়ের জন্য আগেই চেয়ার বুক করতে পারেন। 🟢 ফাঁকা স্লট বুক করুন অথবা 🔴 বুকড স্লটে কার কতক্ষণ সেবা চলবে দেখে নিন।
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="btn-gold-action open-booking-modal-btn">
+            <i class="fa-solid fa-calendar-plus text-xs"></i>
+            <span>নতুন অগ্রিম বুকিং নিন</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Schedule Filter & Date Selector Bar -->
+      <div class="bg-surface border border-card rounded-2xl p-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 items-end">
+          <div>
+            <label class="form-label text-xs mb-1">তারিখ নির্বাচন করুন:</label>
+            <input type="date" id="bookingScheduleDate" class="form-control text-xs font-mono">
+          </div>
+          <div>
+            <label class="form-label text-xs mb-1">কারিগর / চেয়ার নির্বাচন:</label>
+            <select id="bookingScheduleBarber" class="form-control text-xs">
+              <option value="all">সব কারিগর / সব চেয়ার</option>
+              <option value="ওস্তাদ মো. আবুল বাশার (মালিক)">চেয়ার ১: ওস্তাদ মো. আবুল বাশার (মালিক)</option>
+              <option value="কারিগর সুজন">চেয়ার ২: কারিগর সুজন</option>
+              <option value="কারিগর রনি">চেয়ার ৩: কারিগর রনি</option>
+            </select>
+          </div>
+          <div class="sm:col-span-1 md:col-span-2 flex items-center justify-between gap-3 pt-2 sm:pt-0">
+            <div class="flex items-center gap-3 text-xs">
+              <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
+                <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                <span>ফাঁকা (বুকিংযোগ্য)</span>
+              </span>
+              <span class="flex items-center gap-1.5 text-rose-400 font-medium">
+                <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                <span>বুকড (ব্যস্ত চেয়ার)</span>
+              </span>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-goldLight font-mono font-bold" id="bookingSlotCountSummary">লোড হচ্ছে...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Chairs Time Slots Grid (10:00 AM to 09:00 PM) -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-clock text-goldLight"></i>
+            <span id="selectedBookingDateTitle">নির্বাচিত দিনের চেয়ার ও সময় স্লটসমূহ</span>
+          </h3>
+          <span class="text-[11px] text-zinc-400">প্রতিটি স্লটে আনুমানিক সময় ও সেবার বিবরণ প্রদর্শিত</span>
+        </div>
+        
+        <div class="slot-grid" id="chairSlotsGrid">
+          <!-- Dynamic Live Chair Slots injected by JS -->
+        </div>
+      </div>
+
+      <!-- All Advance Bookings List with Action (Convert to Bill / Delete / WhatsApp Memo) -->
+      <div class="bg-surface border border-card rounded-2xl p-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-subtle">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold font-bangla text-white">অগ্রিম বুকিং রেজিস্টার খাতা</h3>
+              <p class="text-xs text-zinc-400">সকল অগ্রিম বুকিং, ৩০৳ বিকাশ/নগদ ডিপোজিট ও স্ট্যাটাস</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" id="bookingSearchInput" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white placeholder-zinc-500 outline-none focus:border-goldPrimary" placeholder="কাস্টমার বা মোবাইল নম্বর খুঁজুন...">
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-subtle text-zinc-400">
+                <th class="py-2.5 px-3">টোকেন নং</th>
+                <th class="py-2.5 px-3">কাস্টমারের নাম ও মোবাইল</th>
+                <th class="py-2.5 px-3">তারিখ ও সময়</th>
+                <th class="py-2.5 px-3">সেবা ও কারিগর</th>
+                <th class="py-2.5 px-3">আনুমানিক সময়</th>
+                <th class="py-2.5 px-3 text-right">অগ্রিম জমা (৩০৳)</th>
+                <th class="py-2.5 px-3 text-center">স্ট্যাটাস</th>
+                <th class="py-2.5 px-3 text-center">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTableBody" class="divide-y divide-subtle font-bangla">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 8: SAAS SUBSCRIPTION PRICING & PAYMENT GATEWAY ==================== -->
+    <section id="pricing" class="tab-view">
+      <div class="text-center max-w-2xl mx-auto mb-10 pt-4">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-goldLight border border-amber-500/30 inline-flex items-center gap-1.5 mb-3">
+          <i class="fa-solid fa-crown text-amber-400"></i>
+          <span>SALONO SAAS CLOUD PRICING</span>
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-bangla text-white mb-3">
+          আপনার সেলুন ব্যবসার জন্য সাশ্রয়ী ডিজিটাল প্যাকেজ
+        </h2>
+        <p class="text-sm text-zinc-300 leading-relaxed">
+          প্রতিদিনের সেলস হিসাব, কাস্টমার খাতা, ১-ক্লিক হোয়াটসঅ্যাপ রিমাইন্ডার এবং অগ্রিম চেয়ার বুকিং সিস্টেম সহ সম্পূর্ণ আধুনিক ক্লাউড সফটওয়্যার।
+        </p>
+      </div>
+
+      <!-- Subscription Pricing Cards Grid -->
+      <div class="pricing-grid max-w-4xl mx-auto mb-12">
+        
+        <!-- Plan 1: Monthly Plan (৳১৫০ / মাস) -->
+        <div class="pricing-card">
+          <div>
+            <div class="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">মাসিক প্যাকেজ</div>
+            <h3 class="text-xl font-bold font-bangla text-white mb-2">স্ট্যান্ডার্ড মান্থলি প্রোপ্যাক</h3>
+            <p class="text-xs text-zinc-400 mb-6">ছোট ও মাঝারি সেলুনের জন্য প্রতি মাসে অল্প খরচে সেরা সমাধান।</p>
+
+            <div class="flex items-baseline gap-1 mb-6">
+              <span class="text-4xl font-extrabold font-outfit text-white">৳১৫০</span>
+              <span class="text-zinc-400 text-sm font-bangla">/ প্রতি মাস</span>
+            </div>
+
+            <div class="space-y-3 mb-8 text-xs text-zinc-300">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>আনলিমিটেড কাস্টমার ডেটাবেজ সেভ</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>দৈনিক, সাপ্তাহিক ও মাসিক ইনকাম রিপোর্ট</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>১-ক্লিক হোয়াটসঅ্যাপ রিমাইন্ডার ও রশিদ মেমো</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>অনলাইন অগ্রিম চেয়ার বুকিং (৩০৳ ফি সহ)</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>যেকোনো মোবাইল ও কম্পিউটার থেকে ব্যবহার</span>
+              </div>
+              <div class="flex items-center gap-2.5 text-zinc-400">
+                <i class="fa-solid fa-circle-check text-zinc-500"></i>
+                <span>প্রতি মাসে রিনিউ সুবিধা</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-surfaceElevated hover:bg-surfaceHover text-white border border-card transition-all flex items-center justify-center gap-2 open-sub-payment-btn" data-plan="monthly" data-price="150" data-name="মাসিক স্ট্যান্ডার্ড প্ল্যান (৳১৫০/মাস)">
+            <span>সাবস্ক্রিপশন কিনুন (৳১৫০)</span>
+            <i class="fa-solid fa-arrow-right text-xs text-goldLight"></i>
+          </button>
+        </div>
+
+        <!-- Plan 2: Yearly VIP Saver Plan (৳৬০০ / বছর - BEST VALUE) -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge-popular">
+            <i class="fa-solid fa-fire text-amber-900"></i>
+            <span>সবচেয়ে জনপ্রিয় • ৬৬% সেভিংস</span>
+          </div>
+
+          <div>
+            <div class="text-xs font-bold text-goldLight uppercase tracking-widest mb-1">বাৎসরিক সেভার প্যাকেজ</div>
+            <h3 class="text-2xl font-extrabold font-bangla text-white mb-2">ভিআইপি বাৎসরিক সুপার প্ল্যান</h3>
+            <p class="text-xs text-zinc-300 mb-6">একবারে সারা বছরের জন্য নিশ্চিন্ত! প্রতি মাসে খরচ মাত্র ৫০ টাকা!</p>
+
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-5xl font-extrabold font-outfit text-goldLight">৳৬০০</span>
+              <span class="text-zinc-300 text-sm font-bangla">/ পুরো বছর (১২ মাস)</span>
+            </div>
+            <div class="text-xs text-emerald-400 font-mono mb-6">
+              🎉 সাধারণ মূল্যের চেয়ে ১,২০০ টাকা সাশ্রয় (প্রতি মাসে মাত্র ৫০৳)
+            </div>
+
+            <div class="space-y-3 mb-8 text-xs text-zinc-200">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span><strong>সকল মাসিক সুবিধার সম্পূর্ণ এক্সেস</strong></span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span>৩৬৫ দিনের সম্পূর্ণ ক্লাউড ব্যাকআপ নিরাপত্তা</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span>অগ্রিম বুকিং ও কাস্টমার স্লট ম্যানেজমেন্ট</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span>ডিজিটাল লাইসেন্স সার্টিফিকেট ও ভেরিফায়েড ব্যাজ</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span>২৪/৭ প্রায়োরিটি কাস্টমার সাপোর্ট ও ফ্রি আপডেট</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-check text-goldPrimary"></i>
+                <span>মাল্টিপল ব্রাঞ্চ বা সেলুন যুক্ত করার সুযোগ</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="w-full py-3.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 open-sub-payment-btn" data-plan="yearly" data-price="600" data-name="বাৎসরিক ভিআইপি প্ল্যান (৳৬০০/বছর)">
+            <i class="fa-solid fa-crown"></i>
+            <span>বাৎসরিক প্ল্যান কিনুন (৳৬০০)</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Payment & Security Guarantee Box -->
+      <div class="max-w-4xl mx-auto bg-surface border border-card rounded-2xl p-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl flex-shrink-0">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold font-bangla text-white">১০০% নিরাপদ বিকাশ ও নগদ পেমেন্ট গেটওয়ে</h4>
+              <p class="text-xs text-zinc-400 mt-1">
+                পেমেন্ট নম্বর: <strong class="text-goldLight font-mono text-sm">01734018155</strong> (Personal Send Money)। পেমেন্টের সাথে সাথেই অটোমেটিক ডিজিটাল লাইসেন্স কি ও ভেরিফায়েড মেয়াদ সক্রিয় হয়।
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <button type="button" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-subtle text-xs text-zinc-300 flex items-center gap-2 open-multi-salon-btn">
+              <i class="fa-solid fa-store text-goldLight"></i>
+              <span>অন্য সেলুন যুক্ত করুন</span>
+            </button>
+            <button type="button" class="btn-gold-action open-sub-payment-btn" data-plan="yearly" data-price="600" data-name="বাৎসরিক ভিআইপি প্ল্যান (৳৬০০/বছর)">
+              <span>এখনই কিনুন</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1061,6 +1378,435 @@
           <i class="fa-regular fa-copy"></i>
           <span>কপি করুন</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 5: ADVANCE BOOKING MODAL ==================== -->
+  <div id="advanceBookingModal" class="salono-modal">
+    <div class="salono-modal-box max-w-xl">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-goldLight text-lg">
+          <i class="fa-solid fa-calendar-plus"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-bangla text-white">অগ্রিম চেয়ার বুকিং ফরম</h3>
+          <p class="text-xs text-zinc-400">নির্দিষ্ট তারিখ ও সময়ে চেয়ার রিজার্ভ রাখুন (৩০৳ বাধ্যতামূলক অগ্রিম ফি)</p>
+        </div>
+      </div>
+
+      <form id="advanceBookingForm">
+        <!-- Date & Time Slot Selector -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">বুকিংয়ের তারিখ *</label>
+            <input type="date" id="bookingModalDate" class="form-control text-xs font-mono" required>
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">সময়ের স্লট *</label>
+            <select id="bookingModalTimeSlot" class="form-control text-xs font-mono" required>
+              <option value="10:00 AM">১০:০০ AM (সকাল)</option>
+              <option value="10:45 AM">১০:৪৫ AM (সকাল)</option>
+              <option value="11:30 AM">১১:৩০ AM (দুপুর)</option>
+              <option value="12:15 PM">১২:১৫ PM (দুপুর)</option>
+              <option value="01:00 PM">০১:০০ PM (দুপুর)</option>
+              <option value="03:00 PM">০৩:০০ PM (বিকাল)</option>
+              <option value="04:00 PM">০৪:০০ PM (বিকাল)</option>
+              <option value="05:00 PM">০৫:০০ PM (সন্ধ্যা)</option>
+              <option value="06:00 PM">০৬:০০ PM (সন্ধ্যা)</option>
+              <option value="07:00 PM">০৭:০০ PM (রাত)</option>
+              <option value="08:00 PM">০৮:০০ PM (রাত)</option>
+              <option value="08:45 PM">০৮:৪৫ PM (রাত)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Barber / Chair & Customer Name -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">পছন্দের কারিগর / চেয়ার *</label>
+            <select id="bookingModalBarber" class="form-control text-xs" required>
+              <option value="ওস্তাদ মো. আবুল বাশার (মালিক)">চেয়ার ১: ওস্তাদ মো. আবুল বাশার (মালিক)</option>
+              <option value="কারিগর সুজন">চেয়ার ২: কারিগর সুজন</option>
+              <option value="কারিগর রনি">চেয়ার ৩: কারিগর রনি</option>
+            </select>
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">কাস্টমারের নাম *</label>
+            <input type="text" id="bookingModalCustName" class="form-control text-xs" required placeholder="যেমন: রাশেদুল ইসলাম">
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label text-xs">মোবাইল নম্বর (WhatsApp) *</label>
+          <input type="tel" id="bookingModalCustPhone" class="form-control text-xs font-mono" required placeholder="017xxxxxxxx">
+        </div>
+
+        <!-- Service Multi-Select with Dynamic Minute Calculator -->
+        <div class="form-group mb-3">
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="form-label text-xs mb-0">কি কি সেবা নিবেন (সময় ও বিল স্বয়ংক্রিয় হিসাব হবে):</label>
+            <span class="text-[11px] text-goldLight font-mono font-bold" id="bookingEstimatedDurationBadge">⏱️ মোট সময়: ৩০ মিনিট</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="bookingServicesGrid">
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="চুল কাটা" data-duration="30" data-price="150" checked class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">✂️ চুল কাটা</span>
+                <span class="text-zinc-400">৩০ মি • ৳১৫০</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="দাড়ি শেভ / ট্রিম" data-duration="15" data-price="80" class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">🪒 দাড়ি ট্রিম</span>
+                <span class="text-zinc-400">১৫ মি • ৳৮০</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="ফেস ওয়াশ ও স্ক্রাব" data-duration="15" data-price="100" class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">💆 ফেস ওয়াশ</span>
+                <span class="text-zinc-400">১৫ মি • ৳১০০</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="হার্বাল ফেসিয়াল" data-duration="35" data-price="300" class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">🌿 ফেসিয়াল</span>
+                <span class="text-zinc-400">৩৫ মি • ৳৩০০</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="হেয়ার স্পা ও ম্যাসাজ" data-duration="25" data-price="250" class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">✨ স্পা ও ম্যাসাজ</span>
+                <span class="text-zinc-400">২৫ মি • ৳২৫০</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-surfaceElevated border border-subtle hover:border-goldPrimary cursor-pointer transition-all">
+              <input type="checkbox" name="bookingService" value="হেয়ার কালার" data-duration="30" data-price="250" class="rounded text-goldPrimary">
+              <div class="text-[11px] leading-tight">
+                <span class="font-bold text-white block">🎨 কালার</span>
+                <span class="text-zinc-400">৩০ মি • ৳২৫০</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Advance Fee Token Payment Box (৳30 mandatory) -->
+        <div class="bg-gradient-to-r from-amber-500/10 via-surfaceElevated to-surfaceElevated border border-amber-500/40 rounded-xl p-3.5 mb-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-goldLight flex items-center gap-1.5">
+              <i class="fa-solid fa-lock text-amber-400"></i>
+              <span>অগ্রিম আসন বুকিং ফি (বিকাশ / নগদ)</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-goldLight font-mono text-xs font-bold border border-amber-500/30">
+              টোকেন ফি: ৳৩০
+            </span>
+          </div>
+          <p class="text-[11px] text-zinc-300 leading-relaxed mb-3">
+            চেয়ার কনফার্মেশনের জন্য কাস্টমারকে বিকাশ বা নগদ নম্বরে <strong>৳৩০</strong> সেন্ড মানি করতে হবে। এই ৩০ টাকা চুল কাটার মূল বিল থেকে সমন্বয় (বাদ) হবে।
+          </p>
+
+          <!-- bKash & Nagad Official Payment Cards with 01734018155 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            <div class="bkash-brand-card p-2.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center p-0.5">
+                  <svg viewBox="0 0 100 100" class="w-full h-full"><path fill="#e2136e" d="M15 15h70v70H15z"/><path fill="#fff" d="M25 40l25-25 25 25-25 45z"/></svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-bold text-pink-400">বিকাশ (Personal)</div>
+                  <div class="text-xs font-mono font-bold text-white">01734018155</div>
+                </div>
+              </div>
+              <button type="button" class="copy-pill-btn copy-phone-btn" data-phone="01734018155" title="নম্বর কপি করুন">
+                <i class="fa-regular fa-copy"></i>
+                <span>কপি</span>
+              </button>
+            </div>
+
+            <div class="nagad-brand-card p-2.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center p-0.5">
+                  <svg viewBox="0 0 100 100" class="w-full h-full"><path fill="#f7931e" d="M15 15h70v70H15z"/><circle fill="#fff" cx="50" cy="50" r="25"/><path fill="#f7931e" d="M45 35h10v30H45z"/></svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-bold text-orange-400">নগদ (Personal)</div>
+                  <div class="text-xs font-mono font-bold text-white">01734018155</div>
+                </div>
+              </div>
+              <button type="button" class="copy-pill-btn copy-phone-btn" data-phone="01734018155" title="নম্বর কপি করুন">
+                <i class="fa-regular fa-copy"></i>
+                <span>কপি</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Transaction ID Entry -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-zinc-400 block mb-1">পেমেন্ট মেথড</label>
+              <select id="bookingPaymentMethod" class="form-control text-xs">
+                <option value="বিকাশ">বিকাশ (01734018155)</option>
+                <option value="নগদ">নগদ (01734018155)</option>
+                <option value="দোকানে ক্যাশ">দোকানে এসে ক্যাশ পরিশোধ</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] text-zinc-400 block mb-1">TrxID / প্রেরকের শেষ ৪ ডিজিট *</label>
+              <input type="text" id="bookingTrxId" class="form-control text-xs font-mono uppercase" required placeholder="যেমন: 9J5K4L2M">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center gap-3">
+          <button type="submit" class="btn-gold-action flex-1 justify-center py-3 text-sm">
+            <i class="fa-solid fa-calendar-check text-xs"></i>
+            <span>৩০৳ অগ্রিম জমা নিয়ে স্লট নিশ্চিত করুন</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 6: SUBSCRIPTION PAYMENT & LICENSE ACTIVATION ==================== -->
+  <div id="subscriptionPaymentModal" class="salono-modal">
+    <div class="salono-modal-box max-w-xl">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-lg">
+          <i class="fa-solid fa-gem"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-bangla text-white">সালোনো সফটওয়্যার সাবস্ক্রিপশন</h3>
+          <p class="text-xs text-zinc-400">অফিসিয়াল বিকাশ / নগদ পেমেন্ট ও ডিজিটাল লাইসেন্স কি</p>
+        </div>
+      </div>
+
+      <!-- Plan Switcher Tabs -->
+      <div class="grid grid-cols-2 gap-2 p-1.5 rounded-xl bg-surfaceElevated border border-subtle mb-4">
+        <button type="button" id="subPlanMonthlyTab" class="py-2 text-xs font-bold rounded-lg transition-all text-white bg-white/10" onclick="switchSubscriptionModalPlan('monthly')">
+          <span>মাসিক প্ল্যান (৳১৫০/মাস)</span>
+        </button>
+        <button type="button" id="subPlanYearlyTab" class="py-2 text-xs font-bold rounded-lg transition-all text-goldLight bg-amber-500/20 border border-amber-500/40" onclick="switchSubscriptionModalPlan('yearly')">
+          <span>বাৎসরিক ভিআইপি (৳৬০০/বছর)</span>
+        </button>
+      </div>
+
+      <!-- Active Plan Summary Box -->
+      <div class="bg-gradient-to-r from-amber-500/10 via-surfaceElevated to-surfaceElevated border border-amber-500/30 rounded-xl p-4 mb-4">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-sm font-bold text-white font-bangla" id="modalSubPlanTitle">ভিআইপি বাৎসরিক সুপার সেভার প্ল্যান</span>
+          <span class="text-xl font-extrabold font-outfit text-goldLight" id="modalSubPlanPriceDisplay">৳৬০০ / বছর</span>
+        </div>
+        <p class="text-xs text-zinc-300" id="modalSubPlanSubtitle">
+          ৩৬৫ দিনের সম্পূর্ণ আনলিমিটেড ক্লাউড এক্সেস, অগ্রিম চেয়ার বুকিং ও আজীবন ব্যাকআপ।
+        </p>
+      </div>
+
+      <!-- Payment Instructions with Official bKash & Nagad Numbers -->
+      <div class="space-y-3 mb-4">
+        <div class="text-xs font-bold text-zinc-300 flex items-center gap-2">
+          <span class="w-5 h-5 rounded-full bg-goldPrimary/20 text-goldLight flex items-center justify-center text-[10px] font-mono">১</span>
+          <span>নিচের যেকোনো নম্বরে Send Money করুন:</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- bKash Box -->
+          <div class="bkash-brand-card flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1">
+                  <svg viewBox="0 0 100 100" class="w-full h-full"><path fill="#e2136e" d="M15 15h70v70H15z"/><path fill="#fff" d="M25 40l25-25 25 25-25 45z"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-pink-400">bKash (Personal)</div>
+                  <div class="text-[11px] text-zinc-400">সেন্ড মানি করুন</div>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">অফিসিয়াল</span>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-pink-500/20">
+              <span class="text-sm font-mono font-bold text-white tracking-wider">01734018155</span>
+              <button type="button" class="copy-pill-btn copy-phone-btn" data-phone="01734018155" title="নম্বর কপি করুন">
+                <i class="fa-regular fa-copy"></i>
+                <span>কপি</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Nagad Box -->
+          <div class="nagad-brand-card flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1">
+                  <svg viewBox="0 0 100 100" class="w-full h-full"><path fill="#f7931e" d="M15 15h70v70H15z"/><circle fill="#fff" cx="50" cy="50" r="25"/><path fill="#f7931e" d="M45 35h10v30H45z"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-orange-400">Nagad (Personal)</div>
+                  <div class="text-[11px] text-zinc-400">সেন্ড মানি করুন</div>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">অফিসিয়াল</span>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-orange-500/20">
+              <span class="text-sm font-mono font-bold text-white tracking-wider">01734018155</span>
+              <button type="button" class="copy-pill-btn copy-phone-btn" data-phone="01734018155" title="নম্বর কপি করুন">
+                <i class="fa-regular fa-copy"></i>
+                <span>কপি</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Verification Form -->
+      <form id="subscriptionPaymentForm">
+        <input type="hidden" id="subSelectedPlanId" value="yearly">
+        <input type="hidden" id="subSelectedPlanAmount" value="600">
+
+        <div class="text-xs font-bold text-zinc-300 flex items-center gap-2 mb-2">
+          <span class="w-5 h-5 rounded-full bg-goldPrimary/20 text-goldLight flex items-center justify-center text-[10px] font-mono">২</span>
+          <span>পেমেন্টের তথ্য প্রদান করুন (লাইসেন্স নিশ্চিতকরণ):</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">আপনার সেলুনের নাম *</label>
+            <input type="text" id="subSalonName" class="form-control text-xs" required placeholder="যেমন: রয়্যাল জেন্টস সেলুন">
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">মালিকের নাম *</label>
+            <input type="text" id="subOwnerName" class="form-control text-xs" required placeholder="যেমন: ওস্তাদ আবুল বাশার">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">যে নম্বর থেকে টাকা পাঠিয়েছেন *</label>
+            <input type="tel" id="subSenderPhone" class="form-control text-xs font-mono" required placeholder="017xxxxxxxx">
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">Transaction ID (TrxID) *</label>
+            <input type="text" id="subTrxId" class="form-control text-xs font-mono uppercase" required placeholder="যেমন: BLA789X42">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-gold-action w-full justify-center py-3 text-sm">
+          <i class="fa-solid fa-certificate text-xs"></i>
+          <span>পেমেন্ট ভেরিফাই ও লাইসেন্স সক্রিয় করুন</span>
+        </button>
+      </form>
+
+      <!-- Digital License Certificate View (Hidden initially, shown after activation) -->
+      <div id="licenseCertificateBox" class="license-certificate mt-4 hidden">
+        <div class="license-watermark font-outfit">SALONO</div>
+        <div class="flex items-center justify-between pb-3 border-b border-goldPrimary/30 mb-3">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-crown text-goldPrimary text-lg"></i>
+            <span class="font-bold text-white font-bangla text-base">ডিজিটাল সফটওয়্যার লাইসেন্স সার্টিফিকেট</span>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold border border-emerald-500/30">
+            ✓ ভেরিফায়েড
+          </span>
+        </div>
+        <div class="space-y-1.5 text-xs text-zinc-300 font-bangla">
+          <div>সেলুন: <strong class="text-white" id="certSalonName">রয়্যাল জেন্টস সেলুন</strong></div>
+          <div>মালিক: <strong class="text-white" id="certOwnerName">ওস্তাদ আবুল বাশার</strong></div>
+          <div>প্যাকেজ: <strong class="text-goldLight" id="certPlanName">ভিআইপি বাৎসরিক সুপার সেভার (৳৬০০)</strong></div>
+          <div>লাইসেন্স কি: <span class="font-mono text-emerald-400 font-bold" id="certLicenseKey">SLN-2026-VIP-9942</span></div>
+          <div>মেয়াদকাল: <span class="text-white font-mono" id="certExpiryDate">১৮ অক্টোবর ২০২৭ পর্যন্ত সক্রিয়</span></div>
+        </div>
+        <div class="pt-3 mt-3 border-t border-subtle flex items-center justify-between">
+          <span class="text-[11px] text-zinc-400">ডেভেলপমেন্ট পার্টনার: আবির শিকদার</span>
+          <button type="button" class="text-xs text-goldLight hover:underline font-bold" onclick="window.print()">
+            🖨️ লাইসেন্স প্রিন্ট
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 7: MULTI-SALON SWITCHER & REGISTRATION ==================== -->
+  <div id="multiSalonModal" class="salono-modal">
+    <div class="salono-modal-box max-w-lg">
+      <button class="modal-close-icon" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-lg">
+          <i class="fa-solid fa-store"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-bangla text-white">মাল্টি-সেলুন ম্যানেজার ও সুইচ</h3>
+          <p class="text-xs text-zinc-400">একাধিক সেলুন ওনারদের কাছে বিক্রয় ও সম্পূর্ণ পৃথক ডেটাবেজ</p>
+        </div>
+      </div>
+
+      <div class="bg-surfaceElevated p-3.5 rounded-xl border border-subtle mb-4">
+        <div class="text-[11px] text-zinc-400 uppercase tracking-wider mb-1">বর্তমান সক্রিয় সেলুন:</div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">💈</span>
+            <div>
+              <div class="font-bold text-white text-sm salon-title-display">রয়্যাল জেন্টস সেলুন</div>
+              <div class="text-xs text-goldLight salon-owner-display">ওস্তাদ আবুল বাশার</div>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+            রানিং সক্রিয়
+          </span>
+        </div>
+      </div>
+
+      <!-- Salon Switcher List -->
+      <div class="mb-5">
+        <div class="text-xs font-bold text-zinc-300 mb-2 flex items-center justify-between">
+          <span>নিবন্ধিত সেলুন তালিকা (ক্লিক করে অ্যাকাউন্টে যান):</span>
+          <span class="text-[11px] text-zinc-400 font-mono" id="registeredSalonsCount">২টি সক্রিয় সেলুন</span>
+        </div>
+        <div class="space-y-2 max-h-48 overflow-y-auto pr-1" id="salonTenantList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Register New Salon Form -->
+      <div class="border-t border-subtle pt-4">
+        <div class="text-xs font-bold text-white mb-3 flex items-center gap-1.5">
+          <i class="fa-solid fa-plus-circle text-goldPrimary"></i>
+          <span>অন্য সেলুন ওনারের জন্য নতুন অ্যাকাউন্ট তৈরি করুন</span>
+        </div>
+
+        <form id="addNewSalonTenantForm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+            <input type="text" id="newTenantSalonName" class="form-control text-xs" required placeholder="সেলুনের নাম (যেমন: ড্রিম কাট)">
+            <input type="text" id="newTenantOwnerName" class="form-control text-xs" required placeholder="মালিকের নাম (যেমন: মামুন ভাই)">
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            <input type="tel" id="newTenantPhone" class="form-control text-xs font-mono" required placeholder="মোবাইল নম্বর (017xxxxxxxx)">
+            <input type="text" id="newTenantAddress" class="form-control text-xs" placeholder="ঠিকানা বা বাজার">
+          </div>
+          <button type="submit" class="btn-gold-action w-full justify-center py-2.5 text-xs">
+            <i class="fa-solid fa-store text-xs"></i>
+            <span>নতুন সেলুন রেজিস্টার করুন ও ডেটা আলাদা রাখুন</span>
+          </button>
+        </form>
       </div>
     </div>
   </div>

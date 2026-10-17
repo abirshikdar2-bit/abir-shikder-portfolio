@@ -1535,4 +1535,201 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* ==========================================
+   ADVANCE BOOKING & CHAIR TIME SLOTS
+   ========================================== */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .slot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .slot-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.slot-card {
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.slot-card.available {
+  border-color: rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.slot-card.available:hover {
+  border-color: rgba(16, 185, 129, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12);
+}
+
+.slot-card.booked {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.slot-card.booked:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.slot-card.selected {
+  border-color: var(--gold-primary) !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4);
+}
+
+.slot-badge-available {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.slot-badge-booked {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================
+   BKASH & NAGAD BRANDED PAYMENT CARDS
+   ========================================== */
+.bkash-brand-card {
+  background: linear-gradient(135deg, rgba(226, 19, 110, 0.12) 0%, rgba(20, 20, 25, 0.95) 100%);
+  border: 1px solid rgba(226, 19, 110, 0.4);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.bkash-brand-card:hover {
+  border-color: #e2136e;
+  box-shadow: 0 4px 20px rgba(226, 19, 110, 0.2);
+}
+
+.nagad-brand-card {
+  background: linear-gradient(135deg, rgba(247, 147, 30, 0.12) 0%, rgba(20, 20, 25, 0.95) 100%);
+  border: 1px solid rgba(247, 147, 30, 0.4);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.nagad-brand-card:hover {
+  border-color: #f7931e;
+  box-shadow: 0 4px 20px rgba(247, 147, 30, 0.2);
+}
+
+.copy-pill-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.copy-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--gold-light);
+}
+
+/* ==========================================
+   PRICING & SUBSCRIPTION PLANS
+   ========================================== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pricing-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-gold);
+}
+
+.pricing-card.featured {
+  background: linear-gradient(145deg, rgba(30, 25, 15, 0.9) 0%, rgba(18, 18, 20, 0.95) 100%);
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.15);
+}
+
+.pricing-badge-popular {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  color: #000;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   SUBSCRIPTION CERTIFICATE & BADGES
+   ========================================== */
+.license-certificate {
+  background: linear-gradient(135deg, rgba(24, 24, 27, 0.95) 0%, rgba(15, 15, 18, 0.98) 100%);
+  border: 2px solid var(--gold-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.license-watermark {
+  position: absolute;
+  right: 15px;
+  bottom: 10px;
+  font-size: 5rem;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+
 

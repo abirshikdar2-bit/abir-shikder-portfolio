@@ -13,8 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
     SALON: 'salono_salon_profile',
     CUSTOMERS: 'salono_customers_data',
     SALES: 'salono_sales_records',
-    MONTHLY_HISTORY: 'salono_monthly_history'
+    MONTHLY_HISTORY: 'salono_monthly_history',
+    BOOKINGS: 'salono_bookings_records',
+    TENANTS: 'salono_tenants_registry',
+    ACTIVE_TENANT: 'salono_active_tenant_id'
   };
+
+  // Default Initial Seed Data for Multi-Salon Tenants
+  const DEFAULT_TENANTS = [
+    {
+      id: 'tenant_royal',
+      name: 'রয়্যাল জেন্টস পার্লার ও সেলুন',
+      ownerName: 'ওস্তাদ আবুল বাশার',
+      phone: '01734018155',
+      address: 'দোকান নং ৪, মেইন রোড, যশোর',
+      plan: 'বাৎসরিক ভিআইপি (৳৬০০)',
+      status: 'active',
+      createdAt: '2026-01-10'
+    },
+    {
+      id: 'tenant_dream',
+      name: 'ড্রিম কাট সেলুন অ্যান্ড স্পা',
+      ownerName: 'মো. মামুন রশীদ',
+      phone: '01712345678',
+      address: 'বাজার মোড়, চৌরাস্তা, যশোর',
+      plan: 'মাসিক স্ট্যান্ডার্ড (৳১৫০)',
+      status: 'active',
+      createdAt: '2026-06-15'
+    }
+  ];
 
   // Default Initial Seed Data for Instant Demonstration
   const DEFAULT_SALON = {
@@ -24,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     phone: '01734018155',
     address: 'দোকান নং ৪, মেইন রোড, যশোর',
     defaultCycleDays: 25,
-    subscriptionStatus: 'প্রো এক্টিভ (৳১০০/মাস)'
+    subscriptionStatus: 'ভিআইপি প্রো এক্টিভ (৳৬০০/বছর)'
   };
 
   const DEFAULT_CUSTOMERS = [
@@ -455,11 +482,80 @@ document.addEventListener('DOMContentLoaded', () => {
   const globalDd = String(globalTodayDateObj.getDate()).padStart(2, '0');
   const localTodayStr = `${globalYyyy}-${globalMm}-${globalDd}`;
 
+  // Default Initial Seed Data for Advance Bookings (৳30 Advance Fee System)
+  const DEFAULT_BOOKINGS = [
+    {
+      id: 'book_101',
+      tokenNo: 'BK-101',
+      customerName: 'মেহেদী হাসান (ব্যাংকার)',
+      customerPhone: '01912445566',
+      date: localTodayStr,
+      timeSlot: '11:30 AM',
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      chairNo: 'চেয়ার ১',
+      services: [
+        { name: 'চুল কাটা', duration: 30, price: 150 },
+        { name: 'দাড়ি শেভ / ট্রিম', duration: 15, price: 80 }
+      ],
+      totalDuration: 45,
+      totalEstimatedAmount: 230,
+      advancePaid: 30,
+      advanceMethod: 'বিকাশ (01734018155)',
+      trxId: 'BK78X902',
+      status: 'confirmed',
+      createdAt: getDateOffset(0, 8, 30)
+    },
+    {
+      id: 'book_102',
+      tokenNo: 'BK-102',
+      customerName: 'সাকিব আল মাহমুদ',
+      customerPhone: '01799887766',
+      date: localTodayStr,
+      timeSlot: '05:00 PM',
+      barberName: 'কারিগর সুজন',
+      chairNo: 'চেয়ার ২',
+      services: [
+        { name: 'চুল কাটা', duration: 30, price: 150 },
+        { name: 'হার্বাল ফেসিয়াল', duration: 35, price: 300 }
+      ],
+      totalDuration: 65,
+      totalEstimatedAmount: 450,
+      advancePaid: 30,
+      advanceMethod: 'নগদ (01734018155)',
+      trxId: 'NG44K118',
+      status: 'confirmed',
+      createdAt: getDateOffset(0, 9, 15)
+    },
+    {
+      id: 'book_103',
+      tokenNo: 'BK-103',
+      customerName: 'ডা. আনোয়ার হোসেন',
+      customerPhone: '01552334455',
+      date: getDateOffset(1).slice(0, 10),
+      timeSlot: '12:15 PM',
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      chairNo: 'চেয়ার ১',
+      services: [
+        { name: 'চুল কাটা', duration: 30, price: 150 }
+      ],
+      totalDuration: 30,
+      totalEstimatedAmount: 150,
+      advancePaid: 30,
+      advanceMethod: 'বিকাশ (01734018155)',
+      trxId: 'BK99Q331',
+      status: 'confirmed',
+      createdAt: getDateOffset(-1, 14, 0)
+    }
+  ];
+
   // Load from Storage or Seed
   let salon = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALON)) || DEFAULT_SALON;
   let customers = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) || DEFAULT_CUSTOMERS;
   let sales = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALES)) || DEFAULT_SALES;
   let monthlyHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.MONTHLY_HISTORY)) || DEFAULT_MONTHLY_HISTORY;
+  let bookings = JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKINGS)) || DEFAULT_BOOKINGS;
+  let tenants = JSON.parse(localStorage.getItem(STORAGE_KEYS.TENANTS)) || DEFAULT_TENANTS;
+  let activeTenantId = localStorage.getItem(STORAGE_KEYS.ACTIVE_TENANT) || 'tenant_royal';
 
   // Auto-upgrade monthly history if missing the full 10 past months
   if (!Array.isArray(monthlyHistory) || monthlyHistory.length < 11) {
@@ -489,6 +585,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
     localStorage.setItem(STORAGE_KEYS.SALES, JSON.stringify(sales));
     localStorage.setItem(STORAGE_KEYS.MONTHLY_HISTORY, JSON.stringify(monthlyHistory));
+    localStorage.setItem(STORAGE_KEYS.BOOKINGS, JSON.stringify(bookings));
+    localStorage.setItem(STORAGE_KEYS.TENANTS, JSON.stringify(tenants));
+    localStorage.setItem(STORAGE_KEYS.ACTIVE_TENANT, activeTenantId);
   }
 
   persistData();
@@ -2410,6 +2509,11 @@ document.addEventListener('DOMContentLoaded', () => {
       renderMarketingTemplates();
     } else if (tabId === 'settings') {
       populateSettingsInputs();
+    } else if (tabId === 'bookings') {
+      renderBookingSlots();
+      renderBookingsTable();
+    } else if (tabId === 'pricing') {
+      // Pricing tab view
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2710,6 +2814,797 @@ document.addEventListener('DOMContentLoaded', () => {
     }, duration);
   }
 
+  // ========================================================
+  // 6. ADVANCE BOOKINGS & LIVE CHAIR SLOTS ENGINE (৳30 FEE)
+  // ========================================================
+  const TIME_SLOTS = [
+    { time: '10:00 AM', label: '১০:০০ AM (সকাল)' },
+    { time: '10:45 AM', label: '১০:৪৫ AM (সকাল)' },
+    { time: '11:30 AM', label: '১১:৩০ AM (দুপুর)' },
+    { time: '12:15 PM', label: '১২:১৫ PM (দুপুর)' },
+    { time: '01:00 PM', label: '০১:০০ PM (দুপুর)' },
+    { time: '03:00 PM', label: '০৩:০০ PM (বিকাল)' },
+    { time: '04:00 PM', label: '০৪:০০ PM (বিকাল)' },
+    { time: '05:00 PM', label: '০৫:০০ PM (সন্ধ্যা)' },
+    { time: '06:00 PM', label: '০৬:০০ PM (সন্ধ্যা)' },
+    { time: '07:00 PM', label: '০৭:০০ PM (রাত)' },
+    { time: '08:00 PM', label: '০৮:০০ PM (রাত)' },
+    { time: '08:45 PM', label: '০৮:৪৫ PM (রাত)' }
+  ];
+
+  const bookingScheduleDateInput = document.getElementById('bookingScheduleDate');
+  const bookingScheduleBarberSelect = document.getElementById('bookingScheduleBarber');
+  const chairSlotsGrid = document.getElementById('chairSlotsGrid');
+  const selectedBookingDateTitle = document.getElementById('selectedBookingDateTitle');
+  const bookingSlotCountSummary = document.getElementById('bookingSlotCountSummary');
+  const bookingsTableBody = document.getElementById('bookingsTableBody');
+  const bookingSearchInput = document.getElementById('bookingSearchInput');
+
+  // Initialize booking date input
+  if (bookingScheduleDateInput) {
+    bookingScheduleDateInput.min = localTodayStr;
+    if (!bookingScheduleDateInput.value) bookingScheduleDateInput.value = localTodayStr;
+    bookingScheduleDateInput.addEventListener('change', () => {
+      renderBookingSlots();
+    });
+  }
+
+  if (bookingScheduleBarberSelect) {
+    bookingScheduleBarberSelect.addEventListener('change', () => {
+      renderBookingSlots();
+    });
+  }
+
+  if (bookingSearchInput) {
+    bookingSearchInput.addEventListener('input', (e) => {
+      renderBookingsTable(e.target.value.trim());
+    });
+  }
+
+  function updateBookingBadges() {
+    const activeConfirmedCount = bookings.filter(b => b.status === 'confirmed').length;
+    const navBadge = document.getElementById('navBookingBadge');
+    const bottomBadge = document.getElementById('bottomBookingBadge');
+    if (navBadge) navBadge.textContent = activeConfirmedCount;
+    if (bottomBadge) bottomBadge.textContent = activeConfirmedCount;
+  }
+
+  function renderBookingSlots(forceDate = null, forceBarber = null) {
+    if (!chairSlotsGrid) return;
+
+    const selectedDate = forceDate || (bookingScheduleDateInput ? bookingScheduleDateInput.value : localTodayStr) || localTodayStr;
+    const selectedBarber = forceBarber || (bookingScheduleBarberSelect ? bookingScheduleBarberSelect.value : 'all') || 'all';
+
+    if (selectedBookingDateTitle) {
+      selectedBookingDateTitle.textContent = `${formatBengaliDate(selectedDate, 'dateMonthYear')} এর চেয়ার সিডিউল`;
+    }
+
+    let bookedCount = 0;
+
+    chairSlotsGrid.innerHTML = TIME_SLOTS.map(slot => {
+      const activeBookings = bookings.filter(b => 
+        b.date === selectedDate && 
+        b.timeSlot === slot.time && 
+        b.status === 'confirmed' &&
+        (selectedBarber === 'all' || b.barberName === selectedBarber)
+      );
+
+      const isBooked = activeBookings.length > 0;
+      if (isBooked) bookedCount++;
+
+      if (isBooked) {
+        const b = activeBookings[0];
+        const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(' + ') : 'সেলুন সার্ভিস';
+        return `
+          <div class="slot-card booked">
+            <div>
+              <div class="flex items-center justify-between mb-2 pb-2 border-b border-rose-500/20">
+                <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
+                  <i class="fa-regular fa-clock text-rose-400"></i>
+                  <span>${slot.label}</span>
+                </span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-booked flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                  <span>🔴 বুকড (ব্যস্ত চেয়ার)</span>
+                </span>
+              </div>
+
+              <!-- Customer & Service Details with Duration -->
+              <div class="space-y-1.5 mb-3">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-zinc-400">বুককারী:</span>
+                  <span class="font-bold text-white">${b.customerName}</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-zinc-400">মোবাইল:</span>
+                  <span class="text-goldLight font-mono">${b.customerPhone || 'উপলব্ধ নয়'}</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-zinc-400">কারিগর:</span>
+                  <span class="text-blue-300 font-medium">${b.barberName}</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-zinc-400">সেবা:</span>
+                  <span class="text-zinc-200 font-medium truncate max-w-[170px]" title="${srvNames}">✂️ ${srvNames}</span>
+                </div>
+                <div class="p-2 rounded-lg bg-black/30 border border-subtle flex items-center justify-between text-[11px] mt-2">
+                  <span class="text-zinc-400 flex items-center gap-1">
+                    <i class="fa-regular fa-hourglass-half text-amber-400"></i>
+                    <span>আনুমানিক সময়:</span>
+                  </span>
+                  <span class="font-bold text-goldLight font-mono">${b.totalDuration || 30} মিনিট</span>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-emerald-400 pt-1">
+                  <span>অগ্রিম জমা: <strong>৳${b.advancePaid || 30}</strong> (${b.advanceMethod || 'বিকাশ'})</span>
+                  <span class="font-mono text-[10px] text-zinc-500">Trx: ${b.trxId || 'N/A'}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-subtle flex items-center gap-2">
+              <button type="button" class="btn-convert-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="কাস্টমার আসলে এই বাটনে চাপলে ৩০৳ বাদ দিয়ে মূল ক্যাশ এন্ট্রি হবে">
+                <i class="fa-solid fa-cash-register text-[10px]"></i>
+                <span>বিল মেমোতে নিন</span>
+              </button>
+              <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="বুকিং বাতিল করুন">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="slot-card available">
+            <div>
+              <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-500/20">
+                <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
+                  <i class="fa-regular fa-clock text-emerald-400"></i>
+                  <span>${slot.label}</span>
+                </span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-available flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>🟢 ফাঁকা (বুকিংযোগ্য)</span>
+                </span>
+              </div>
+
+              <div class="py-3 text-center space-y-1">
+                <div class="text-2xl">💺</div>
+                <p class="text-xs font-medium text-zinc-300">চেয়ার সম্পূর্ণ ফাঁকা আছে</p>
+                <p class="text-[11px] text-zinc-500">৩০৳ বিকাশ/নগদ টোকেন ফি দিয়ে এখনই অগ্রিম সিডিউল বুক করুন</p>
+              </div>
+            </div>
+
+            <button type="button" class="btn-book-slot w-full py-2 px-3 rounded-lg bg-surfaceElevated hover:bg-surfaceHover text-goldLight hover:text-white border border-card text-xs font-bold flex items-center justify-center gap-1.5 transition-all mt-2" data-slot-date="${selectedDate}" data-slot-time="${slot.time}">
+              <i class="fa-solid fa-calendar-plus text-xs"></i>
+              <span>এই স্লটটি বুক করুন (৩০৳)</span>
+            </button>
+          </div>
+        `;
+      }
+    }).join('');
+
+    const availableCount = TIME_SLOTS.length - bookedCount;
+    if (bookingSlotCountSummary) {
+      bookingSlotCountSummary.innerHTML = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড: <strong class="text-rose-400">${bookedCount}</strong> টি`;
+    }
+
+    // Attach listeners to available slot book buttons
+    chairSlotsGrid.querySelectorAll('.btn-book-slot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const d = btn.getAttribute('data-slot-date');
+        const t = btn.getAttribute('data-slot-time');
+        openAdvanceBookingModal(d, t, selectedBarber === 'all' ? 'ওস্তাদ মো. আবুল বাশার (মালিক)' : selectedBarber);
+      });
+    });
+
+    // Attach listeners to convert and cancel buttons
+    chairSlotsGrid.querySelectorAll('.btn-convert-booking').forEach(btn => {
+      btn.addEventListener('click', () => {
+        convertBookingToSale(btn.getAttribute('data-booking-id'));
+      });
+    });
+
+    chairSlotsGrid.querySelectorAll('.btn-cancel-booking').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cancelBooking(btn.getAttribute('data-booking-id'));
+      });
+    });
+  }
+
+  function renderBookingsTable(filterQuery = '') {
+    if (!bookingsTableBody) return;
+
+    let targetBookings = [...bookings];
+    if (filterQuery) {
+      const q = filterQuery.toLowerCase();
+      targetBookings = targetBookings.filter(b => 
+        (b.customerName && b.customerName.toLowerCase().includes(q)) ||
+        (b.customerPhone && b.customerPhone.includes(q)) ||
+        (b.tokenNo && b.tokenNo.toLowerCase().includes(q)) ||
+        (b.barberName && b.barberName.toLowerCase().includes(q))
+      );
+    }
+
+    if (targetBookings.length === 0) {
+      bookingsTableBody.innerHTML = `
+        <tr>
+          <td colspan="8" class="py-8 text-center text-zinc-400">
+            <i class="fa-regular fa-calendar-xmark text-2xl mb-1 text-zinc-500 block"></i>
+            <span>কোনো অগ্রিম বুকিং পাওয়া যায়নি।</span>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    bookingsTableBody.innerHTML = targetBookings.map(b => {
+      const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(', ') : 'সেলুন সার্ভিস';
+      const statusBadge = b.status === 'confirmed' 
+        ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">✓ নিশ্চিত (Active)</span>`
+        : (b.status === 'completed'
+            ? `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30 text-[10px]">সম্পন্ন (Billed)</span>`
+            : `<span class="px-2 py-0.5 rounded-full bg-zinc-500/20 text-zinc-400 border border-subtle text-[10px]">বাতিল</span>`);
+
+      return `
+        <tr class="hover:bg-white/5 transition-colors">
+          <td class="py-3 px-3">
+            <span class="font-mono font-bold text-goldLight bg-goldPrimary/10 border border-goldPrimary/30 px-2 py-0.5 rounded text-xs">
+              #${b.tokenNo || 'BK-100'}
+            </span>
+          </td>
+          <td class="py-3 px-3">
+            <div class="font-bold text-white text-xs">${b.customerName}</div>
+            <div class="text-[11px] text-zinc-400 font-mono mt-0.5"><i class="fa-solid fa-phone text-[9px] mr-1"></i>${b.customerPhone || 'ফোন নম্বর নেই'}</div>
+          </td>
+          <td class="py-3 px-3">
+            <div class="text-xs text-white">${formatBengaliDate(b.date, 'dateMonthYear')}</div>
+            <div class="text-[11px] text-goldLight font-mono font-bold mt-0.5">⏰ ${b.timeSlot}</div>
+          </td>
+          <td class="py-3 px-3">
+            <div class="text-xs text-zinc-200 truncate max-w-[150px]" title="${srvNames}">✂️ ${srvNames}</div>
+            <div class="text-[10px] text-blue-400 mt-0.5">${b.barberName}</div>
+          </td>
+          <td class="py-3 px-3 font-mono text-xs text-zinc-300">
+            ⏱️ ${b.totalDuration || 30} মিনিট
+          </td>
+          <td class="py-3 px-3 text-right">
+            <div class="text-xs font-bold text-emerald-400 font-mono">+৳${b.advancePaid || 30}</div>
+            <div class="text-[10px] text-zinc-400 font-mono">${b.advanceMethod || 'বিকাশ'} (Trx: ${b.trxId || 'N/A'})</div>
+          </td>
+          <td class="py-3 px-3 text-center">
+            ${statusBadge}
+          </td>
+          <td class="py-3 px-3 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              ${b.status === 'confirmed' ? `
+                <button type="button" class="btn-convert-booking text-xs bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 px-2.5 py-1 rounded border border-emerald-500/30 transition-all" data-booking-id="${b.id}" title="ক্যাশ মেমোতে নিন">
+                  <i class="fa-solid fa-check text-[10px] mr-1"></i> বিল
+                </button>
+                <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে নিশ্চিতকরণ মেমো পাঠান">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </button>
+                <button type="button" class="btn-cancel-booking text-xs text-zinc-500 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              ` : `
+                <span class="text-[11px] text-zinc-500 font-mono">নিষ্পন্ন</span>
+              `}
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Attach listeners
+    bookingsTableBody.querySelectorAll('.btn-convert-booking').forEach(btn => {
+      btn.addEventListener('click', () => convertBookingToSale(btn.getAttribute('data-booking-id')));
+    });
+
+    bookingsTableBody.querySelectorAll('.btn-cancel-booking').forEach(btn => {
+      btn.addEventListener('click', () => cancelBooking(btn.getAttribute('data-booking-id')));
+    });
+
+    bookingsTableBody.querySelectorAll('.btn-whatsapp-booking').forEach(btn => {
+      btn.addEventListener('click', () => sendBookingWhatsApp(btn.getAttribute('data-booking-id')));
+    });
+  }
+
+  // Advance Booking Modal Logic
+  const advanceBookingModal = document.getElementById('advanceBookingModal');
+  const advanceBookingForm = document.getElementById('advanceBookingForm');
+  const bookingModalDate = document.getElementById('bookingModalDate');
+  const bookingModalTimeSlot = document.getElementById('bookingModalTimeSlot');
+  const bookingModalBarber = document.getElementById('bookingModalBarber');
+  const bookingModalCustName = document.getElementById('bookingModalCustName');
+  const bookingModalCustPhone = document.getElementById('bookingModalCustPhone');
+  const bookingPaymentMethod = document.getElementById('bookingPaymentMethod');
+  const bookingTrxId = document.getElementById('bookingTrxId');
+  const bookingEstimatedDurationBadge = document.getElementById('bookingEstimatedDurationBadge');
+
+  function openAdvanceBookingModal(prefillDate = null, prefillTime = null, prefillBarber = null) {
+    if (!advanceBookingModal) return;
+    if (advanceBookingForm) advanceBookingForm.reset();
+
+    const d = prefillDate || localTodayStr;
+    if (bookingModalDate) {
+      bookingModalDate.min = localTodayStr;
+      bookingModalDate.value = d;
+    }
+    if (bookingModalTimeSlot && prefillTime) bookingModalTimeSlot.value = prefillTime;
+    if (bookingModalBarber && prefillBarber) bookingModalBarber.value = prefillBarber;
+
+    // Reset default checkbox
+    document.querySelectorAll('#bookingServicesGrid input[type="checkbox"]').forEach((cb, idx) => {
+      cb.checked = (idx === 0);
+    });
+
+    calculateBookingServices();
+    advanceBookingModal.classList.add('active');
+  }
+
+  function calculateBookingServices() {
+    const checkboxes = document.querySelectorAll('#bookingServicesGrid input[type="checkbox"]:checked');
+    let totalMins = 0;
+    let totalPrice = 0;
+    checkboxes.forEach(cb => {
+      totalMins += Number(cb.getAttribute('data-duration')) || 15;
+      totalPrice += Number(cb.getAttribute('data-price')) || 100;
+    });
+    if (totalMins === 0) totalMins = 30;
+
+    if (bookingEstimatedDurationBadge) {
+      bookingEstimatedDurationBadge.textContent = `⏱️ মোট সময়: ${totalMins} মিনিট (বিল: ৳${totalPrice})`;
+    }
+    return { totalMins, totalPrice };
+  }
+
+  // Checkbox listener
+  document.querySelectorAll('#bookingServicesGrid input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', calculateBookingServices);
+  });
+
+  if (advanceBookingForm) {
+    advanceBookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const date = bookingModalDate ? bookingModalDate.value : localTodayStr;
+      const timeSlot = bookingModalTimeSlot ? bookingModalTimeSlot.value : '11:30 AM';
+      const barberName = bookingModalBarber ? bookingModalBarber.value : 'ওস্তাদ মো. আবুল বাশার (মালিক)';
+      const customerName = (bookingModalCustName && bookingModalCustName.value.trim()) || 'সম্মানিত কাস্টমার';
+      const customerPhone = (bookingModalCustPhone && bookingModalCustPhone.value.trim()) || '';
+      const method = bookingPaymentMethod ? bookingPaymentMethod.value : 'বিকাশ';
+      const trxId = (bookingTrxId && bookingTrxId.value.trim()) || 'ADV30';
+
+      // Conflict Check: Check if slot is already booked for this barber
+      const conflict = bookings.find(b => 
+        b.date === date && 
+        b.timeSlot === timeSlot && 
+        b.barberName === barberName && 
+        b.status === 'confirmed'
+      );
+
+      if (conflict) {
+        showToast(`⚠️ এই তারিখে (${formatBengaliDate(date, 'shortDate')}) ${timeSlot} এ কারিগর "${barberName}" এর চেয়ার অলরেডি বুকড আছে! অন্য সময় বা কারিগর বেছে নিন।`, 4500);
+        return;
+      }
+
+      const checkboxes = document.querySelectorAll('#bookingServicesGrid input[type="checkbox"]:checked');
+      const selectedServices = [];
+      let totalMins = 0;
+      let totalPrice = 0;
+      checkboxes.forEach(cb => {
+        const sName = cb.value;
+        const sDur = Number(cb.getAttribute('data-duration')) || 15;
+        const sPrice = Number(cb.getAttribute('data-price')) || 100;
+        selectedServices.push({ name: sName, duration: sDur, price: sPrice });
+        totalMins += sDur;
+        totalPrice += sPrice;
+      });
+
+      if (selectedServices.length === 0) {
+        selectedServices.push({ name: 'চুল কাটা', duration: 30, price: 150 });
+        totalMins = 30;
+        totalPrice = 150;
+      }
+
+      const tokenNo = 'BK-' + Math.floor(100 + Math.random() * 900);
+      const newBooking = {
+        id: 'book_' + Date.now(),
+        tokenNo: tokenNo,
+        customerName: customerName,
+        customerPhone: customerPhone,
+        date: date,
+        timeSlot: timeSlot,
+        barberName: barberName,
+        chairNo: barberName.includes('সুজন') ? 'চেয়ার ২' : (barberName.includes('রনি') ? 'চেয়ার ৩' : 'চেয়ার ১'),
+        services: selectedServices,
+        totalDuration: totalMins,
+        totalEstimatedAmount: totalPrice,
+        advancePaid: 30,
+        advanceMethod: method,
+        trxId: trxId,
+        status: 'confirmed',
+        createdAt: new Date().toISOString()
+      };
+
+      bookings.unshift(newBooking);
+
+      // Auto add customer to CRM customers list if not present
+      if (customerPhone) {
+        const existingCust = customers.find(c => c.phone && c.phone === customerPhone);
+        if (!existingCust) {
+          customers.unshift({
+            id: 'cust_' + Date.now(),
+            name: customerName,
+            phone: customerPhone,
+            cycleDays: 25,
+            lastVisitDate: new Date().toISOString(),
+            styleNote: selectedServices.map(s => s.name).join(', '),
+            regularAmount: totalPrice,
+            totalVisits: 1,
+            totalSpent: 30,
+            isVip: false,
+            avatar: '🧑'
+          });
+        }
+      }
+
+      persistData();
+      closeModals();
+      refreshAllUI();
+      renderBookingSlots(date, barberName);
+      renderBookingsTable();
+      updateBookingBadges();
+      showToast(`✓ অভিনন্দন! #${tokenNo} টোকেনে ৩০৳ অগ্রিম জমা সহ চেয়ার বুকিং সফল হয়েছে!`);
+    });
+  }
+
+  function convertBookingToSale(bookingId) {
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    openSmartSaleModal(booking.date);
+
+    const custInput = document.getElementById('saleCustomerInput');
+    const custPhone = document.getElementById('saleCustomerPhone');
+    const barberSelect = document.getElementById('saleBarberName');
+    const totalAmount = document.getElementById('saleTotalAmount');
+    const paidAmount = document.getElementById('salePaidAmount');
+    const notes = document.getElementById('saleNotes');
+
+    if (custInput) custInput.value = booking.customerName;
+    if (custPhone) custPhone.value = booking.customerPhone;
+    if (barberSelect) barberSelect.value = booking.barberName;
+    
+    const bill = booking.totalEstimatedAmount || 200;
+    const dueAfterAdvance = Math.max(0, bill - 30);
+    if (totalAmount) totalAmount.value = bill;
+    if (paidAmount) paidAmount.value = dueAfterAdvance;
+    if (notes) notes.value = `অগ্রিম ৩০৳ বুকিং ফি সমন্বয়কৃত (টোকেন #${booking.tokenNo}, TrxID: ${booking.trxId || 'N/A'})`;
+
+    booking.status = 'completed';
+    persistData();
+    renderBookingSlots();
+    renderBookingsTable();
+    updateBookingBadges();
+    showToast(`✓ বুকিং টোকেন #${booking.tokenNo} ক্যাশ মেমোতে লোড হয়েছে! ৩০৳ অগ্রিম সমন্বিত।`);
+  }
+
+  function cancelBooking(bookingId) {
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    if (confirm(`আপনি কি সত্যিই #${booking.tokenNo} (${booking.customerName}) এর বুকিং বাতিল করতে চান?`)) {
+      booking.status = 'cancelled';
+      persistData();
+      renderBookingSlots();
+      renderBookingsTable();
+      updateBookingBadges();
+      showToast('✓ বুকিং সফলভাবে বাতিল করা হয়েছে।');
+    }
+  }
+
+  function sendBookingWhatsApp(bookingId) {
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking || !booking.customerPhone) {
+      showToast('⚠️ কাস্টমারের কোনো ফোন নম্বর নেই!');
+      return;
+    }
+
+    const cleanPhone = booking.customerPhone.replace(/[^0-9]/g, '');
+    let targetPhone = cleanPhone;
+    if (targetPhone.startsWith('0')) targetPhone = '880' + targetPhone.substring(1);
+
+    const srvNames = (booking.services && booking.services.length) ? booking.services.map(s => s.name).join(', ') : 'সেলুন সার্ভিস';
+    const msg = `আসসালামু আলাইকুম ${booking.customerName} ভাই! ${salon.name} থেকে অগ্রিম বুকিং নিশ্চিতকরণ:\n\n` +
+      `📌 টোকেন নং: #${booking.tokenNo}\n` +
+      `📅 তারিখ: ${formatBengaliDate(booking.date, 'dateMonthYear')}\n` +
+      `⏰ সময় স্লট: ${booking.timeSlot}\n` +
+      `💈 কারিগর/চেয়ার: ${booking.barberName}\n` +
+      `✂️ সেবাসমূহ: ${srvNames} (আনুমানিক ${booking.totalDuration} মিনিট)\n` +
+      `💰 অগ্রিম জমা: ৩০৳ (মূল বিল থেকে বাদ হবে)\n` +
+      `📍 ঠিকানা: ${salon.address}\n\n` +
+      `দয়া করে নির্ধারিত সময়ের ৫ মিনিট আগে উপস্থিত থাকবেন। ধন্যবাদ!`;
+
+    window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  // ========================================================
+  // 7. SAAS SUBSCRIPTION GATEWAY & MULTI-TENANT ENGINE
+  // ========================================================
+  const subscriptionPaymentModal = document.getElementById('subscriptionPaymentModal');
+  const subscriptionPaymentForm = document.getElementById('subscriptionPaymentForm');
+  const subPlanMonthlyTab = document.getElementById('subPlanMonthlyTab');
+  const subPlanYearlyTab = document.getElementById('subPlanYearlyTab');
+  const modalSubPlanTitle = document.getElementById('modalSubPlanTitle');
+  const modalSubPlanPriceDisplay = document.getElementById('modalSubPlanPriceDisplay');
+  const modalSubPlanSubtitle = document.getElementById('modalSubPlanSubtitle');
+  const subSelectedPlanId = document.getElementById('subSelectedPlanId');
+  const subSelectedPlanAmount = document.getElementById('subSelectedPlanAmount');
+  const subSalonName = document.getElementById('subSalonName');
+  const subOwnerName = document.getElementById('subOwnerName');
+  const subSenderPhone = document.getElementById('subSenderPhone');
+  const subTrxId = document.getElementById('subTrxId');
+  const licenseCertificateBox = document.getElementById('licenseCertificateBox');
+
+  // Make globally accessible for HTML onclick
+  window.switchSubscriptionModalPlan = function(plan) {
+    if (plan === 'monthly') {
+      if (subPlanMonthlyTab) {
+        subPlanMonthlyTab.className = 'py-2 text-xs font-bold rounded-lg transition-all text-goldLight bg-amber-500/20 border border-amber-500/40';
+      }
+      if (subPlanYearlyTab) {
+        subPlanYearlyTab.className = 'py-2 text-xs font-bold rounded-lg transition-all text-white bg-white/10';
+      }
+      if (modalSubPlanTitle) modalSubPlanTitle.textContent = 'স্ট্যান্ডার্ড মান্থলি প্রোপ্যাক';
+      if (modalSubPlanPriceDisplay) modalSubPlanPriceDisplay.textContent = '৳১৫০ / মাস';
+      if (modalSubPlanSubtitle) modalSubPlanSubtitle.textContent = 'প্রতি মাসে রিনিউ সুবিধা, আনলিমিটেড কাস্টমার ডেটাবেজ ও অগ্রিম চেয়ার বুকিং সিস্টেম।';
+      if (subSelectedPlanId) subSelectedPlanId.value = 'monthly';
+      if (subSelectedPlanAmount) subSelectedPlanAmount.value = '150';
+    } else {
+      if (subPlanYearlyTab) {
+        subPlanYearlyTab.className = 'py-2 text-xs font-bold rounded-lg transition-all text-goldLight bg-amber-500/20 border border-amber-500/40';
+      }
+      if (subPlanMonthlyTab) {
+        subPlanMonthlyTab.className = 'py-2 text-xs font-bold rounded-lg transition-all text-white bg-white/10';
+      }
+      if (modalSubPlanTitle) modalSubPlanTitle.textContent = 'ভিআইপি বাৎসরিক সুপার সেভার প্ল্যান';
+      if (modalSubPlanPriceDisplay) modalSubPlanPriceDisplay.textContent = '৳৬০০ / বছর';
+      if (modalSubPlanSubtitle) modalSubPlanSubtitle.textContent = '৩৬৫ দিনের সম্পূর্ণ আনলিমিটেড ক্লাউড এক্সেস, অগ্রিম চেয়ার বুকিং ও আজীবন ব্যাকআপ (৬৫%+ সাশ্রয়ী)।';
+      if (subSelectedPlanId) subSelectedPlanId.value = 'yearly';
+      if (subSelectedPlanAmount) subSelectedPlanAmount.value = '600';
+    }
+  };
+
+  function openSubscriptionPaymentModal(planId = 'yearly') {
+    if (!subscriptionPaymentModal) return;
+    if (subscriptionPaymentForm) subscriptionPaymentForm.reset();
+    if (licenseCertificateBox) licenseCertificateBox.classList.add('hidden');
+
+    window.switchSubscriptionModalPlan(planId);
+
+    if (subSalonName) subSalonName.value = salon.name;
+    if (subOwnerName) subOwnerName.value = salon.ownerName;
+    if (subSenderPhone) subSenderPhone.value = salon.phone;
+
+    subscriptionPaymentModal.classList.add('active');
+  }
+
+  if (subscriptionPaymentForm) {
+    subscriptionPaymentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const sName = (subSalonName && subSalonName.value.trim()) || salon.name;
+      const oName = (subOwnerName && subOwnerName.value.trim()) || salon.ownerName;
+      const sPhone = (subSenderPhone && subSenderPhone.value.trim()) || '';
+      const trx = (subTrxId && subTrxId.value.trim()) || 'TRX-DEFAULT';
+      const planId = (subSelectedPlanId && subSelectedPlanId.value) || 'yearly';
+      const amount = (subSelectedPlanAmount && subSelectedPlanAmount.value) || '600';
+
+      const licenseKey = `SLN-2026-${planId === 'yearly' ? 'VIP' : 'PRO'}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const certExpiry = planId === 'yearly' ? '১৮ অক্টোবর ২০২৭ (১ বছর সক্রিয়)' : '১৮ নভেম্বর ২০২৬ (১ মাস সক্রিয়)';
+
+      // Populate Certificate Elements
+      const certSalonName = document.getElementById('certSalonName');
+      const certOwnerName = document.getElementById('certOwnerName');
+      const certPlanName = document.getElementById('certPlanName');
+      const certLicenseKey = document.getElementById('certLicenseKey');
+      const certExpiryDate = document.getElementById('certExpiryDate');
+
+      if (certSalonName) certSalonName.textContent = sName;
+      if (certOwnerName) certOwnerName.textContent = oName;
+      if (certPlanName) certPlanName.textContent = planId === 'yearly' ? 'ভিআইপি বাৎসরিক সুপার সেভার (৳৬০০/বছর)' : 'স্ট্যান্ডার্ড মান্থলি প্রোপ্যাক (৳১৫০/মাস)';
+      if (certLicenseKey) certLicenseKey.textContent = licenseKey;
+      if (certExpiryDate) certExpiryDate.textContent = certExpiry;
+
+      if (licenseCertificateBox) {
+        licenseCertificateBox.classList.remove('hidden');
+        licenseCertificateBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      salon.subscriptionStatus = `সক্রিয় লাইসেন্স: ${licenseKey} (মেয়াদ: ${certExpiry})`;
+      persistData();
+      renderSalonInfo();
+      showToast(`✓ অভিনন্দন! পেমেন্ট (৳${amount}) সফলভাবে ভেরিফাই হয়েছে এবং সালোনো লাইসেন্স সক্রিয় হয়েছে!`, 4000);
+    });
+  }
+
+  // Multi-Salon Switcher & Tenant Registration
+  const multiSalonModal = document.getElementById('multiSalonModal');
+  const salonTenantList = document.getElementById('salonTenantList');
+  const registeredSalonsCount = document.getElementById('registeredSalonsCount');
+  const addNewSalonTenantForm = document.getElementById('addNewSalonTenantForm');
+
+  function openMultiSalonModal() {
+    if (!multiSalonModal) return;
+    renderTenantList();
+    multiSalonModal.classList.add('active');
+  }
+
+  function renderTenantList() {
+    if (!salonTenantList) return;
+
+    if (registeredSalonsCount) {
+      registeredSalonsCount.textContent = `${tenants.length}টি নিবন্ধিত সেলুন`;
+    }
+
+    salonTenantList.innerHTML = tenants.map(t => {
+      const isActive = t.id === activeTenantId;
+      return `
+        <div class="p-3 rounded-xl border ${isActive ? 'bg-amber-500/10 border-goldPrimary' : 'bg-surfaceElevated border-subtle hover:border-card'} flex items-center justify-between transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="text-xl">💈</span>
+            <div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>${t.name}</span>
+                ${isActive ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold">সক্রিয়</span>' : ''}
+              </div>
+              <div class="text-[11px] text-zinc-400">মালিক: ${t.ownerName} • <span class="font-mono text-goldLight">${t.phone}</span></div>
+              <div class="text-[10px] text-zinc-500">${t.address || 'ঠিকানা দেওয়া হয়নি'}</div>
+            </div>
+          </div>
+          <div>
+            ${isActive ? `
+              <span class="text-xs text-goldLight font-bold px-2.5 py-1 rounded-lg bg-black/20">চলমান</span>
+            ` : `
+              <button type="button" class="btn-switch-tenant text-xs bg-white/10 hover:bg-white/20 text-white font-semibold px-2.5 py-1 rounded-lg border border-subtle transition-all" data-tenant-id="${t.id}">
+                সুইচ করুন
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    salonTenantList.querySelectorAll('.btn-switch-tenant').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchSalonTenant(btn.getAttribute('data-tenant-id'));
+      });
+    });
+  }
+
+  function switchSalonTenant(tenantId, isNew = false) {
+    const targetTenant = tenants.find(t => t.id === tenantId);
+    if (!targetTenant) return;
+
+    // 1. Snapshot current tenant's data into their tenant namespace
+    if (activeTenantId) {
+      localStorage.setItem(`salono_${activeTenantId}_customers`, JSON.stringify(customers));
+      localStorage.setItem(`salono_${activeTenantId}_sales`, JSON.stringify(sales));
+      localStorage.setItem(`salono_${activeTenantId}_bookings`, JSON.stringify(bookings));
+      localStorage.setItem(`salono_${activeTenantId}_profile`, JSON.stringify(salon));
+    }
+
+    // 2. Set new active tenant
+    activeTenantId = tenantId;
+    localStorage.setItem(STORAGE_KEYS.ACTIVE_TENANT, activeTenantId);
+
+    // 3. Load target tenant data
+    const savedProfile = localStorage.getItem(`salono_${tenantId}_profile`);
+    if (savedProfile) {
+      salon = JSON.parse(savedProfile);
+    } else {
+      salon = {
+        name: targetTenant.name,
+        tagline: 'মডার্ন হেয়ার কাট ও গ্রুমিং স্টুডিও',
+        ownerName: targetTenant.ownerName,
+        phone: targetTenant.phone,
+        address: targetTenant.address || 'দোকানের ঠিকানা',
+        defaultCycleDays: 25,
+        subscriptionStatus: targetTenant.plan || 'ভিআইপি প্রো এক্টিভ (৳৬০০/বছর)'
+      };
+    }
+
+    const savedCust = localStorage.getItem(`salono_${tenantId}_customers`);
+    customers = savedCust ? JSON.parse(savedCust) : (isNew ? [] : DEFAULT_CUSTOMERS);
+
+    const savedSales = localStorage.getItem(`salono_${tenantId}_sales`);
+    sales = savedSales ? JSON.parse(savedSales) : (isNew ? [] : DEFAULT_SALES);
+
+    const savedBookings = localStorage.getItem(`salono_${tenantId}_bookings`);
+    bookings = savedBookings ? JSON.parse(savedBookings) : (isNew ? [] : DEFAULT_BOOKINGS);
+
+    persistData();
+    closeModals();
+    refreshAllUI();
+    showToast(`✓ সেলুন পরিবর্তন সম্পন্ন! বর্তমান সক্রিয় সেলুন: "${salon.name}"`);
+  }
+
+  if (addNewSalonTenantForm) {
+    addNewSalonTenantForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const sName = document.getElementById('newTenantSalonName').value.trim();
+      const oName = document.getElementById('newTenantOwnerName').value.trim();
+      const phone = document.getElementById('newTenantPhone').value.trim();
+      const address = document.getElementById('newTenantAddress').value.trim();
+
+      if (!sName || !oName) {
+        showToast('⚠️ সেলুনের নাম ও মালিকের নাম প্রদান আবশ্যক!');
+        return;
+      }
+
+      const newId = 'tenant_' + Date.now();
+      const newTenantObj = {
+        id: newId,
+        name: sName,
+        ownerName: oName,
+        phone: phone,
+        address: address,
+        plan: 'বাৎসরিক ভিআইপি (৳৬০০)',
+        status: 'active',
+        createdAt: new Date().toISOString()
+      };
+
+      tenants.push(newTenantObj);
+      switchSalonTenant(newId, true);
+      showToast(`✓ অভিনন্দন! নতুন সেলুন "${sName}" সফলভাবে তৈরি হয়েছে এবং সম্পূর্ণ পৃথক খাতা চালু হয়েছে!`);
+    });
+  }
+
+  // 1-Click Copy Phone Number Button Handlers (bKash & Nagad: 01734018155)
+  function setupCopyPhoneButtons() {
+    document.querySelectorAll('.copy-phone-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const phone = btn.getAttribute('data-phone') || '01734018155';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(phone).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span>কপি হয়েছে</span>`;
+            showToast(`✓ বিকাশ ও নগদ নম্বর "${phone}" ক্লিপবোর্ডে কপি হয়েছে!`);
+            setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+          }).catch(() => {
+            showToast(`✓ নম্বর: ${phone}`);
+          });
+        } else {
+          showToast(`✓ নম্বর: ${phone}`);
+        }
+      });
+    });
+  }
+
+  // Wire Modal Trigger Buttons across application
+  document.querySelectorAll('.open-booking-modal-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAdvanceBookingModal();
+    });
+  });
+
+  document.querySelectorAll('.open-sub-payment-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const plan = btn.getAttribute('data-plan') || 'yearly';
+      openSubscriptionPaymentModal(plan);
+    });
+  });
+
+  document.querySelectorAll('.open-multi-salon-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openMultiSalonModal();
+    });
+  });
+
   // Master UI Refresh
   function refreshAllUI() {
     renderSalonInfo();
@@ -2718,6 +3613,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDashboardTodaySales();
     renderQuickDayNavStrip();
     renderComprehensiveSalesLedger();
+    renderBookingSlots();
+    renderBookingsTable();
+    updateBookingBadges();
+    setupCopyPhoneButtons();
   }
 
   // Initial Boot
