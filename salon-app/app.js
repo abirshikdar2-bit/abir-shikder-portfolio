@@ -495,11 +495,13 @@ document.addEventListener('DOMContentLoaded', () => {
       chairNo: 'চেয়ার ১',
       services: [
         { name: 'চুল কাটা', duration: 30, price: 150 },
-        { name: 'দাড়ি শেভ / ট্রিম', duration: 15, price: 80 }
+        { name: 'দাড়ি শেভ / ট্রিম', duration: 15, price: 80 },
+        { name: 'ফেস ওয়াশ ও স্ক্রাব', duration: 15, price: 100 }
       ],
-      totalDuration: 45,
-      totalEstimatedAmount: 230,
-      advancePaid: 30,
+      totalDuration: 60,
+      totalEstimatedAmount: 330, // মোট বিল ৩৩০৳
+      advancePaid: 30, // অগ্রিম জমা ৩০৳
+      payableAmount: 300, // আর পাওয়া যাবে (Payable): ৩০০৳
       advanceMethod: 'বিকাশ (01734018155)',
       trxId: 'BK78X902',
       status: 'confirmed',
@@ -521,6 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
       totalDuration: 65,
       totalEstimatedAmount: 450,
       advancePaid: 30,
+      payableAmount: 420,
       advanceMethod: 'নগদ (01734018155)',
       trxId: 'NG44K118',
       status: 'confirmed',
@@ -529,22 +532,24 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'book_103',
       tokenNo: 'BK-103',
-      customerName: 'ডা. আনোয়ার হোসেন',
-      customerPhone: '01552334455',
+      customerName: 'রাশেদুল ইসলাম (অনলাইন রিকোয়েস্ট)',
+      customerPhone: '01711998877',
       date: getDateOffset(1).slice(0, 10),
       timeSlot: '12:15 PM',
       barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
       chairNo: 'চেয়ার ১',
       services: [
-        { name: 'চুল কাটা', duration: 30, price: 150 }
+        { name: 'চুল কাটা', duration: 30, price: 150 },
+        { name: 'দাড়ি শেভ / ট্রিম', duration: 15, price: 80 }
       ],
-      totalDuration: 30,
-      totalEstimatedAmount: 150,
+      totalDuration: 45,
+      totalEstimatedAmount: 230,
       advancePaid: 30,
+      payableAmount: 200,
       advanceMethod: 'বিকাশ (01734018155)',
       trxId: 'BK99Q331',
-      status: 'confirmed',
-      createdAt: getDateOffset(-1, 14, 0)
+      status: 'pending', // নতুন বুকিং রিকোয়েস্ট (Pending)
+      createdAt: getDateOffset(0, 10, 0)
     }
   ];
 
@@ -554,6 +559,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let sales = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALES)) || DEFAULT_SALES;
   let monthlyHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.MONTHLY_HISTORY)) || DEFAULT_MONTHLY_HISTORY;
   let bookings = JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKINGS)) || DEFAULT_BOOKINGS;
+
+  // Auto-upgrade legacy bookings with payableAmount and correct statuses
+  bookings = bookings.map(b => {
+    const total = Number(b.totalEstimatedAmount || 200);
+    const advance = Number(b.advancePaid || 30);
+    return {
+      ...b,
+      totalEstimatedAmount: total,
+      advancePaid: advance,
+      payableAmount: Number(b.payableAmount !== undefined ? b.payableAmount : Math.max(0, total - advance)),
+      status: b.status || 'confirmed'
+    };
+  });
   let tenants = JSON.parse(localStorage.getItem(STORAGE_KEYS.TENANTS)) || DEFAULT_TENANTS;
   let activeTenantId = localStorage.getItem(STORAGE_KEYS.ACTIVE_TENANT) || 'tenant_royal';
 
@@ -2514,6 +2532,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBookingsTable();
     } else if (tabId === 'pricing') {
       // Pricing tab view
+    } else if (tabId === 'history') {
+      renderMonthlyHistoryCards();
+      renderTenMonthsSummaryTable();
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2862,7 +2883,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateBookingBadges() {
-    const activeConfirmedCount = bookings.filter(b => b.status === 'confirmed').length;
+    const activeConfirmedCount = bookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
     const navBadge = document.getElementById('navBookingBadge');
     const bottomBadge = document.getElementById('bottomBookingBadge');
     if (navBadge) navBadge.textContent = activeConfirmedCount;
@@ -2885,7 +2906,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeBookings = bookings.filter(b => 
         b.date === selectedDate && 
         b.timeSlot === slot.time && 
-        b.status === 'confirmed' &&
+        (b.status === 'confirmed' || b.status === 'pending') &&
         (selectedBarber === 'all' || b.barberName === selectedBarber)
       );
 
@@ -2894,19 +2915,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isBooked) {
         const b = activeBookings[0];
+        const isPending = b.status === 'pending';
         const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(' + ') : 'সেলুন সার্ভিস';
+        const totalBill = b.totalEstimatedAmount || 200;
+        const advance = b.advancePaid || 30;
+        const payable = b.payableAmount !== undefined ? b.payableAmount : Math.max(0, totalBill - advance);
+
         return `
-          <div class="slot-card booked">
+          <div class="slot-card ${isPending ? 'border-amber-500/50 bg-amber-500/[0.03]' : 'booked'}">
             <div>
-              <div class="flex items-center justify-between mb-2 pb-2 border-b border-rose-500/20">
+              <div class="flex items-center justify-between mb-2 pb-2 border-b ${isPending ? 'border-amber-500/20' : 'border-rose-500/20'}">
                 <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
-                  <i class="fa-regular fa-clock text-rose-400"></i>
+                  <i class="fa-regular fa-clock ${isPending ? 'text-amber-400' : 'text-rose-400'}"></i>
                   <span>${slot.label}</span>
                 </span>
-                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-booked flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
-                  <span>🔴 বুকড (ব্যস্ত চেয়ার)</span>
-                </span>
+                ${isPending ? `
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1 animate-pulse">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    <span>⏳ পেন্ডিং রিকোয়েস্ট</span>
+                  </span>
+                ` : `
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold slot-badge-booked flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                    <span>🔴 বুকড (ব্যস্ত চেয়ার)</span>
+                  </span>
+                `}
               </div>
 
               <!-- Customer & Service Details with Duration -->
@@ -2934,20 +2967,41 @@ document.addEventListener('DOMContentLoaded', () => {
                   </span>
                   <span class="font-bold text-goldLight font-mono">${b.totalDuration || 30} মিনিট</span>
                 </div>
-                <div class="flex items-center justify-between text-[11px] text-emerald-400 pt-1">
-                  <span>অগ্রিম জমা: <strong>৳${b.advancePaid || 30}</strong> (${b.advanceMethod || 'বিকাশ'})</span>
-                  <span class="font-mono text-[10px] text-zinc-500">Trx: ${b.trxId || 'N/A'}</span>
+                
+                <!-- Financial Breakdown: Advance & Remaining Payable Bill -->
+                <div class="grid grid-cols-2 gap-1.5 pt-1.5 text-[11px]">
+                  <div class="bg-surfaceElevated border border-subtle p-1.5 rounded">
+                    <div class="text-[10px] text-zinc-400">অগ্রিম জমা:</div>
+                    <div class="font-bold text-emerald-400 font-mono">৳${advance} <span class="text-[9px] text-zinc-400">(${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'})</span></div>
+                  </div>
+                  <div class="bg-amber-500/10 border border-amber-500/30 p-1.5 rounded">
+                    <div class="text-[10px] text-amber-300 font-bold">বাকি পাওনা (Payable):</div>
+                    <div class="font-extrabold text-amber-400 font-mono text-xs">৳${payable}</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="pt-2 border-t border-subtle flex items-center gap-2">
-              <button type="button" class="btn-convert-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="কাস্টমার আসলে এই বাটনে চাপলে ৩০৳ বাদ দিয়ে মূল ক্যাশ এন্ট্রি হবে">
-                <i class="fa-solid fa-cash-register text-[10px]"></i>
-                <span>বিল মেমোতে নিন</span>
+            <div class="pt-2 border-t border-subtle flex items-center gap-1.5">
+              ${isPending ? `
+                <button type="button" class="btn-confirm-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
+                  <i class="fa-solid fa-check text-[10px]"></i>
+                  <span>নিশ্চিত করুন</span>
+                </button>
+              ` : `
+                <button type="button" class="btn-convert-booking flex-1 py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all" data-booking-id="${b.id}" title="কাস্টমার আসলে এই বাটনে চাপলে ৩০৳ বাদ দিয়ে মূল ক্যাশ এন্ট্রি হবে">
+                  <i class="fa-solid fa-cash-register text-[10px]"></i>
+                  <span>বিল মেমোতে নিন</span>
+                </button>
+              `}
+              <button type="button" class="btn-whatsapp-booking p-1.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
+                <i class="fa-brands fa-whatsapp"></i>
               </button>
               <button type="button" class="btn-cancel-booking p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="বুকিং বাতিল করুন">
                 <i class="fa-solid fa-ban"></i>
+              </button>
+              <button type="button" class="btn-delete-booking p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-subtle text-[11px] transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
+                <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
           </div>
@@ -2985,7 +3039,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const availableCount = TIME_SLOTS.length - bookedCount;
     if (bookingSlotCountSummary) {
-      bookingSlotCountSummary.innerHTML = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড: <strong class="text-rose-400">${bookedCount}</strong> টি`;
+      bookingSlotCountSummary.innerHTML = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড/পেন্ডিং: <strong class="text-rose-400">${bookedCount}</strong> টি`;
     }
 
     // Attach listeners to available slot book buttons
@@ -2997,7 +3051,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Attach listeners to convert and cancel buttons
+    // Attach listeners to confirm, convert, cancel, whatsapp, and delete buttons
+    chairSlotsGrid.querySelectorAll('.btn-confirm-booking').forEach(btn => {
+      btn.addEventListener('click', () => {
+        confirmBooking(btn.getAttribute('data-booking-id'));
+      });
+    });
+
     chairSlotsGrid.querySelectorAll('.btn-convert-booking').forEach(btn => {
       btn.addEventListener('click', () => {
         convertBookingToSale(btn.getAttribute('data-booking-id'));
@@ -3007,6 +3067,18 @@ document.addEventListener('DOMContentLoaded', () => {
     chairSlotsGrid.querySelectorAll('.btn-cancel-booking').forEach(btn => {
       btn.addEventListener('click', () => {
         cancelBooking(btn.getAttribute('data-booking-id'));
+      });
+    });
+
+    chairSlotsGrid.querySelectorAll('.btn-whatsapp-booking').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sendBookingWhatsApp(btn.getAttribute('data-booking-id'));
+      });
+    });
+
+    chairSlotsGrid.querySelectorAll('.btn-delete-booking').forEach(btn => {
+      btn.addEventListener('click', () => {
+        deleteBooking(btn.getAttribute('data-booking-id'));
       });
     });
   }
@@ -3028,7 +3100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetBookings.length === 0) {
       bookingsTableBody.innerHTML = `
         <tr>
-          <td colspan="8" class="py-8 text-center text-zinc-400">
+          <td colspan="10" class="py-8 text-center text-zinc-400">
             <i class="fa-regular fa-calendar-xmark text-2xl mb-1 text-zinc-500 block"></i>
             <span>কোনো অগ্রিম বুকিং পাওয়া যায়নি।</span>
           </td>
@@ -3039,11 +3111,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bookingsTableBody.innerHTML = targetBookings.map(b => {
       const srvNames = (b.services && b.services.length) ? b.services.map(s => s.name).join(', ') : 'সেলুন সার্ভিস';
-      const statusBadge = b.status === 'confirmed' 
-        ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">✓ নিশ্চিত (Active)</span>`
-        : (b.status === 'completed'
-            ? `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30 text-[10px]">সম্পন্ন (Billed)</span>`
-            : `<span class="px-2 py-0.5 rounded-full bg-zinc-500/20 text-zinc-400 border border-subtle text-[10px]">বাতিল</span>`);
+      const totalBill = b.totalEstimatedAmount || 200;
+      const advance = b.advancePaid || 30;
+      const payable = b.payableAmount !== undefined ? b.payableAmount : Math.max(0, totalBill - advance);
+
+      const statusBadge = b.status === 'pending' 
+        ? `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30 text-[10px] inline-flex items-center gap-1 animate-pulse"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>⏳ পেন্ডিং</span></span>`
+        : (b.status === 'confirmed' 
+            ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">✓ নিশ্চিত (Active)</span>`
+            : (b.status === 'completed'
+                ? `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30 text-[10px]">সম্পন্ন (Billed)</span>`
+                : `<span class="px-2 py-0.5 rounded-full bg-zinc-500/20 text-zinc-400 border border-subtle text-[10px]">বাতিল</span>`));
 
       return `
         <tr class="hover:bg-white/5 transition-colors">
@@ -3064,31 +3142,62 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="text-xs text-zinc-200 truncate max-w-[150px]" title="${srvNames}">✂️ ${srvNames}</div>
             <div class="text-[10px] text-blue-400 mt-0.5">${b.barberName}</div>
           </td>
-          <td class="py-3 px-3 font-mono text-xs text-zinc-300">
-            ⏱️ ${b.totalDuration || 30} মিনিট
+          <td class="py-3 px-3 font-mono text-xs text-zinc-300 text-center">
+            ⏱️ ${b.totalDuration || 30} মি.
           </td>
           <td class="py-3 px-3 text-right">
-            <div class="text-xs font-bold text-emerald-400 font-mono">+৳${b.advancePaid || 30}</div>
-            <div class="text-[10px] text-zinc-400 font-mono">${b.advanceMethod || 'বিকাশ'} (Trx: ${b.trxId || 'N/A'})</div>
+            <div class="text-xs font-bold text-white font-mono">৳${totalBill}</div>
+          </td>
+          <td class="py-3 px-3 text-right">
+            <div class="text-xs font-bold text-emerald-400 font-mono">+৳${advance}</div>
+            <div class="text-[10px] text-zinc-400 font-mono">${b.advanceMethod ? b.advanceMethod.split(' ')[0] : 'বিকাশ'} (Trx: ${b.trxId || 'N/A'})</div>
+          </td>
+          <td class="py-3 px-3 text-right">
+            <div class="text-xs font-extrabold text-amber-300 font-mono bg-amber-500/15 border border-amber-500/30 px-2 py-1 rounded inline-block">৳${payable}</div>
+            <div class="text-[9px] text-zinc-400 mt-0.5">বাকি পাওনা বিল</div>
           </td>
           <td class="py-3 px-3 text-center">
             ${statusBadge}
           </td>
           <td class="py-3 px-3 text-center">
-            <div class="flex items-center justify-center gap-1.5">
-              ${b.status === 'confirmed' ? `
-                <button type="button" class="btn-convert-booking text-xs bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 px-2.5 py-1 rounded border border-emerald-500/30 transition-all" data-booking-id="${b.id}" title="ক্যাশ মেমোতে নিন">
-                  <i class="fa-solid fa-check text-[10px] mr-1"></i> বিল
+            <div class="flex items-center justify-center gap-1">
+              ${b.status === 'pending' ? `
+                <button type="button" class="btn-confirm-booking text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded font-bold transition-all shadow-sm" data-booking-id="${b.id}" title="বুকিং নিশ্চিত করুন">
+                  <i class="fa-solid fa-check text-[10px] mr-1"></i> নিশ্চিত
+                </button>
+                <button type="button" class="btn-cancel-booking text-xs bg-rose-600/20 hover:bg-rose-600/40 text-rose-300 px-2 py-1 rounded border border-rose-500/30 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+                  <i class="fa-solid fa-xmark text-[10px] mr-1"></i> বাতিল
+                </button>
+                <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </button>
+                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              ` : (b.status === 'confirmed' ? `
+                <button type="button" class="btn-convert-booking text-xs bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 px-2.5 py-1 rounded border border-emerald-500/30 transition-all font-bold" data-booking-id="${b.id}" title="ক্যাশ মেমোতে নিন (৩০৳ বাদ দিয়ে বাকি ${payable}৳ আদায় হবে)">
+                  <i class="fa-solid fa-receipt text-[10px] mr-1"></i> মেমো বিল
                 </button>
                 <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে নিশ্চিতকরণ মেমো পাঠান">
                   <i class="fa-brands fa-whatsapp"></i>
                 </button>
-                <button type="button" class="btn-cancel-booking text-xs text-zinc-500 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+                <button type="button" class="btn-cancel-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="বাতিল করুন">
+                  <i class="fa-solid fa-ban"></i>
+                </button>
+                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all" data-booking-id="${b.id}" title="রেকর্ড মুছে ফেলুন">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
               ` : `
-                <span class="text-[11px] text-zinc-500 font-mono">নিষ্পন্ন</span>
-              `}
+                <span class="text-[11px] text-zinc-400 font-mono">${b.status === 'completed' ? 'মেমো সম্পন্ন ✓' : 'বাতিলকৃত'}</span>
+                ${b.customerPhone ? `
+                  <button type="button" class="btn-whatsapp-booking text-xs bg-emerald-700/30 hover:bg-emerald-700/60 text-emerald-400 p-1.5 rounded transition-all ml-1" data-booking-id="${b.id}" title="হোয়াটসঅ্যাপে পাঠান">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </button>
+                ` : ''}
+                <button type="button" class="btn-delete-booking text-xs text-zinc-400 hover:text-rose-400 p-1.5 rounded hover:bg-white/5 transition-all ml-1" data-booking-id="${b.id}" title="মুছে ফেলুন">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              `)}
             </div>
           </td>
         </tr>
@@ -3096,6 +3205,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
 
     // Attach listeners
+    bookingsTableBody.querySelectorAll('.btn-confirm-booking').forEach(btn => {
+      btn.addEventListener('click', () => confirmBooking(btn.getAttribute('data-booking-id')));
+    });
+
     bookingsTableBody.querySelectorAll('.btn-convert-booking').forEach(btn => {
       btn.addEventListener('click', () => convertBookingToSale(btn.getAttribute('data-booking-id')));
     });
@@ -3106,6 +3219,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bookingsTableBody.querySelectorAll('.btn-whatsapp-booking').forEach(btn => {
       btn.addEventListener('click', () => sendBookingWhatsApp(btn.getAttribute('data-booking-id')));
+    });
+
+    bookingsTableBody.querySelectorAll('.btn-delete-booking').forEach(btn => {
+      btn.addEventListener('click', () => deleteBooking(btn.getAttribute('data-booking-id')));
     });
   }
 
@@ -3152,10 +3269,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (totalMins === 0) totalMins = 30;
 
+    const advanceFee = 30;
+    const payable = Math.max(0, totalPrice - advanceFee);
+
     if (bookingEstimatedDurationBadge) {
-      bookingEstimatedDurationBadge.textContent = `⏱️ মোট সময়: ${totalMins} মিনিট (বিল: ৳${totalPrice})`;
+      bookingEstimatedDurationBadge.innerHTML = `⏱️ মোট সময়: <strong>${totalMins} মিনিট</strong> | সম্ভাব্য বিল: <strong>৳${totalPrice}</strong> (অগ্রিম: ৳৩০, বাকি পাওনা: ৳${payable})`;
     }
-    return { totalMins, totalPrice };
+    return { totalMins, totalPrice, payable };
   }
 
   // Checkbox listener
@@ -3179,7 +3299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         b.date === date && 
         b.timeSlot === timeSlot && 
         b.barberName === barberName && 
-        b.status === 'confirmed'
+        (b.status === 'confirmed' || b.status === 'pending')
       );
 
       if (conflict) {
@@ -3206,6 +3326,8 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPrice = 150;
       }
 
+      const advanceFee = 30;
+      const payableAmount = Math.max(0, totalPrice - advanceFee);
       const tokenNo = 'BK-' + Math.floor(100 + Math.random() * 900);
       const newBooking = {
         id: 'book_' + Date.now(),
@@ -3219,10 +3341,11 @@ document.addEventListener('DOMContentLoaded', () => {
         services: selectedServices,
         totalDuration: totalMins,
         totalEstimatedAmount: totalPrice,
-        advancePaid: 30,
+        advancePaid: advanceFee,
+        payableAmount: payableAmount,
         advanceMethod: method,
         trxId: trxId,
-        status: 'confirmed',
+        status: 'pending', // নতুন বুকিং রিকোয়েস্ট (মালিক নিশ্চিত করবেন)
         createdAt: new Date().toISOString()
       };
 
@@ -3241,7 +3364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             styleNote: selectedServices.map(s => s.name).join(', '),
             regularAmount: totalPrice,
             totalVisits: 1,
-            totalSpent: 30,
+            totalSpent: advanceFee,
             isVip: false,
             avatar: '🧑'
           });
@@ -3254,8 +3377,35 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBookingSlots(date, barberName);
       renderBookingsTable();
       updateBookingBadges();
-      showToast(`✓ অভিনন্দন! #${tokenNo} টোকেনে ৩০৳ অগ্রিম জমা সহ চেয়ার বুকিং সফল হয়েছে!`);
+      showToast(`✓ অভিনন্দন! #${tokenNo} টোকেনে ৩০৳ অগ্রিম জমার নতুন বুকিং রিকোয়েস্ট যুক্ত হয়েছে! (বাকি বিল: ৳${payableAmount})`);
     });
+  }
+
+  function confirmBooking(bookingId) {
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    booking.status = 'confirmed';
+    persistData();
+    renderBookingSlots();
+    renderBookingsTable();
+    updateBookingBadges();
+    showToast(`✓ বুকিং #${booking.tokenNo} (${booking.customerName}) সফলভাবে নিশ্চিত (Active) করা হয়েছে! কাস্টমারকে জানাতে WhatsApp আইকনে চাপুন।`);
+  }
+
+  function deleteBooking(bookingId) {
+    const idx = bookings.findIndex(b => b.id === bookingId);
+    if (idx === -1) return;
+    const booking = bookings[idx];
+
+    if (confirm(`আপনি কি সত্যিই #${booking.tokenNo} (${booking.customerName}) এর বুকিং রেকর্ডটি চিরতরে মুছে ফেলতে চান?`)) {
+      bookings.splice(idx, 1);
+      persistData();
+      renderBookingSlots();
+      renderBookingsTable();
+      updateBookingBadges();
+      showToast(`✓ বুকিং #${booking.tokenNo} সফলভাবে মুছে ফেলা হয়েছে!`);
+    }
   }
 
   function convertBookingToSale(bookingId) {
@@ -3276,17 +3426,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (barberSelect) barberSelect.value = booking.barberName;
     
     const bill = booking.totalEstimatedAmount || 200;
-    const dueAfterAdvance = Math.max(0, bill - 30);
+    const advance = booking.advancePaid || 30;
+    const dueAfterAdvance = booking.payableAmount !== undefined ? booking.payableAmount : Math.max(0, bill - advance);
+
     if (totalAmount) totalAmount.value = bill;
     if (paidAmount) paidAmount.value = dueAfterAdvance;
-    if (notes) notes.value = `অগ্রিম ৩০৳ বুকিং ফি সমন্বয়কৃত (টোকেন #${booking.tokenNo}, TrxID: ${booking.trxId || 'N/A'})`;
+    if (notes) notes.value = `অগ্রিম ${advance}৳ বুকিং ফি সমন্বয়কৃত (টোকেন #${booking.tokenNo}, TrxID: ${booking.trxId || 'N/A'})। বাকি ${dueAfterAdvance}৳ আদায়।`;
 
     booking.status = 'completed';
     persistData();
     renderBookingSlots();
     renderBookingsTable();
     updateBookingBadges();
-    showToast(`✓ বুকিং টোকেন #${booking.tokenNo} ক্যাশ মেমোতে লোড হয়েছে! ৩০৳ অগ্রিম সমন্বিত।`);
+    showToast(`✓ বুকিং টোকেন #${booking.tokenNo} ক্যাশ মেমোতে লোড হয়েছে! ${advance}৳ অগ্রিম সমন্বিত, বাকি ${dueAfterAdvance}৳ আদায়।`);
   }
 
   function cancelBooking(bookingId) {
@@ -3299,7 +3451,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBookingSlots();
       renderBookingsTable();
       updateBookingBadges();
-      showToast('✓ বুকিং সফলভাবে বাতিল করা হয়েছে।');
+      showToast(`✓ বুকিং #${booking.tokenNo} সফলভাবে বাতিল করা হয়েছে।`);
     }
   }
 
@@ -3315,15 +3467,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetPhone.startsWith('0')) targetPhone = '880' + targetPhone.substring(1);
 
     const srvNames = (booking.services && booking.services.length) ? booking.services.map(s => s.name).join(', ') : 'সেলুন সার্ভিস';
-    const msg = `আসসালামু আলাইকুম ${booking.customerName} ভাই! ${salon.name} থেকে অগ্রিম বুকিং নিশ্চিতকরণ:\n\n` +
+    const total = booking.totalEstimatedAmount || 200;
+    const advance = booking.advancePaid || 30;
+    const payable = booking.payableAmount !== undefined ? booking.payableAmount : Math.max(0, total - advance);
+    const statusText = booking.status === 'confirmed' ? '✓ নিশ্চিত (Active)' : (booking.status === 'pending' ? '⏳ পেন্ডিং রিকোয়েস্ট' : (booking.status === 'completed' ? 'মেমো সম্পন্ন' : 'বাতিল'));
+
+    const msg = `আসসালামু আলাইকুম ${booking.customerName} ভাই! ${salon.name} থেকে আপনার অগ্রিম সেলুন বুকিং তথ্য:\n\n` +
       `📌 টোকেন নং: #${booking.tokenNo}\n` +
       `📅 তারিখ: ${formatBengaliDate(booking.date, 'dateMonthYear')}\n` +
       `⏰ সময় স্লট: ${booking.timeSlot}\n` +
-      `💈 কারিগর/চেয়ার: ${booking.barberName}\n` +
-      `✂️ সেবাসমূহ: ${srvNames} (আনুমানিক ${booking.totalDuration} মিনিট)\n` +
-      `💰 অগ্রিম জমা: ৩০৳ (মূল বিল থেকে বাদ হবে)\n` +
-      `📍 ঠিকানা: ${salon.address}\n\n` +
-      `দয়া করে নির্ধারিত সময়ের ৫ মিনিট আগে উপস্থিত থাকবেন। ধন্যবাদ!`;
+      `💈 কারিগর/চেয়ার: ${booking.barberName} (${booking.chairNo || 'চেয়ার ১'})\n` +
+      `✂️ সেবাসমূহ: ${srvNames} (আনুমানিক ${booking.totalDuration || 30} মিনিট)\n` +
+      `💵 মোট সম্ভাব্য বিল: ৳${total}\n` +
+      `💰 অগ্রিম জমা: ৳${advance} (${booking.advanceMethod || 'বিকাশ'} - Trx: ${booking.trxId || 'N/A'})\n` +
+      `👉 আর পাওয়া যাবে / বাকি বিল: ৳${payable} (সেলুনে এসে প্রদানযোগ্য)\n` +
+      `🔰 বর্তমান স্ট্যাটাস: ${statusText}\n` +
+      `📍 সেলুন ঠিকানা: ${salon.address}\n\n` +
+      `দয়া করে নির্ধারিত সময়ের ৫ মিনিট আগে উপস্থিত থাকবেন। কোনো পরিবর্তন থাকলে আমাদের জানান। ধন্যবাদ!`;
 
     window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, '_blank');
   }

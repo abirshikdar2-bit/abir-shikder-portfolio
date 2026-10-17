@@ -113,6 +113,11 @@
         <i class="fa-solid fa-gear"></i>
         <span>দোকানের প্রোফাইল</span>
       </a>
+
+      <a href="#history" class="nav-link" data-target-tab="history">
+        <i class="fa-solid fa-chart-column text-indigo-400"></i>
+        <span>১০ মাসের আয়ের খাতা</span>
+      </a>
     </nav>
 
     <!-- Sidebar Footer / Active Salon Info & Multi-Salon Tenant Switch -->
@@ -302,48 +307,6 @@
 
       </div>
 
-      <!-- Monthly Income Comparison & 10-Month Performance Archives Strip -->
-      <div class="monthly-comparison-box mb-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-subtle">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-sm">
-              <i class="fa-solid fa-chart-column"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold font-bangla text-white">গত ১০ মাসের পূর্ণাঙ্গ আয়ের খাতা ও তুলনামূলক ইতিহাস (10-Month Ledger)</h3>
-              <p class="text-xs text-zinc-400">রানিং চলমান মাস (অক্টোবর ২০২৬) ও বিগত সমাপ্ত ১০ মাসের পূর্ণাঙ্গ মোট আয় ও কাস্টমার বিশ্লেষণ</p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-zinc-400 hidden sm:inline">মাস নির্বাচন:</span>
-            <select id="monthlyComparisonSelect" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
-              <option value="month_current" selected>চলতি মাস: অক্টোবর ২০২৬ (লাইভ)</option>
-              <option value="month_past_1">১. সেপ্টেম্বর ২০২৬ (গত মাস)</option>
-              <option value="month_past_2">২. আগস্ট ২০২৬ (২ মাস আগে)</option>
-              <option value="month_past_3">৩. জুলাই ২০২৬ (৩ মাস আগে)</option>
-              <option value="month_past_4">৪. জুন ২০২৬ (৪ মাস আগে)</option>
-              <option value="month_past_5">৫. মে ২০২৬ (৫ মাস আগে - ঈদ মৌসুম)</option>
-              <option value="month_past_6">৬. এপ্রিল ২০২৬ (৬ মাস আগে)</option>
-              <option value="month_past_7">৭. মার্চ ২০২৬ (৭ মাস আগে)</option>
-              <option value="month_past_8">৮. ফেব্রুয়ারি ২০২৬ (৮ মাস আগে)</option>
-              <option value="month_past_9">৯. জানুয়ারি ২০২৬ (৯ মাস আগে)</option>
-              <option value="month_past_10">১০. ডিসেম্বর ২০২৫ (১০ মাস আগে)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Monthly History Cards Grid (Populated by JS) -->
-        <div class="monthly-history-cards-grid mb-4" id="monthlyHistoryCardsContainer">
-          <!-- Populated by JavaScript with active and past months -->
-        </div>
-
-        <!-- Comprehensive 10-Month Performance Table -->
-        <div id="tenMonthsSummaryTableContainer">
-          <!-- Populated by JavaScript with all 10 past months -->
-        </div>
-      </div>
-
       <!-- Quick Action Tiles -->
       <div class="quick-action-strip">
         <div class="action-tile open-add-customer-btn">
@@ -373,6 +336,16 @@
           <div>
             <div class="action-tile-title">বুকিং স্লট</div>
             <div class="action-tile-desc">চেয়ার সিডিউল ও বুক</div>
+          </div>
+        </div>
+
+        <div class="action-tile" data-target-tab="history">
+          <div class="action-tile-icon bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+            <i class="fa-solid fa-chart-column"></i>
+          </div>
+          <div>
+            <div class="action-tile-title">১০ মাসের খাতা</div>
+            <div class="action-tile-desc">বিগত আয়ের ইতিহাস</div>
           </div>
         </div>
 
@@ -913,10 +886,12 @@
                 <th class="py-2.5 px-3">কাস্টমারের নাম ও মোবাইল</th>
                 <th class="py-2.5 px-3">তারিখ ও সময়</th>
                 <th class="py-2.5 px-3">সেবা ও কারিগর</th>
-                <th class="py-2.5 px-3">আনুমানিক সময়</th>
-                <th class="py-2.5 px-3 text-right">অগ্রিম জমা (৩০৳)</th>
+                <th class="py-2.5 px-3 text-center">আনুমানিক সময়</th>
+                <th class="py-2.5 px-3 text-right">মোট সম্ভাব্য বিল</th>
+                <th class="py-2.5 px-3 text-right text-emerald-400">অগ্রিম জমা (৩০৳)</th>
+                <th class="py-2.5 px-3 text-right text-amber-400 font-bold bg-amber-500/10 rounded">আর পাওয়া যাবে / বাকি বিল (Payable)</th>
                 <th class="py-2.5 px-3 text-center">স্ট্যাটাস</th>
-                <th class="py-2.5 px-3 text-center">অ্যাকশন</th>
+                <th class="py-2.5 px-3 text-center">অ্যাকশন ও যোগাযোগ</th>
               </tr>
             </thead>
             <tbody id="bookingsTableBody" class="divide-y divide-subtle font-bangla">
@@ -1071,6 +1046,54 @@
             </button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 9: 10-MONTH HISTORICAL INCOME & PERFORMANCE LEDGER ==================== -->
+    <section id="history" class="tab-view">
+      <!-- Header Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-subtle">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              📊 পূর্ববর্তী ১০ মাসের সংরক্ষিত খাতা
+            </span>
+            <span class="text-xs text-zinc-400 font-mono">● মাসিক অডিট ও পারফরম্যান্স ইতিহাস</span>
+          </div>
+          <h2 class="text-2xl font-bold font-bangla text-white flex items-center gap-2">
+            <span>বিগত ১০ মাসের পূর্ণাঙ্গ আয়ের খাতা ও তুলনামূলক ইতিহাস</span>
+          </h2>
+          <p class="text-xs text-zinc-400 mt-1">
+            চলতি মাস (অক্টোবর ২০২৬) সহ বিগত সমাপ্ত ১০ মাসের পূর্ণাঙ্গ মোট বিক্রয়, কাস্টমার সংখ্যা ও দৈনিক গড় আয়ের সংরক্ষিত খতিয়ান।
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-zinc-400 hidden sm:inline">মাস নির্বাচন:</span>
+          <select id="monthlyComparisonSelect" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
+            <option value="month_current" selected>চলতি মাস: অক্টোবর ২০২৬ (লাইভ)</option>
+            <option value="month_past_1">১. সেপ্টেম্বর ২০২৬ (গত মাস)</option>
+            <option value="month_past_2">২. আগস্ট ২০২৬ (২ মাস আগে)</option>
+            <option value="month_past_3">৩. জুলাই ২০২৬ (৩ মাস আগে)</option>
+            <option value="month_past_4">৪. জুন ২০২৬ (৪ মাস আগে)</option>
+            <option value="month_past_5">৫. মে ২০২৬ (৫ মাস আগে - ঈদ মৌসুম)</option>
+            <option value="month_past_6">৬. এপ্রিল ২০২৬ (৬ মাস আগে)</option>
+            <option value="month_past_7">৭. মার্চ ২০২৬ (৭ মাস আগে)</option>
+            <option value="month_past_8">৮. ফেব্রুয়ারি ২০২৬ (৮ মাস আগে)</option>
+            <option value="month_past_9">৯. জানুয়ারি ২০২৬ (৯ মাস আগে)</option>
+            <option value="month_past_10">১০. ডিসেম্বর ২০২৫ (১০ মাস আগে)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Monthly History Cards Grid (Populated by JS) -->
+      <div class="monthly-history-cards-grid mb-6" id="monthlyHistoryCardsContainer">
+        <!-- Populated by JavaScript with active and past months -->
+      </div>
+
+      <!-- Comprehensive 10-Month Performance Table (The exact table from user's screenshot) -->
+      <div id="tenMonthsSummaryTableContainer">
+        <!-- Populated by JavaScript with all 10 past months -->
       </div>
     </section>
 
