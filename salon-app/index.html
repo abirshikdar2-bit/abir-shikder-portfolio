@@ -302,52 +302,109 @@
         </div>
       </div>
 
-      <!-- Quick Sales Entry Buttons (POS Touchpad) -->
-      <div class="mb-8">
-        <div class="section-title-bar">
-          <h3 class="section-title">
-            <i class="fa-solid fa-bolt text-emeraldPrimary"></i>
-            <span>দ্রুত ক্যাশ খাতা (কাস্টমার টাকা দিলে বোতাম চাপুন)</span>
-          </h3>
-          <span class="text-xs text-zinc-500 font-mono">১-ক্লিক এন্ট্রি</span>
+      <!-- ==================== TODAY'S LIVE SALES & CASH SECTOR ==================== -->
+      <div class="daily-sales-sector mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-subtle">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+              <i class="fa-solid fa-cash-register"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-lg font-bold font-bangla text-white">আজকের বিক্রয় ও ক্যাশ খাতা (Daily Sales)</h3>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-300 font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> লাইভ
+                </span>
+              </div>
+              <p class="text-xs text-zinc-400" id="dashSalesDateLabel">আজকের মোট বিক্রয়, কে কোন সেবা নিলো ও টাকার হিসাব</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button class="btn-gold-action open-custom-sale-btn text-xs py-2 px-3">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>ক্যাশ এন্ট্রি করুন</span>
+            </button>
+            <a href="#sales" class="bg-white/5 hover:bg-white/10 text-zinc-300 text-xs px-3 py-2 rounded-lg border border-subtle font-medium" data-target-tab="sales">
+              সম্পূর্ণ খাতা →
+            </a>
+          </div>
         </div>
 
-        <div class="service-buttons-grid">
-          <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
-            <div class="service-icon-box">✂️</div>
-            <div class="service-name">চুল কাটা</div>
-            <div class="service-price">৳১৫০</div>
-          </button>
+        <!-- Today's Micro Summary Strip -->
+        <div class="sales-summary-strip mb-5">
+          <div class="sales-summary-box">
+            <span class="sales-summary-label"><i class="fa-solid fa-sack-dollar text-goldLight"></i> আজকের মোট সেল</span>
+            <span class="sales-summary-val text-goldLight" id="dashTodayTotal">৳০</span>
+          </div>
+          <div class="sales-summary-box">
+            <span class="sales-summary-label"><i class="fa-solid fa-users text-blue-400"></i> সেবা গ্রহণকারী</span>
+            <span class="sales-summary-val text-white" id="dashTodayClients">০ জন</span>
+          </div>
+          <div class="sales-summary-box">
+            <span class="sales-summary-label"><i class="fa-solid fa-money-bill-1 text-emerald-400"></i> নগদ ক্যাশ</span>
+            <span class="sales-summary-val text-emerald-400" id="dashTodayCash">৳০</span>
+          </div>
+          <div class="sales-summary-box">
+            <span class="sales-summary-label"><i class="fa-solid fa-mobile-screen-button text-purple-400"></i> বিকাশ / নগদ</span>
+            <span class="sales-summary-val text-purple-400" id="dashTodayDigital">৳০</span>
+          </div>
+        </div>
 
-          <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80">
-            <div class="service-icon-box">🪒</div>
-            <div class="service-name">দাড়ি ট্রিম / শেভ</div>
-            <div class="service-price">৳৮০</div>
-          </button>
+        <!-- Quick 1-Click POS Touchpad Buttons -->
+        <div class="mb-5">
+          <div class="text-xs font-semibold text-zinc-400 mb-2.5 flex items-center justify-between">
+            <span>১-ক্লিকে দ্রুত ক্যাশ জমা করুন (Touchpad):</span>
+            <span class="text-[11px] text-zinc-500">বোতাম চাপলে সময় ও তারিখ স্বয়ংক্রিয়ভাবে বসে যাবে</span>
+          </div>
+          <div class="service-buttons-grid">
+            <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
+              <div class="service-icon-box">✂️</div>
+              <div class="service-name">চুল কাটা</div>
+              <div class="service-price">৳১৫০</div>
+            </button>
 
-          <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220">
-            <div class="service-icon-box">💈</div>
-            <div class="service-name">চুল + দাড়ি কম্বো</div>
-            <div class="service-price">৳২২০</div>
-          </button>
+            <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80">
+              <div class="service-icon-box">🪒</div>
+              <div class="service-name">দাড়ি ট্রিম / শেভ</div>
+              <div class="service-price">৳৮০</div>
+            </button>
 
-          <button class="service-btn" data-service-name="ফেসিয়াল ও ম্যাসাজ" data-service-price="400">
-            <div class="service-icon-box">💆‍♂️</div>
-            <div class="service-name">ফেসিয়াল ও ম্যাসাজ</div>
-            <div class="service-price">৳৪০০</div>
-          </button>
+            <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220">
+              <div class="service-icon-box">💈</div>
+              <div class="service-name">চুল + দাড়ি কম্বো</div>
+              <div class="service-price">৳২২০</div>
+            </button>
 
-          <button class="service-btn" data-service-name="হেয়ার কালার / মেহেদি" data-service-price="300">
-            <div class="service-icon-box">🎨</div>
-            <div class="service-name">হেয়ার কালার</div>
-            <div class="service-price">৳৩০০</div>
-          </button>
+            <button class="service-btn" data-service-name="ফেসিয়াল ও ম্যাসাজ" data-service-price="400">
+              <div class="service-icon-box">💆‍♂️</div>
+              <div class="service-name">ফেসিয়াল ও ম্যাসাজ</div>
+              <div class="service-price">৳৪০০</div>
+            </button>
 
-          <button class="service-btn open-custom-sale-btn">
-            <div class="service-icon-box">➕</div>
-            <div class="service-name">অন্যান্য সেবা</div>
-            <div class="service-price text-zinc-400">কাস্টম টাকা</div>
-          </button>
+            <button class="service-btn" data-service-name="হেয়ার কালার" data-service-price="300">
+              <div class="service-icon-box">🎨</div>
+              <div class="service-name">হেয়ার কালার</div>
+              <div class="service-price">৳৩০০</div>
+            </button>
+
+            <button class="service-btn open-custom-sale-btn">
+              <div class="service-icon-box">➕</div>
+              <div class="service-name">অন্যান্য সেবা</div>
+              <div class="service-price text-zinc-400">কাস্টম টাকা</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Today's Transactions Ledger Table / List -->
+        <div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2.5 flex items-center justify-between">
+            <span>আজকের প্রতিটি কাস্টমারের বিস্তারিত রসিদ তালিকা:</span>
+            <span class="text-[11px] text-goldLight font-mono">কে কাটলো • কত দিলো • কি সেবা</span>
+          </div>
+          <div id="dashTodaySalesList">
+            <!-- Populated by JavaScript -->
+          </div>
         </div>
       </div>
 
@@ -406,26 +463,68 @@
     <section id="sales" class="tab-view">
       <div class="section-title-bar">
         <div>
-          <h2 class="text-2xl font-bold font-bangla text-white">ক্যাশ খাতা ও ইনকাম হিসাব</h2>
-          <p class="text-xs text-zinc-400">প্রতিদিনের সেল রেকর্ড ও মাসিক আয়ের স্বচ্ছ বিবরণ</p>
+          <h2 class="text-2xl font-bold font-bangla text-white">দৈনিক বিক্রয় ও ক্যাশ খাতা (Daily Sales & Income)</h2>
+          <p class="text-xs text-zinc-400">প্রতিদিনের সেল রেকর্ড, কে কাটলো, কয় টাকা দিলো এবং সার্ভিসভিত্তিক স্বচ্ছ হিসাব</p>
         </div>
         <button class="btn-gold-action open-custom-sale-btn">
           <i class="fa-solid fa-plus text-xs"></i>
-          <span>হিসাব যোগ করুন</span>
+          <span>নতুন হিসাব যোগ করুন</span>
         </button>
+      </div>
+
+      <!-- Date Filter Bar & Specific Date Picker -->
+      <div class="search-filter-bar mb-6">
+        <div class="filter-pills flex-wrap">
+          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের হিসাব</button>
+          <button class="filter-pill sales-filter-pill" data-period="yesterday">গতকাল</button>
+          <button class="filter-pill sales-filter-pill" data-period="week">চলতি সপ্তাহ</button>
+          <button class="filter-pill sales-filter-pill" data-period="month">চলতি মাস</button>
+          <button class="filter-pill sales-filter-pill" data-period="all">সব লেনদেন</button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-zinc-400 hidden sm:inline">নির্দিষ্ট তারিখ:</span>
+          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
+          <button id="clearDatePickerBtn" class="text-xs text-zinc-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-subtle hidden" title="তারিখ ফিল্টার মুছুন">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Period Metrics Summary Strip -->
+      <div class="sales-summary-strip mb-6">
+        <div class="sales-summary-box">
+          <span class="sales-summary-label"><i class="fa-solid fa-sack-dollar text-goldLight"></i> নির্বাচিত দিনের মোট সেল</span>
+          <span class="sales-summary-val text-goldLight" id="ledgerPeriodTotal">৳০</span>
+        </div>
+        <div class="sales-summary-box">
+          <span class="sales-summary-label"><i class="fa-solid fa-users text-blue-400"></i> মোট সেবা গ্রহণকারী</span>
+          <span class="sales-summary-val text-white" id="ledgerPeriodClients">০ জন</span>
+        </div>
+        <div class="sales-summary-box">
+          <span class="sales-summary-label"><i class="fa-solid fa-money-bill-1 text-emerald-400"></i> নগদ ক্যাশ আদায়</span>
+          <span class="sales-summary-val text-emerald-400" id="ledgerPeriodCash">৳০</span>
+        </div>
+        <div class="sales-summary-box">
+          <span class="sales-summary-label"><i class="fa-solid fa-mobile-screen-button text-purple-400"></i> বিকাশ / ডিজিটাল</span>
+          <span class="sales-summary-val text-purple-400" id="ledgerPeriodDigital">৳০</span>
+        </div>
       </div>
 
       <div class="pos-layout">
         <!-- Left: Quick POS Buttons -->
         <div>
-          <h4 class="text-sm font-bold text-white mb-3">দ্রুত ক্যাশ বোতাম (Touchpad)</h4>
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-sm font-bold text-white">দ্রুত ক্যাশ বোতাম (Touchpad)</h4>
+            <span class="text-[11px] text-zinc-500 font-mono">১-ক্লিক এন্ট্রি</span>
+          </div>
           <div class="service-buttons-grid mb-6">
             <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
               <div class="service-icon-box">✂️</div>
               <div class="service-name">চুল কাটা</div>
               <div class="service-price">৳১৫০</div>
             </button>
-            <button class="service-btn" data-service-name="দাড়ি ট্রিম" data-service-price="80">
+            <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80">
               <div class="service-icon-box">🪒</div>
               <div class="service-name">দাড়ি ট্রিম</div>
               <div class="service-price">৳৮০</div>
@@ -453,13 +552,15 @@
           </div>
         </div>
 
-        <!-- Right: Recent Transactions List -->
-        <div class="ledger-card">
-          <div class="flex items-center justify-between mb-4 pb-2 border-b border-subtle">
-            <h4 class="font-bold text-white text-base">সাম্প্রতিক আয় ও লেনদেন</h4>
-            <span class="text-xs text-goldLight font-mono">লাইভ খাতা</span>
+        <!-- Right: Comprehensive Transactions Ledger -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-bold text-white text-sm" id="ledgerListHeading">আজকের বিস্তারিত ক্যাশ বিবরণী</h4>
+            <span class="text-xs text-goldLight font-mono" id="ledgerListCount">০ টি এন্ট্রি</span>
           </div>
-          <div id="salesLedgerList" class="space-y-1">
+
+          <!-- Container rendered by JS: Desktop Table or Mobile Cards -->
+          <div id="comprehensiveSalesLedger">
             <!-- Populated by JavaScript -->
           </div>
         </div>
@@ -631,48 +732,172 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: QUICK CUSTOM SALE ==================== -->
+  <!-- ==================== MODAL 2: SMART SALES & CASH ENTRY ==================== -->
   <div id="customSaleModal" class="salono-modal">
-    <div class="salono-modal-box">
+    <div class="salono-modal-box max-w-xl">
       <button class="modal-close-icon" aria-label="Close modal">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <h3 class="text-xl font-bold font-bangla text-white mb-4">ক্যাশ এন্ট্রি (ইনকাম খাতা)</h3>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-lg">
+          <i class="fa-solid fa-cash-register"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-bangla text-white">ক্যাশ ও বিক্রয় এন্ট্রি</h3>
+          <p class="text-xs text-zinc-400">স্বয়ংক্রিয় তারিখ, সময় ও কারিগরের হিসাব সহ ক্যাশ মেমো</p>
+        </div>
+      </div>
 
       <form id="customSaleForm">
-        <div class="form-group">
-          <label class="form-label">সেবার নাম *</label>
-          <input type="text" id="customServiceName" class="form-control" required placeholder="যেমন: চুল কাটা ও স্পেশাল শেভ">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="form-group">
-            <label class="form-label">টাকার পরিমাণ (৳) *</label>
-            <input type="number" id="customSaleAmount" class="form-control" required placeholder="যেমন: 250">
+        <!-- Date & Barber Selection (Auto Timestamp) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div class="form-group mb-0">
+            <label class="form-label flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-clock text-goldPrimary"></i>
+              <span>তারিখ ও সময় (স্বয়ংক্রিয়) *</span>
+            </label>
+            <input type="datetime-local" id="saleDateTime" class="form-control text-xs font-mono" required>
           </div>
-          <div class="form-group">
-            <label class="form-label">পেমেন্ট মাধ্যম</label>
-            <select id="customSalePayment" class="form-control">
-              <option value="ক্যাশ" selected>নগদ (Cash)</option>
-              <option value="বিকাশ">বিকাশ (bKash)</option>
-              <option value="নগদ/কার্ড">নগদ/রকেট</option>
+
+          <div class="form-group mb-0">
+            <label class="form-label flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-user-gear text-blue-400"></i>
+              <span>কে কেটেছে / কারিগর বা বারবার *</span>
+            </label>
+            <select id="saleBarberName" class="form-control text-xs">
+              <option value="ওস্তাদ মো. আবুল বাশার (মালিক)" selected>ওস্তাদ মো. আবুল বাশার (মালিক)</option>
+              <option value="কারিগর সুজন">কারিগর সুজন</option>
+              <option value="কারিগর রনি">কারিগর রনি</option>
+              <option value="অন্যান্য স্টাফ">অন্যান্য স্টাফ</option>
             </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">কাস্টমারের নাম (ঐচ্ছিক)</label>
-          <input type="text" id="customSaleClient" class="form-control" placeholder="নাম না জানা থাকলে ওয়াক-ইন থাকবে">
+        <!-- Customer Selector -->
+        <div class="form-group mb-3">
+          <label class="form-label flex items-center justify-between text-xs">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-user text-emerald-400"></i>
+              <span>কাস্টমার নির্বাচন বা নাম *</span>
+            </span>
+            <span class="text-[11px] text-zinc-500">তালিকায় থাকলে সিলেক্ট করুন বা নাম লিখুন</span>
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <select id="saleCustomerSelect" class="form-control text-xs">
+              <option value="">-- রেজিস্টার্ড কাস্টমার তালিকা --</option>
+            </select>
+            <input type="text" id="saleCustomerInput" class="form-control text-xs" placeholder="অথবা সাধারণ/ওয়াক-ইন নাম">
+          </div>
+          <input type="tel" id="saleCustomerPhone" class="form-control text-xs mt-2" placeholder="কাস্টমারের মোবাইল নম্বর (ঐচ্ছিক - হোয়াটসঅ্যাপে রশিদ দিতে)">
         </div>
 
-        <div class="pt-4 flex items-center gap-3">
-          <button type="submit" class="btn-gold-action flex-1 justify-center py-3">
-            <i class="fa-solid fa-plus text-xs"></i>
-            <span>খাতায় টাকা যোগ করুন</span>
+        <!-- Interactive Service Multi-Select Chips -->
+        <div class="form-group mb-3">
+          <label class="form-label flex items-center justify-between text-xs">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-scissors text-goldLight"></i>
+              <span>কি কি সেবা নিয়েছেন (ক্লিক করলে বিল হিসাব হবে):</span>
+            </span>
+            <span class="text-[11px] text-goldLight font-mono" id="selectedServicesCount">০ টি নির্বাচিত</span>
+          </label>
+          
+          <div class="service-chips-grid" id="modalServiceChips">
+            <div class="service-chip" data-chip-name="চুল কাটা" data-chip-price="150">
+              <span class="service-chip-title">✂️ চুল কাটা</span>
+              <span class="service-chip-rate">৳১৫০</span>
+            </div>
+            <div class="service-chip" data-chip-name="দাড়ি ট্রিম ও শেভ" data-chip-price="80">
+              <span class="service-chip-title">🪒 দাড়ি ট্রিম</span>
+              <span class="service-chip-rate">৳৮০</span>
+            </div>
+            <div class="service-chip" data-chip-name="চুল + দাড়ি কম্বো" data-chip-price="220">
+              <span class="service-chip-title">💈 চুল + দাড়ি</span>
+              <span class="service-chip-rate">৳২২০</span>
+            </div>
+            <div class="service-chip" data-chip-name="ফেস ওয়াশ ও স্ক্রাব" data-chip-price="100">
+              <span class="service-chip-title">💆 ফেস ওয়াশ</span>
+              <span class="service-chip-rate">৳১০০</span>
+            </div>
+            <div class="service-chip" data-chip-name="হার্বাল ফেসিয়াল" data-chip-price="300">
+              <span class="service-chip-title">🌿 ফেসিয়াল</span>
+              <span class="service-chip-rate">৳৩০০</span>
+            </div>
+            <div class="service-chip" data-chip-name="হেয়ার কালার" data-chip-price="250">
+              <span class="service-chip-title">🎨 হেয়ার কালার</span>
+              <span class="service-chip-rate">৳২৫০</span>
+            </div>
+          </div>
+
+          <input type="text" id="saleCustomServiceName" class="form-control text-xs mt-1" placeholder="অন্যান্য কাস্টম সেবার নাম (যদি থাকে)">
+        </div>
+
+        <!-- Bill, Paid, Due Calculation -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">মোট বিল (৳) *</label>
+            <input type="number" id="saleTotalAmount" class="form-control font-outfit font-bold text-goldLight text-base" required placeholder="0">
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">পরিশোধিত টাকা (৳) *</label>
+            <input type="number" id="salePaidAmount" class="form-control font-outfit font-bold text-emerald-400 text-base" required placeholder="0">
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">বকেয়া / বাকি (৳)</label>
+            <input type="number" id="saleDueAmount" class="form-control font-outfit text-red-400 text-base" readonly value="0">
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">পেমেন্ট মাধ্যম</label>
+            <select id="salePaymentMethod" class="form-control text-xs">
+              <option value="ক্যাশ" selected>নগদ (Cash)</option>
+              <option value="বিকাশ">বিকাশ (bKash)</option>
+              <option value="নগদ">নগদ (Nagad)</option>
+              <option value="রকেট">রকেট (Rocket)</option>
+            </select>
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label text-xs">নোট বা মন্তব্য (ঐচ্ছিক)</label>
+            <input type="text" id="saleNotes" class="form-control text-xs" placeholder="যেমন: স্পেশাল কাস্টমার ডিসকাউন্ট">
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center gap-3">
+          <button type="submit" class="btn-gold-action flex-1 justify-center py-3 text-sm">
+            <i class="fa-solid fa-check text-xs"></i>
+            <span>খাতায় এন্ট্রি ও রসিদ তৈরি করুন</span>
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: DIGITAL THERMAL CASH RECEIPT ==================== -->
+  <div id="receiptModal" class="salono-modal">
+    <div class="salono-modal-box max-w-md">
+      <button class="modal-close-icon btn-print-hide" aria-label="Close modal">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="receipt-printable-area">
+        <div class="receipt-paper" id="receiptPaper">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center gap-3 btn-print-hide">
+        <button id="printReceiptBtn" class="bg-surfaceElevated hover:bg-surfaceHover text-white text-xs font-semibold py-2.5 px-4 rounded-xl border border-card flex items-center justify-center gap-2 flex-1 w-full">
+          <i class="fa-solid fa-print"></i>
+          <span>🖨️ প্রিন্ট মেমো</span>
+        </button>
+        <button id="whatsappReceiptBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 flex-1 w-full">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>📱 হোয়াটসঅ্যাপে পাঠান</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -685,3 +910,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+

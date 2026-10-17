@@ -922,7 +922,7 @@ body {
 }
 
 /* ==========================================
-   QUICK SALES CASH REGISTER
+   DAILY SALES & CASH REGISTER STYLES
    ========================================== */
 .pos-layout {
   display: grid;
@@ -932,7 +932,7 @@ body {
 
 @media (min-width: 1024px) {
   .pos-layout {
-    grid-template-columns: 7fr 5fr;
+    grid-template-columns: 5fr 7fr;
   }
 }
 
@@ -952,12 +952,12 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
-  padding: 18px 14px;
+  padding: 16px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
@@ -970,54 +970,278 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-.service-btn-active {
-  border-color: var(--gold-primary);
-  background: rgba(245, 158, 11, 0.12);
+.service-btn:active {
+  transform: scale(0.97);
 }
 
 .service-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   color: var(--gold-light);
 }
 
 .service-name {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
 }
 
 .service-price {
   font-family: var(--font-outfit);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--gold-primary);
 }
 
-/* Sales Ledger List */
-.ledger-card {
+/* Daily Sales Sector & Ledger */
+.daily-sales-sector {
   background: var(--bg-surface);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 20px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
 }
 
-.ledger-item {
+.daily-sales-sector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-gradient);
+}
+
+.sales-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .sales-summary-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.sales-summary-box {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sales-summary-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sales-summary-val {
+  font-family: var(--font-outfit);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Sales Ledger Table */
+.sales-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-elevated);
+}
+
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.sales-table th {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.sales-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+
+.sales-table tr:last-child td {
+  border-bottom: none;
+}
+
+.sales-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Mobile Sales Cards */
+.mobile-sales-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sale-card-single {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all var(--transition-fast);
+}
+
+.sale-card-single:hover {
+  border-color: var(--border-gold);
+}
+
+/* Service Multi-Select Chips in Modal */
+.service-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 480px) {
+  .service-chips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.service-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+  user-select: none;
 }
 
-.ledger-item:last-child {
-  border-bottom: none;
+.service-chip:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-gold);
+}
+
+.service-chip.selected {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+.service-chip-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.service-chip-rate {
+  font-family: var(--font-outfit);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+/* Digital Thermal Cash Receipt Slip */
+.receipt-paper {
+  background: #111726;
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  font-family: var(--font-bangla);
+  color: #fff;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.receipt-paper::before,
+.receipt-paper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-size: 12px 6px;
+  background-repeat: repeat-x;
+}
+
+.receipt-paper::before {
+  top: -6px;
+  background-image: radial-gradient(circle, transparent 6px, #111726 6px);
+}
+
+.receipt-dashed-line {
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  margin: 14px 0;
+}
+
+.receipt-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+
+/* Print Stylesheet */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    padding: 0 !important;
+  }
+  .sidebar, .bottom-nav, .topbar, .ambient-glow, .grid-overlay, .salono-modal:not(#receiptModal), .btn-print-hide {
+    display: none !important;
+  }
+  #receiptModal {
+    display: block !important;
+    background: transparent !important;
+    position: static !important;
+    padding: 0 !important;
+  }
+  #receiptModal .salono-modal-box {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .receipt-paper {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+  .receipt-paper * {
+    color: #000 !important;
+  }
 }
 
 /* ==========================================
@@ -1141,3 +1365,4 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+

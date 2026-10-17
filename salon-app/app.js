@@ -134,13 +134,111 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const DEFAULT_SALES = [
-    { id: 'sale_1', customerName: 'ইমতিয়াজ হক', serviceName: 'চুল কাটা', amount: 150, timestamp: getDateOffset(0, 9, 30), paymentMethod: 'ক্যাশ' },
-    { id: 'sale_2', customerName: 'ওয়াক-ইন কাস্টমার', serviceName: 'দাড়ি ট্রিম', amount: 80, timestamp: getDateOffset(0, 10, 15), paymentMethod: 'ক্যাশ' },
-    { id: 'sale_3', customerName: 'রফিক ভাই', serviceName: 'চুল + দাড়ি কম্বো', amount: 220, timestamp: getDateOffset(0, 11, 45), paymentMethod: 'বিকাশ' },
-    { id: 'sale_4', customerName: 'ওয়াক-ইন কাস্টমার', serviceName: 'ফেসিয়াল ও ম্যাসাজ', amount: 400, timestamp: getDateOffset(0, 13, 10), paymentMethod: 'ক্যাশ' },
-    { id: 'sale_5', customerName: 'আরিফ আহমেদ', serviceName: 'চুল কাটা + কালার', amount: 450, timestamp: getDateOffset(0, 14, 20), paymentMethod: 'বিকাশ' },
-    { id: 'sale_6', customerName: 'ওয়াক-ইন কাস্টমার', serviceName: 'চুল কাটা', amount: 150, timestamp: getDateOffset(-1, 16, 0), paymentMethod: 'ক্যাশ' },
-    { id: 'sale_7', customerName: 'ডা. আনোয়ার হোসেন', serviceName: 'চুল কাটা', amount: 150, timestamp: getDateOffset(-18, 11, 0), paymentMethod: 'ক্যাশ' }
+    {
+      id: 'sale_1',
+      memoNo: 'SL-101',
+      customerName: 'ইমতিয়াজ হক',
+      customerPhone: '01744112233',
+      serviceName: 'চুল কাটা',
+      services: [{ name: 'চুল কাটা', price: 150 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 150,
+      paidAmount: 150,
+      dueAmount: 0,
+      timestamp: getDateOffset(0, 9, 30),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_2',
+      memoNo: 'SL-102',
+      customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
+      serviceName: 'দাড়ি ট্রিম ও শেভ',
+      services: [{ name: 'দাড়ি ট্রিম ও শেভ', price: 80 }],
+      barberName: 'কারিগর সুজন',
+      totalAmount: 80,
+      paidAmount: 80,
+      dueAmount: 0,
+      timestamp: getDateOffset(0, 10, 15),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_3',
+      memoNo: 'SL-103',
+      customerName: 'মো. রফিকুল ইসলাম',
+      customerPhone: '01911223344',
+      serviceName: 'চুল + দাড়ি কম্বো',
+      services: [{ name: 'চুল + দাড়ি কম্বো', price: 220 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 220,
+      paidAmount: 220,
+      dueAmount: 0,
+      timestamp: getDateOffset(0, 11, 45),
+      paymentMethod: 'বিকাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_4',
+      memoNo: 'SL-104',
+      customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
+      serviceName: 'ফেসিয়াল ও ম্যাসাজ',
+      services: [{ name: 'হার্বাল ফেসিয়াল', price: 300 }, { name: 'হেড ম্যাসাজ', price: 100 }],
+      barberName: 'কারিগর রনি',
+      totalAmount: 400,
+      paidAmount: 400,
+      dueAmount: 0,
+      timestamp: getDateOffset(0, 13, 10),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_5',
+      memoNo: 'SL-105',
+      customerName: 'আরিফ আহমেদ',
+      customerPhone: '01822334455',
+      serviceName: 'চুল কাটা + কালার',
+      services: [{ name: 'চুল কাটা', price: 150 }, { name: 'হেয়ার কালার', price: 250 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 400,
+      paidAmount: 400,
+      dueAmount: 0,
+      timestamp: getDateOffset(0, 14, 20),
+      paymentMethod: 'বিকাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_6',
+      memoNo: 'SL-106',
+      customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
+      serviceName: 'চুল কাটা',
+      services: [{ name: 'চুল কাটা', price: 150 }],
+      barberName: 'কারিগর সুজন',
+      totalAmount: 150,
+      paidAmount: 150,
+      dueAmount: 0,
+      timestamp: getDateOffset(-1, 16, 0),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_7',
+      memoNo: 'SL-107',
+      customerName: 'ডা. আনোয়ার হোসেন',
+      customerPhone: '01511223344',
+      serviceName: 'চুল কাটা ও স্পেশাল শেভ',
+      services: [{ name: 'চুল কাটা', price: 150 }, { name: 'দাড়ি ট্রিম', price: 80 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 230,
+      paidAmount: 230,
+      dueAmount: 0,
+      timestamp: getDateOffset(-18, 11, 0),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    }
   ];
 
   function getDateOffset(daysOffset, hours = 12, mins = 0) {
@@ -155,6 +253,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let customers = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) || DEFAULT_CUSTOMERS;
   let sales = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALES)) || DEFAULT_SALES;
 
+  // Auto-upgrade legacy sales if missing fields
+  sales = sales.map((s, idx) => ({
+    id: s.id || ('sale_' + (Date.now() - idx * 1000)),
+    memoNo: s.memoNo || ('SL-' + String(idx + 101).padStart(3, '0')),
+    customerName: s.customerName || 'ওয়াক-ইন কাস্টমার',
+    customerPhone: s.customerPhone || '',
+    serviceName: s.serviceName || 'সেলুন সার্ভিস',
+    services: s.services || [{ name: s.serviceName || 'সেলুন সার্ভিস', price: s.amount || s.totalAmount || 150 }],
+    barberName: s.barberName || salon.ownerName || 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+    totalAmount: Number(s.totalAmount || s.amount || 0),
+    paidAmount: Number(s.paidAmount || s.amount || s.totalAmount || 0),
+    dueAmount: Number(s.dueAmount || 0),
+    timestamp: s.timestamp || new Date().toISOString(),
+    paymentMethod: s.paymentMethod || 'ক্যাশ',
+    notes: s.notes || ''
+  }));
+
   function persistData() {
     localStorage.setItem(STORAGE_KEYS.SALON, JSON.stringify(salon));
     localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
@@ -167,7 +282,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. HELPER FUNCTIONS & FORMATTERS
   // ========================================================
   function formatTaka(amount) {
-    return '৳' + Number(amount).toLocaleString('en-IN');
+    return '৳' + Number(amount || 0).toLocaleString('en-IN');
+  }
+
+  function isSameDay(d1, d2) {
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+
+  function formatBengaliDate(isoOrDate, mode = 'short') {
+    const d = new Date(isoOrDate);
+    if (isNaN(d.getTime())) return '';
+
+    if (mode === 'timeOnly') {
+      return d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+    }
+    if (mode === 'dateOnly') {
+      return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    if (mode === 'shortDate') {
+      return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+    }
+    if (mode === 'full') {
+      const weekday = d.toLocaleDateString('bn-BD', { weekday: 'long' });
+      const datePart = d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timePart = d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+      return `${datePart} (${weekday}), ${timePart}`;
+    }
+    // Default: 'short'
+    return `${d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' })}, ${d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' })}`;
   }
 
   function getDaysDifference(pastIsoDate) {
@@ -505,37 +651,536 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sales Ledger List
-  function renderSalesLedger() {
-    const container = document.getElementById('salesLedgerList');
-    if (!container) return;
+  // ========================================================
+  // 3. DAILY SALES & CASH REGISTERS
+  // ========================================================
+  let currentLedgerPeriod = 'today';
+  let modalSelectedChips = [];
+  let activeReceiptSale = null;
 
-    // Show latest sales first
-    const sortedSales = [...sales].reverse();
+  // Render Dashboard Today's Live Sales Sector
+  function renderDashboardTodaySales() {
+    const listContainer = document.getElementById('dashTodaySalesList');
+    const totalEl = document.getElementById('dashTodayTotal');
+    const clientsEl = document.getElementById('dashTodayClients');
+    const cashEl = document.getElementById('dashTodayCash');
+    const digitalEl = document.getElementById('dashTodayDigital');
+    const dateLabelEl = document.getElementById('dashSalesDateLabel');
 
-    container.innerHTML = sortedSales.slice(0, 15).map(s => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Filter today's sales
+    const todaySales = sales.filter(s => {
       const d = new Date(s.timestamp);
-      const timeStr = d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-      const dateStr = d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+      d.setHours(0, 0, 0, 0);
+      return d.getTime() === today.getTime();
+    });
 
-      return `
-        <div class="ledger-item">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm font-bold">
-              ৳
-            </div>
-            <div>
-              <div class="font-semibold text-white text-sm">${s.serviceName}</div>
-              <div class="text-xs text-zinc-500">${s.customerName} • ${dateStr}, ${timeStr}</div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="font-outfit font-bold text-white text-base">+${formatTaka(s.amount)}</div>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-400">${s.paymentMethod}</span>
-          </div>
+    const totalAmount = todaySales.reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
+    const cashAmount = todaySales.filter(s => s.paymentMethod === 'ক্যাশ').reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
+    const digitalAmount = totalAmount - cashAmount;
+
+    if (totalEl) totalEl.textContent = formatTaka(totalAmount);
+    if (clientsEl) clientsEl.textContent = todaySales.length + ' জন';
+    if (cashEl) cashEl.textContent = formatTaka(cashAmount);
+    if (digitalEl) digitalEl.textContent = formatTaka(digitalAmount);
+    if (dateLabelEl) dateLabelEl.textContent = `আজকের তারিখ: ${formatBengaliDate(new Date(), 'dateOnly')} (লাইভ হিসাব)`;
+
+    if (!listContainer) return;
+
+    if (todaySales.length === 0) {
+      listContainer.innerHTML = `
+        <div class="p-8 text-center bg-surfaceElevated border border-subtle rounded-xl text-zinc-400">
+          <i class="fa-solid fa-cash-register text-goldPrimary text-3xl mb-2"></i>
+          <p class="font-medium text-white">আজকে এখনো কোনো সেল এন্ট্রি করা হয়নি!</p>
+          <p class="text-xs text-zinc-500 mt-1">উপরের দ্রুত ক্যাশ বোতাম চাপুন বা নতুন এন্ট্রি দিন।</p>
         </div>
       `;
-    }).join('');
+      return;
+    }
+
+    // Sort newest first
+    const sortedToday = [...todaySales].reverse();
+
+    // Responsive Desktop Table & Mobile Cards
+    listContainer.innerHTML = `
+      <!-- Desktop Table -->
+      <div class="hidden md:block sales-table-wrapper">
+        <table class="sales-table">
+          <thead>
+            <tr>
+              <th>সময় ও মেমো</th>
+              <th>কাস্টমারের নাম ও মোবাইল</th>
+              <th>সেবা সমূহ</th>
+              <th>কে কেটেছে (কারিগর)</th>
+              <th>বিল ও পরিশোধ</th>
+              <th>মাধ্যম</th>
+              <th class="text-right">রশিদ ও অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sortedToday.map(s => `
+              <tr>
+                <td>
+                  <div class="font-bold text-white text-xs font-mono">${formatBengaliDate(s.timestamp, 'timeOnly')}</div>
+                  <div class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</div>
+                </td>
+                <td>
+                  <div class="font-semibold text-white flex items-center gap-1.5">
+                    <span>${s.customerName}</span>
+                  </div>
+                  ${s.customerPhone ? `<div class="text-xs text-zinc-400 font-mono">${s.customerPhone}</div>` : '<div class="text-[10px] text-zinc-500">ওয়াক-ইন গ্রাহক</div>'}
+                </td>
+                <td>
+                  <span class="inline-block px-2.5 py-1 rounded bg-white/5 border border-subtle text-xs text-zinc-200 font-medium">
+                    ${s.serviceName}
+                  </span>
+                </td>
+                <td>
+                  <div class="text-xs text-zinc-300 flex items-center gap-1">
+                    <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
+                    <span>${s.barberName || salon.ownerName}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</div>
+                  ${s.dueAmount > 0 ? `<div class="text-[10px] text-red-400 font-bold">বকেয়া: ${formatTaka(s.dueAmount)}</div>` : ''}
+                </td>
+                <td>
+                  <span class="text-[11px] font-medium px-2 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}">
+                    ${s.paymentMethod}
+                  </span>
+                </td>
+                <td class="text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-2.5 py-1.5 rounded-lg border border-goldPrimary/30 transition-all" data-receipt-id="${s.id}" title="ডিজিটাল রসিদ দেখুন">
+                      <i class="fa-solid fa-receipt text-xs"></i>
+                      <span>রশিদ</span>
+                    </button>
+                    <button class="btn-delete-sale text-xs text-zinc-500 hover:text-red-400 p-1.5 rounded hover:bg-white/5 transition-all" data-delete-sale-id="${s.id}" title="রেকর্ড মুছুন">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Cards -->
+      <div class="md:hidden mobile-sales-cards">
+        ${sortedToday.map(s => `
+          <div class="sale-card-single">
+            <div class="flex items-center justify-between pb-2 border-b border-subtle">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono font-bold text-goldLight bg-goldPrimary/10 px-2 py-0.5 rounded border border-goldPrimary/20">
+                  ${formatBengaliDate(s.timestamp, 'timeOnly')}
+                </span>
+                <span class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</span>
+              </div>
+              <div class="text-right">
+                <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
+                <span class="text-[10px] ml-1 px-1.5 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-purple-500/10 text-purple-400'}">${s.paymentMethod}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-white text-sm">${s.customerName}</h4>
+                <div class="text-xs text-goldLight mt-0.5">✂️ ${s.serviceName}</div>
+                <div class="text-[11px] text-zinc-400 mt-1 flex items-center gap-1">
+                  <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
+                  <span>${s.barberName || salon.ownerName}</span>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1 items-end">
+                <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-3 py-1.5 rounded-lg border border-goldPrimary/30" data-receipt-id="${s.id}">
+                  <i class="fa-solid fa-receipt text-xs mr-1"></i> রসিদ
+                </button>
+                <button class="btn-delete-sale text-[11px] text-zinc-500 hover:text-red-400 py-1" data-delete-sale-id="${s.id}">
+                  <i class="fa-solid fa-trash-can text-[10px]"></i> মুছুন
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Attach receipt and delete handlers
+    listContainer.querySelectorAll('[data-receipt-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        openReceiptModal(btn.getAttribute('data-receipt-id'));
+      });
+    });
+
+    listContainer.querySelectorAll('[data-delete-sale-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        deleteSale(btn.getAttribute('data-delete-sale-id'));
+      });
+    });
+  }
+
+  // Render Comprehensive Multi-Date Sales Ledger (in Tab 4: Sales)
+  function renderComprehensiveSalesLedger() {
+    const container = document.getElementById('comprehensiveSalesLedger');
+    const totalEl = document.getElementById('ledgerPeriodTotal');
+    const clientsEl = document.getElementById('ledgerPeriodClients');
+    const cashEl = document.getElementById('ledgerPeriodCash');
+    const digitalEl = document.getElementById('ledgerPeriodDigital');
+    const headingEl = document.getElementById('ledgerListHeading');
+    const countEl = document.getElementById('ledgerListCount');
+
+    const now = new Date();
+    const todayZero = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    let filtered = [...sales];
+    let headingText = 'আজকের বিস্তারিত ক্যাশ বিবরণী';
+
+    if (currentLedgerPeriod === 'today') {
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return isSameDay(d, now);
+      });
+      headingText = `আজকের সেল বিবরণী (${formatBengaliDate(now, 'dateOnly')})`;
+    } else if (currentLedgerPeriod === 'yesterday') {
+      const yesterday = new Date(todayZero.getTime() - 24 * 60 * 60 * 1000);
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return isSameDay(d, yesterday);
+      });
+      headingText = `গতকালকের সেল বিবরণী (${formatBengaliDate(yesterday, 'dateOnly')})`;
+    } else if (currentLedgerPeriod === 'week') {
+      const weekStart = new Date(todayZero.getTime() - 7 * 24 * 60 * 60 * 1000);
+      filtered = filtered.filter(s => new Date(s.timestamp) >= weekStart);
+      headingText = 'বিগত ৭ দিনের বিক্রয় বিবরণী';
+    } else if (currentLedgerPeriod === 'month') {
+      const m = now.getMonth();
+      const y = now.getFullYear();
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return d.getMonth() === m && d.getFullYear() === y;
+      });
+      headingText = 'চলতি মাসের সর্বমোট ক্যাশ বিবরণী';
+    } else if (currentLedgerPeriod === 'all') {
+      headingText = 'সর্বকালের সকল বিক্রয় বিবরণী';
+    } else if (currentLedgerPeriod.includes('-')) {
+      // Specific date format: YYYY-MM-DD
+      const targetDate = new Date(currentLedgerPeriod + 'T00:00:00');
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return isSameDay(d, targetDate);
+      });
+      headingText = `${formatBengaliDate(targetDate, 'dateOnly')}-এর সেল বিবরণী`;
+    }
+
+    const totalAmount = filtered.reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
+    const cashAmount = filtered.filter(s => s.paymentMethod === 'ক্যাশ').reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
+    const digitalAmount = totalAmount - cashAmount;
+
+    if (totalEl) totalEl.textContent = formatTaka(totalAmount);
+    if (clientsEl) clientsEl.textContent = filtered.length + ' জন';
+    if (cashEl) cashEl.textContent = formatTaka(cashAmount);
+    if (digitalEl) digitalEl.textContent = formatTaka(digitalAmount);
+    if (headingEl) headingEl.textContent = headingText;
+    if (countEl) countEl.textContent = filtered.length + ' টি এন্ট্রি';
+
+    if (!container) return;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="p-8 text-center bg-surface border border-card rounded-xl text-zinc-400">
+          <i class="fa-solid fa-receipt text-zinc-600 text-3xl mb-2"></i>
+          <p class="font-medium text-white">এই তারিখ বা সময়ে কোনো সেল এন্ট্রি পাওয়া যায়নি।</p>
+          <p class="text-xs text-zinc-500 mt-1">তারিখ ফিল্টার পরিবর্তন করুন অথবা নতুন সেল যুক্ত করুন।</p>
+        </div>
+      `;
+      return;
+    }
+
+    const sorted = [...filtered].reverse();
+
+    container.innerHTML = `
+      <!-- Desktop View Table -->
+      <div class="hidden md:block sales-table-wrapper">
+        <table class="sales-table">
+          <thead>
+            <tr>
+              <th>তারিখ ও সময়</th>
+              <th>কাস্টমারের নাম ও মোবাইল</th>
+              <th>সেবা</th>
+              <th>কারিগর</th>
+              <th>বিল ও পরিশোধ</th>
+              <th>মাধ্যম</th>
+              <th class="text-right">রশিদ ও অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map(s => `
+              <tr>
+                <td>
+                  <div class="font-bold text-white text-xs">${formatBengaliDate(s.timestamp, 'shortDate')}</div>
+                  <div class="text-[11px] text-zinc-400 font-mono">${formatBengaliDate(s.timestamp, 'timeOnly')}</div>
+                  <div class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</div>
+                </td>
+                <td>
+                  <div class="font-semibold text-white">${s.customerName}</div>
+                  ${s.customerPhone ? `<div class="text-xs text-zinc-400 font-mono">${s.customerPhone}</div>` : '<div class="text-[10px] text-zinc-500">ওয়াক-ইন</div>'}
+                </td>
+                <td>
+                  <span class="inline-block px-2.5 py-1 rounded bg-white/5 border border-subtle text-xs text-zinc-200">
+                    ${s.serviceName}
+                  </span>
+                </td>
+                <td>
+                  <div class="text-xs text-zinc-300 flex items-center gap-1">
+                    <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
+                    <span>${s.barberName || salon.ownerName}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</div>
+                  ${s.dueAmount > 0 ? `<div class="text-[10px] text-red-400 font-bold">বকেয়া: ${formatTaka(s.dueAmount)}</div>` : ''}
+                </td>
+                <td>
+                  <span class="text-[11px] font-medium px-2 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}">
+                    ${s.paymentMethod}
+                  </span>
+                </td>
+                <td class="text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-2.5 py-1.5 rounded-lg border border-goldPrimary/30 transition-all" data-receipt-id="${s.id}">
+                      <i class="fa-solid fa-receipt text-xs"></i>
+                      <span>রশিদ</span>
+                    </button>
+                    <button class="btn-delete-sale text-xs text-zinc-500 hover:text-red-400 p-1.5 rounded hover:bg-white/5 transition-all" data-delete-sale-id="${s.id}" title="মুছুন">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile View Cards -->
+      <div class="md:hidden mobile-sales-cards">
+        ${sorted.map(s => `
+          <div class="sale-card-single">
+            <div class="flex items-center justify-between pb-2 border-b border-subtle">
+              <div>
+                <span class="text-xs font-bold text-white">${formatBengaliDate(s.timestamp, 'shortDate')}</span>
+                <span class="text-xs text-zinc-400 font-mono ml-1">(${formatBengaliDate(s.timestamp, 'timeOnly')})</span>
+              </div>
+              <div class="text-right">
+                <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
+                <span class="text-[10px] ml-1 px-1.5 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-purple-500/10 text-purple-400'}">${s.paymentMethod}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-white text-sm">${s.customerName}</h4>
+                <div class="text-xs text-goldLight mt-0.5">✂️ ${s.serviceName}</div>
+                <div class="text-[11px] text-zinc-400 mt-1 flex items-center gap-1">
+                  <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
+                  <span>${s.barberName || salon.ownerName}</span>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1 items-end">
+                <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-3 py-1.5 rounded-lg border border-goldPrimary/30" data-receipt-id="${s.id}">
+                  <i class="fa-solid fa-receipt text-xs mr-1"></i> রশিদ
+                </button>
+                <button class="btn-delete-sale text-[11px] text-zinc-500 hover:text-red-400 py-1" data-delete-sale-id="${s.id}">
+                  <i class="fa-solid fa-trash-can text-[10px]"></i> মুছুন
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    container.querySelectorAll('[data-receipt-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        openReceiptModal(btn.getAttribute('data-receipt-id'));
+      });
+    });
+
+    container.querySelectorAll('[data-delete-sale-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        deleteSale(btn.getAttribute('data-delete-sale-id'));
+      });
+    });
+  }
+
+  // Delete a sale
+  function deleteSale(saleId) {
+    const sale = sales.find(s => s.id === saleId);
+    if (!sale) return;
+
+    if (confirm(`আপনি কি #${sale.memoNo || 'SL-100'} এর "${sale.serviceName}" এন্ট্রিটি মুছে ফেলতে চান?`)) {
+      sales = sales.filter(s => s.id !== saleId);
+      persistData();
+      refreshAllUI();
+      showToast('✓ সেলের রেকর্ডটি সফলভাবে মুছে ফেলা হয়েছে!');
+    }
+  }
+
+  // Open Receipt Modal
+  const receiptModal = document.getElementById('receiptModal');
+  const receiptPaper = document.getElementById('receiptPaper');
+  const printReceiptBtn = document.getElementById('printReceiptBtn');
+  const whatsappReceiptBtn = document.getElementById('whatsappReceiptBtn');
+
+  function openReceiptModal(saleId) {
+    const sale = sales.find(s => s.id === saleId);
+    if (!sale || !receiptModal || !receiptPaper) return;
+
+    activeReceiptSale = sale;
+
+    const formattedDate = formatBengaliDate(sale.timestamp, 'full');
+    const memoNo = sale.memoNo || ('SL-' + sale.id.slice(-4));
+    const barber = sale.barberName || salon.ownerName;
+    const total = Number(sale.totalAmount || sale.amount || 0);
+    const paid = Number(sale.paidAmount || sale.amount || 0);
+    const due = Number(sale.dueAmount || 0);
+
+    // Itemized list if available
+    const servicesList = (sale.services && sale.services.length > 0)
+      ? sale.services
+      : [{ name: sale.serviceName, price: total }];
+
+    receiptPaper.innerHTML = `
+      <div class="text-center pb-3">
+        <div class="text-2xl font-black text-goldLight tracking-wider mb-1">${salon.name}</div>
+        <div class="text-xs text-zinc-400">${salon.address}</div>
+        <div class="text-xs text-zinc-400">মোবাইল: ${salon.phone}</div>
+        <div class="mt-2 inline-block px-3 py-0.5 rounded bg-white/10 text-[11px] font-bold text-white tracking-widest uppercase">
+          ক্যাশ মেমো / রসিদ
+        </div>
+      </div>
+
+      <div class="receipt-dashed-line"></div>
+
+      <div class="text-xs space-y-1.5 font-mono">
+        <div class="flex justify-between">
+          <span class="text-zinc-400">মেমো নং:</span>
+          <span class="font-bold text-white">#${memoNo}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-zinc-400">তারিখ ও সময়:</span>
+          <span class="text-white">${formattedDate}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-zinc-400">কাস্টমার:</span>
+          <span class="font-bold text-white">${sale.customerName}</span>
+        </div>
+        ${sale.customerPhone ? `
+          <div class="flex justify-between">
+            <span class="text-zinc-400">মোবাইল:</span>
+            <span class="text-white">${sale.customerPhone}</span>
+          </div>
+        ` : ''}
+        <div class="flex justify-between">
+          <span class="text-zinc-400">কারিগর / বারবার:</span>
+          <span class="text-goldLight font-bold">${barber}</span>
+        </div>
+      </div>
+
+      <div class="receipt-dashed-line"></div>
+
+      <!-- Itemized Services Table -->
+      <div class="mb-3">
+        <div class="flex justify-between text-xs font-bold text-zinc-400 mb-2 border-b border-subtle pb-1">
+          <span>সেবার বিবরণ</span>
+          <span>মূল্য (৳)</span>
+        </div>
+        ${servicesList.map(srv => `
+          <div class="receipt-item-row text-xs">
+            <span class="text-zinc-200">✂️ ${srv.name}</span>
+            <span class="font-mono font-bold text-white">${formatTaka(srv.price)}</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="receipt-dashed-line"></div>
+
+      <!-- Totals -->
+      <div class="space-y-1.5 text-xs font-mono">
+        <div class="flex justify-between text-sm">
+          <span class="font-bold text-white">সর্বমোট বিল:</span>
+          <span class="font-bold text-goldLight font-outfit text-base">${formatTaka(total)}</span>
+        </div>
+        <div class="flex justify-between text-emerald-400 font-bold">
+          <span>পরিশোধ (${sale.paymentMethod}):</span>
+          <span class="font-outfit text-base">${formatTaka(paid)}</span>
+        </div>
+        ${due > 0 ? `
+          <div class="flex justify-between text-red-400 font-bold">
+            <span>বকেয়া / বাকি:</span>
+            <span class="font-outfit text-base">${formatTaka(due)}</span>
+          </div>
+        ` : `
+          <div class="flex justify-between text-zinc-400 text-[11px]">
+            <span>বকেয়া:</span>
+            <span>৳০ (সম্পূর্ণ পরিশোধিত)</span>
+          </div>
+        `}
+      </div>
+
+      <div class="receipt-dashed-line"></div>
+
+      <div class="text-center pt-2">
+        <p class="text-xs text-zinc-300 font-bangla">আপনার সুন্দর লুক আমাদের সন্তুষ্টি।</p>
+        <p class="text-[11px] text-zinc-500 font-bangla mt-0.5">ধন্যবাদ, আবার আসবেন!</p>
+        <div class="mt-3 text-[10px] text-zinc-600 font-mono tracking-widest">
+          •••••••• SALONO SMART POS ••••••••
+        </div>
+      </div>
+    `;
+
+    receiptModal.classList.add('active');
+  }
+
+  // Print Receipt
+  if (printReceiptBtn) {
+    printReceiptBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  // WhatsApp Receipt
+  if (whatsappReceiptBtn) {
+    whatsappReceiptBtn.addEventListener('click', () => {
+      if (!activeReceiptSale) return;
+      const s = activeReceiptSale;
+      const phone = s.customerPhone ? s.customerPhone.replace(/[^0-9]/g, '') : '';
+      let targetPhone = phone;
+      if (targetPhone.startsWith('0')) targetPhone = '880' + targetPhone.substring(1);
+
+      const msg = `আসসালামু আলাইকুম ${s.customerName} ভাই! ${salon.name} থেকে আপনার সেবার ডিজিটাল রসিদ:\n\n` +
+        `মেমো নং: #${s.memoNo || 'SL-100'}\n` +
+        `তারিখ ও সময়: ${formatBengaliDate(s.timestamp, 'short')}\n` +
+        `সেবা: ${s.serviceName}\n` +
+        `কারিগর: ${s.barberName || salon.ownerName}\n` +
+        `মোট বিল: ${formatTaka(s.totalAmount || s.amount)}\n` +
+        `পরিশোধ: ${formatTaka(s.paidAmount || s.amount)} (${s.paymentMethod})\n` +
+        (s.dueAmount > 0 ? `বকেয়া: ${formatTaka(s.dueAmount)}\n` : '') +
+        `\nআমাদের সেলুনে আসার জন্য আপনাকে ধন্যবাদ! আবার আসবেন।\n— ${salon.name} (${salon.phone})`;
+
+      if (targetPhone) {
+        window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else {
+        navigator.clipboard.writeText(msg);
+        showToast('✓ কাস্টমারের ফোন নম্বর নেই, মেমো টেক্সট কপি করা হয়েছে!');
+      }
+    });
   }
 
   // Marketing Pre-Crafted Messages List
@@ -603,41 +1248,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const cust = customers.find(c => c.id === customerId);
     if (!cust) return;
 
-    // Update last visit date to right now
     cust.lastVisitDate = new Date().toISOString();
     cust.totalVisits = (cust.totalVisits || 0) + 1;
     cust.totalSpent = (cust.totalSpent || 0) + Number(cust.regularAmount);
 
-    // Record the sale automatically
+    const saleAmount = Number(cust.regularAmount);
     const newSale = {
       id: 'sale_' + Date.now(),
+      memoNo: 'SL-' + String(sales.length + 101).padStart(3, '0'),
       customerName: cust.name,
-      serviceName: 'চুল ও দাড়ি সার্ভিস',
-      amount: cust.regularAmount,
+      customerPhone: cust.phone,
+      serviceName: cust.styleNote || 'চুল ও দাড়ি সার্ভিস',
+      services: [{ name: cust.styleNote || 'চুল ও দাড়ি সার্ভিস', price: saleAmount }],
+      barberName: salon.ownerName || 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: saleAmount,
+      paidAmount: saleAmount,
+      dueAmount: 0,
       timestamp: new Date().toISOString(),
-      paymentMethod: 'ক্যাশ'
+      paymentMethod: 'ক্যাশ',
+      notes: ''
     };
     sales.push(newSale);
 
     persistData();
     refreshAllUI();
-    showToast(`✓ ${cust.name} ভাইয়ের চুল কাটা সম্পন্ন হয়েছে এবং ${formatTaka(cust.regularAmount)} সেলে যুক্ত হয়েছে!`);
+    showToast(`✓ ${cust.name} ভাইয়ের চুল কাটা সম্পন্ন হয়েছে এবং ${formatTaka(saleAmount)} সেলে যুক্ত হয়েছে!`);
+    openReceiptModal(newSale.id);
   }
 
   // Quick Service Sale Entry (From POS Register)
   function handleQuickSale(serviceName, amount) {
+    const numAmount = Number(amount);
     const newSale = {
       id: 'sale_' + Date.now(),
+      memoNo: 'SL-' + String(sales.length + 101).padStart(3, '0'),
       customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
       serviceName: serviceName,
-      amount: Number(amount),
+      services: [{ name: serviceName, price: numAmount }],
+      barberName: salon.ownerName || 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: numAmount,
+      paidAmount: numAmount,
+      dueAmount: 0,
       timestamp: new Date().toISOString(),
-      paymentMethod: 'ক্যাশ'
+      paymentMethod: 'ক্যাশ',
+      notes: ''
     };
     sales.push(newSale);
     persistData();
     refreshAllUI();
-    showToast(`✓ ${serviceName} বাবদ +${formatTaka(amount)} যোগ হয়েছে!`);
+    showToast(`✓ ${serviceName} বাবদ +${formatTaka(amount)} যুক্ত হয়েছে!`);
   }
 
   // Open Add Customer Modal
@@ -685,7 +1345,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const isVip = document.getElementById('modalCustVip').checked;
 
       if (id) {
-        // Edit existing
         const idx = customers.findIndex(c => c.id === id);
         if (idx !== -1) {
           customers[idx].name = name;
@@ -697,7 +1356,6 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast('✓ কাস্টমার তথ্য সফলভাবে আপডেট হয়েছে!');
         }
       } else {
-        // Create new
         const avatars = ['👨', '🧑', '🧔', '💇‍♂️', '👨‍💼', '👦'];
         const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
         const newCust = {
@@ -705,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', () => {
           name,
           phone,
           cycleDays,
-          lastVisitDate: new Date().toISOString(), // visited today
+          lastVisitDate: new Date().toISOString(),
           styleNote,
           regularAmount,
           totalVisits: 1,
@@ -723,89 +1381,168 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quick Sale Custom Amount Modal
+  // Smart Custom Sale Modal & Multi-Select Chips
   const customSaleModal = document.getElementById('customSaleModal');
   const customSaleForm = document.getElementById('customSaleForm');
+  const saleDateTimeInput = document.getElementById('saleDateTime');
+  const saleCustomerSelect = document.getElementById('saleCustomerSelect');
+  const saleCustomerInput = document.getElementById('saleCustomerInput');
+  const saleCustomerPhone = document.getElementById('saleCustomerPhone');
+  const saleBarberName = document.getElementById('saleBarberName');
+  const saleTotalAmount = document.getElementById('saleTotalAmount');
+  const salePaidAmount = document.getElementById('salePaidAmount');
+  const saleDueAmount = document.getElementById('saleDueAmount');
+  const salePaymentMethod = document.getElementById('salePaymentMethod');
+  const saleCustomServiceName = document.getElementById('saleCustomServiceName');
+  const selectedServicesCount = document.getElementById('selectedServicesCount');
+  const modalServiceChips = document.getElementById('modalServiceChips');
 
+  function openSmartSaleModal() {
+    if (!customSaleModal || !customSaleForm) return;
+    customSaleForm.reset();
+    modalSelectedChips = [];
+
+    // 1. Auto-populate Local Datetime
+    const now = new Date();
+    const offsetMs = now.getTimezoneOffset() * 60000;
+    const localIso = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
+    if (saleDateTimeInput) saleDateTimeInput.value = localIso;
+
+    // 2. Populate Customers dropdown
+    if (saleCustomerSelect) {
+      saleCustomerSelect.innerHTML = `
+        <option value="">-- রেজিস্টার্ড কাস্টমার তালিকা --</option>
+        ${customers.map(c => `
+          <option value="${c.id}" data-phone="${c.phone}" data-name="${c.name}" data-amount="${c.regularAmount}">
+            ${c.name} (${c.phone})
+          </option>
+        `).join('')}
+      `;
+    }
+
+    // 3. Reset chips selection
+    if (modalServiceChips) {
+      modalServiceChips.querySelectorAll('.service-chip').forEach(c => c.classList.remove('selected'));
+    }
+    if (selectedServicesCount) selectedServicesCount.textContent = '০ টি নির্বাচিত';
+    if (saleTotalAmount) saleTotalAmount.value = '';
+    if (salePaidAmount) salePaidAmount.value = '';
+    if (saleDueAmount) saleDueAmount.value = '0';
+
+    customSaleModal.classList.add('active');
+  }
+
+  // Customer dropdown change handler
+  if (saleCustomerSelect) {
+    saleCustomerSelect.addEventListener('change', () => {
+      const selectedOpt = saleCustomerSelect.selectedOptions[0];
+      if (selectedOpt && selectedOpt.value) {
+        if (saleCustomerInput) saleCustomerInput.value = selectedOpt.getAttribute('data-name');
+        if (saleCustomerPhone) saleCustomerPhone.value = selectedOpt.getAttribute('data-phone');
+        if (modalSelectedChips.length === 0 && saleTotalAmount) {
+          const regAmount = selectedOpt.getAttribute('data-amount') || '150';
+          saleTotalAmount.value = regAmount;
+          if (salePaidAmount) salePaidAmount.value = regAmount;
+          if (saleDueAmount) saleDueAmount.value = '0';
+        }
+      }
+    });
+  }
+
+  // Interactive Chip Selection
+  if (modalServiceChips) {
+    modalServiceChips.querySelectorAll('.service-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const name = chip.getAttribute('data-chip-name');
+        const price = Number(chip.getAttribute('data-chip-price'));
+
+        const existingIdx = modalSelectedChips.findIndex(c => c.name === name);
+        if (existingIdx > -1) {
+          modalSelectedChips.splice(existingIdx, 1);
+          chip.classList.remove('selected');
+        } else {
+          modalSelectedChips.push({ name, price });
+          chip.classList.add('selected');
+        }
+
+        // Recalculate Total
+        const chipTotal = modalSelectedChips.reduce((sum, c) => sum + c.price, 0);
+        if (saleTotalAmount) saleTotalAmount.value = chipTotal > 0 ? chipTotal : '';
+        if (salePaidAmount) salePaidAmount.value = chipTotal > 0 ? chipTotal : '';
+        if (saleDueAmount) saleDueAmount.value = '0';
+        if (selectedServicesCount) selectedServicesCount.textContent = modalSelectedChips.length + ' টি নির্বাচিত';
+
+        // Auto update custom service text input if empty
+        if (saleCustomServiceName) {
+          saleCustomServiceName.placeholder = modalSelectedChips.map(c => c.name).join(' + ') || 'অন্যান্য কাস্টম সেবার নাম';
+        }
+      });
+    });
+  }
+
+  // Live Due Calculation
+  function updateDueAmount() {
+    const total = Number(saleTotalAmount.value) || 0;
+    const paid = Number(salePaidAmount.value) || 0;
+    const due = Math.max(0, total - paid);
+    if (saleDueAmount) saleDueAmount.value = due;
+  }
+
+  if (saleTotalAmount) saleTotalAmount.addEventListener('input', updateDueAmount);
+  if (salePaidAmount) salePaidAmount.addEventListener('input', updateDueAmount);
+
+  // Submit Smart Sale Form
   if (customSaleForm) {
     customSaleForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const serviceName = document.getElementById('customServiceName').value.trim() || 'অন্যান্য সেবা';
-      const amount = Number(document.getElementById('customSaleAmount').value);
-      const custName = document.getElementById('customSaleClient').value.trim() || 'ওয়াক-ইন কাস্টমার';
-      const paymentMethod = document.getElementById('customSalePayment').value || 'ক্যাশ';
 
-      if (amount > 0) {
-        sales.push({
+      const dt = saleDateTimeInput && saleDateTimeInput.value ? new Date(saleDateTimeInput.value).toISOString() : new Date().toISOString();
+      const barber = saleBarberName ? saleBarberName.value : (salon.ownerName || 'ওস্তাদ মো. আবুল বাশার (মালিক)');
+      const custName = (saleCustomerInput && saleCustomerInput.value.trim()) || 'ওয়াক-ইন কাস্টমার';
+      const custPhone = (saleCustomerPhone && saleCustomerPhone.value.trim()) || '';
+      const total = Number(saleTotalAmount.value) || 0;
+      const paid = Number(salePaidAmount.value) || 0;
+      const due = Number(saleDueAmount.value) || 0;
+      const paymentMethod = salePaymentMethod ? salePaymentMethod.value : 'ক্যাশ';
+      const customName = saleCustomServiceName ? saleCustomServiceName.value.trim() : '';
+
+      // Determine service name and services array
+      let services = [...modalSelectedChips];
+      if (customName) {
+        services.push({ name: customName, price: total - modalSelectedChips.reduce((s, c) => s + c.price, 0) });
+      }
+      if (services.length === 0) {
+        services = [{ name: customName || 'সাধারণ সেলুন সেবা', price: total }];
+      }
+
+      const serviceName = services.map(s => s.name).join(' + ');
+
+      if (total > 0) {
+        const newSale = {
           id: 'sale_' + Date.now(),
+          memoNo: 'SL-' + String(sales.length + 101).padStart(3, '0'),
           customerName: custName,
+          customerPhone: custPhone,
           serviceName: serviceName,
-          amount: amount,
-          timestamp: new Date().toISOString(),
-          paymentMethod: paymentMethod
-        });
+          services: services,
+          barberName: barber,
+          totalAmount: total,
+          paidAmount: paid,
+          dueAmount: due,
+          timestamp: dt,
+          paymentMethod: paymentMethod,
+          notes: document.getElementById('saleNotes') ? document.getElementById('saleNotes').value.trim() : ''
+        };
+
+        sales.push(newSale);
         persistData();
         closeModals();
         refreshAllUI();
-        showToast(`✓ +${formatTaka(amount)} নতুন সেল যুক্ত হয়েছে!`);
+        showToast(`✓ #${newSale.memoNo} সেলের হিসাব সফলভাবে যুক্ত হয়েছে!`);
+        openReceiptModal(newSale.id);
       }
     });
   }
-
-  // Salon Settings Form
-  const salonSettingsForm = document.getElementById('salonSettingsForm');
-  if (salonSettingsForm) {
-    salonSettingsForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      salon.name = document.getElementById('setSalonName').value.trim() || salon.name;
-      salon.ownerName = document.getElementById('setOwnerName').value.trim() || salon.ownerName;
-      salon.phone = document.getElementById('setPhone').value.trim() || salon.phone;
-      salon.address = document.getElementById('setAddress').value.trim() || salon.address;
-      salon.defaultCycleDays = Number(document.getElementById('setDefaultCycle').value) || 25;
-
-      persistData();
-      refreshAllUI();
-      showToast('✓ সেলুনের তথ্য সফলভাবে সংরক্ষিত হয়েছে!');
-    });
-  }
-
-  // Reset Demo Data Button
-  const resetDemoBtn = document.getElementById('resetDemoDataBtn');
-  if (resetDemoBtn) {
-    resetDemoBtn.addEventListener('click', () => {
-      if (confirm('আপনি কি টেস্ট ডেমো ডাটা পুনরায় লোড করতে চান?')) {
-        salon = { ...DEFAULT_SALON };
-        customers = [...DEFAULT_CUSTOMERS];
-        sales = [...DEFAULT_SALES];
-        persistData();
-        refreshAllUI();
-        showToast('✓ ডেমো ডাটা সফলভাবে রিস্টোর করা হয়েছে!');
-      }
-    });
-  }
-
-  // Quick Service Button Handlers
-  document.querySelectorAll('[data-service-name]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const name = btn.getAttribute('data-service-name');
-      const amount = btn.getAttribute('data-service-price');
-      handleQuickSale(name, amount);
-    });
-  });
-
-  // Modal Triggers
-  document.querySelectorAll('.open-add-customer-btn').forEach(b => {
-    b.addEventListener('click', openAddCustomerModal);
-  });
-
-  document.querySelectorAll('.open-custom-sale-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      if (customSaleModal) {
-        customSaleForm.reset();
-        customSaleModal.classList.add('active');
-      }
-    });
-  });
 
   document.querySelectorAll('.modal-close-icon').forEach(btn => {
     btn.addEventListener('click', closeModals);
@@ -846,7 +1583,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (tabId === 'customers') {
       renderCustomers();
     } else if (tabId === 'sales') {
-      renderSalesLedger();
+      renderComprehensiveSalesLedger();
     } else if (tabId === 'marketing') {
       renderMarketingTemplates();
     } else if (tabId === 'settings') {
@@ -862,6 +1599,51 @@ document.addEventListener('DOMContentLoaded', () => {
       const tabId = link.getAttribute('data-target-tab');
       switchTab(tabId);
     });
+  });
+
+  // Sales Period Filter Pills
+  const salesFilterPills = document.querySelectorAll('.sales-filter-pill');
+  const salesLedgerDatePicker = document.getElementById('salesLedgerDatePicker');
+  const clearDatePickerBtn = document.getElementById('clearDatePickerBtn');
+
+  salesFilterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      salesFilterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentLedgerPeriod = pill.getAttribute('data-period');
+      if (salesLedgerDatePicker) salesLedgerDatePicker.value = '';
+      if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
+      renderComprehensiveSalesLedger();
+    });
+  });
+
+  if (salesLedgerDatePicker) {
+    salesLedgerDatePicker.addEventListener('change', (e) => {
+      if (e.target.value) {
+        currentLedgerPeriod = e.target.value;
+        salesFilterPills.forEach(p => p.classList.remove('active'));
+        if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
+        renderComprehensiveSalesLedger();
+      }
+    });
+  }
+
+  if (clearDatePickerBtn) {
+    clearDatePickerBtn.addEventListener('click', () => {
+      if (salesLedgerDatePicker) salesLedgerDatePicker.value = '';
+      clearDatePickerBtn.classList.add('hidden');
+      currentLedgerPeriod = 'today';
+      salesFilterPills.forEach(p => {
+        if (p.getAttribute('data-period') === 'today') p.classList.add('active');
+        else p.classList.remove('active');
+      });
+      renderComprehensiveSalesLedger();
+    });
+  }
+
+  // Trigger Smart Sale Modal
+  document.querySelectorAll('.open-custom-sale-btn').forEach(btn => {
+    btn.addEventListener('click', openSmartSaleModal);
   });
 
   function populateSettingsInputs() {
@@ -918,10 +1700,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSalonInfo();
     renderDashboardKPIs();
     renderReminderList('dashboardReminderList', 'due_only');
-    renderSalesLedger();
+    renderDashboardTodaySales();
+    renderComprehensiveSalesLedger();
   }
 
   // Initial Boot
   refreshAllUI();
 
 });
+
