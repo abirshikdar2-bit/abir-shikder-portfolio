@@ -958,7 +958,7 @@ body {
 
 @media (min-width: 640px) {
   .service-buttons-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1141,9 +1141,9 @@ body {
   margin-bottom: 12px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 540px) {
   .service-chips-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -1318,6 +1318,30 @@ body {
 
 .modal-close-icon:hover {
   background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+/* Dedicated Receipt Modal Close Button (Floating in top header, no overlapping) */
+#receiptModal .modal-close-icon {
+  position: static;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e4e4e7;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#receiptModal .modal-close-icon:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
   transform: rotate(90deg);
 }
 
