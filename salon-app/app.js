@@ -303,6 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mode === 'dateOnly') {
       return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
     }
+    if (mode === 'dateMonth') {
+      return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long' });
+    }
+    if (mode === 'dateMonthYear') {
+      return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
     if (mode === 'shortDate') {
       return d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
     }
@@ -312,8 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const timePart = d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
       return `${datePart} (${weekday}), ${timePart}`;
     }
-    // Default: 'short'
-    return `${d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' })}, ${d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' })}`;
+    // Default: 'short' with full date, month, year and time
+    return `${d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' })}, ${d.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' })}`;
   }
 
   function getDaysDifference(pastIsoDate) {
@@ -710,7 +716,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <table class="sales-table">
           <thead>
             <tr>
-              <th>সময় ও মেমো</th>
+              <th>তারিখ, মাস ও সময়</th>
               <th>কাস্টমারের নাম ও মোবাইল</th>
               <th>সেবা সমূহ</th>
               <th>কে কেটেছে (কারিগর)</th>
@@ -723,8 +729,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ${sortedToday.map(s => `
               <tr>
                 <td>
-                  <div class="font-bold text-white text-xs font-mono">${formatBengaliDate(s.timestamp, 'timeOnly')}</div>
-                  <div class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</div>
+                  <div class="flex items-center gap-1.5 font-bold text-white text-xs">
+                    <i class="fa-regular fa-calendar-days text-[11px] text-goldPrimary"></i>
+                    <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono mt-0.5">
+                    <i class="fa-regular fa-clock text-[10px] text-zinc-500"></i>
+                    <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                    <span class="text-zinc-600">•</span>
+                    <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                  </div>
                 </td>
                 <td>
                   <div class="font-semibold text-white flex items-center gap-1.5">
@@ -773,10 +787,15 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="md:hidden mobile-sales-cards">
         ${sortedToday.map(s => `
           <div class="sale-card-single">
-            <div class="flex items-center justify-between pb-2 border-b border-subtle">
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-mono font-bold text-goldLight bg-goldPrimary/10 px-2 py-0.5 rounded border border-goldPrimary/20">
-                  ${formatBengaliDate(s.timestamp, 'timeOnly')}
+            <div class="flex flex-wrap items-center justify-between pb-2 border-b border-subtle gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-semibold text-goldLight bg-goldPrimary/10 px-2.5 py-0.5 rounded border border-goldPrimary/20 flex items-center gap-1">
+                  <i class="fa-regular fa-calendar-days text-[10px]"></i>
+                  <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                </span>
+                <span class="text-xs font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded border border-subtle flex items-center gap-1">
+                  <i class="fa-regular fa-clock text-[10px] text-zinc-400"></i>
+                  <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
                 </span>
                 <span class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</span>
               </div>
@@ -845,28 +864,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const d = new Date(s.timestamp);
         return isSameDay(d, now);
       });
-      headingText = `আজকের সেল বিবরণী (${formatBengaliDate(now, 'dateOnly')})`;
-    } else if (currentLedgerPeriod === 'yesterday') {
-      const yesterday = new Date(todayZero.getTime() - 24 * 60 * 60 * 1000);
+      headingText = `আজকের সেল বিবরণী (${formatBengaliDate(now, 'dateMonthYear')})`;
+    } else if (currentLedgerPeriod === 'tomorrow') {
+      const tomorrow = new Date(todayZero.getTime() + 24 * 60 * 60 * 1000);
       filtered = filtered.filter(s => {
         const d = new Date(s.timestamp);
-        return isSameDay(d, yesterday);
+        return isSameDay(d, tomorrow);
       });
-      headingText = `গতকালকের সেল বিবরণী (${formatBengaliDate(yesterday, 'dateOnly')})`;
+      headingText = `আগামীকালের হিসাব (${formatBengaliDate(tomorrow, 'dateMonthYear')})`;
+    } else if (currentLedgerPeriod === 'next3') {
+      const tomorrow = new Date(todayZero.getTime() + 24 * 60 * 60 * 1000);
+      const end3 = new Date(todayZero.getTime() + 4 * 24 * 60 * 60 * 1000);
+      filtered = filtered.filter(s => {
+        const d = new Date(s.timestamp);
+        return d >= tomorrow && d < end3;
+      });
+      headingText = 'পরশু ও আগামী ৩ দিনের বুকিং ও হিসাব';
     } else if (currentLedgerPeriod === 'week') {
-      const weekStart = new Date(todayZero.getTime() - 7 * 24 * 60 * 60 * 1000);
-      filtered = filtered.filter(s => new Date(s.timestamp) >= weekStart);
-      headingText = 'বিগত ৭ দিনের বিক্রয় বিবরণী';
-    } else if (currentLedgerPeriod === 'month') {
-      const m = now.getMonth();
-      const y = now.getFullYear();
+      const endWeek = new Date(todayZero.getTime() + 7 * 24 * 60 * 60 * 1000);
       filtered = filtered.filter(s => {
         const d = new Date(s.timestamp);
-        return d.getMonth() === m && d.getFullYear() === y;
+        return d >= todayZero && d <= endWeek;
       });
-      headingText = 'চলতি মাসের সর্বমোট ক্যাশ বিবরণী';
+      headingText = 'চলতি সপ্তাহ (আজ ও আগামী ৭ দিন)';
     } else if (currentLedgerPeriod === 'all') {
-      headingText = 'সর্বকালের সকল বিক্রয় বিবরণী';
+      headingText = 'সকল বিক্রয় ও আয় বিবরণী';
     } else if (currentLedgerPeriod.includes('-')) {
       // Specific date format: YYYY-MM-DD
       const targetDate = new Date(currentLedgerPeriod + 'T00:00:00');
@@ -874,7 +896,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const d = new Date(s.timestamp);
         return isSameDay(d, targetDate);
       });
-      headingText = `${formatBengaliDate(targetDate, 'dateOnly')}-এর সেল বিবরণী`;
+      headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর সেল বিবরণী`;
     }
 
     const totalAmount = filtered.reduce((sum, s) => sum + Number(s.paidAmount || s.totalAmount || s.amount || 0), 0);
@@ -895,7 +917,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="p-8 text-center bg-surface border border-card rounded-xl text-zinc-400">
           <i class="fa-solid fa-receipt text-zinc-600 text-3xl mb-2"></i>
           <p class="font-medium text-white">এই তারিখ বা সময়ে কোনো সেল এন্ট্রি পাওয়া যায়নি।</p>
-          <p class="text-xs text-zinc-500 mt-1">তারিখ ফিল্টার পরিবর্তন করুন অথবা নতুন সেল যুক্ত করুন।</p>
+          <p class="text-xs text-zinc-500 mt-1">ক্যালেন্ডার থেকে আজ বা আগামী দিনগুলো নির্বাচন করুন অথবা নতুন হিসাব যোগ করুন।</p>
         </div>
       `;
       return;
@@ -909,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <table class="sales-table">
           <thead>
             <tr>
-              <th>তারিখ ও সময়</th>
+              <th>তারিখ, মাস ও সময়</th>
               <th>কাস্টমারের নাম ও মোবাইল</th>
               <th>সেবা</th>
               <th>কারিগর</th>
@@ -922,9 +944,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ${sorted.map(s => `
               <tr>
                 <td>
-                  <div class="font-bold text-white text-xs">${formatBengaliDate(s.timestamp, 'shortDate')}</div>
-                  <div class="text-[11px] text-zinc-400 font-mono">${formatBengaliDate(s.timestamp, 'timeOnly')}</div>
-                  <div class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</div>
+                  <div class="flex items-center gap-1.5 font-bold text-white text-xs">
+                    <i class="fa-regular fa-calendar-days text-[11px] text-goldPrimary"></i>
+                    <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono mt-0.5">
+                    <i class="fa-regular fa-clock text-[10px] text-zinc-500"></i>
+                    <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                    <span class="text-zinc-600">•</span>
+                    <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                  </div>
                 </td>
                 <td>
                   <div class="font-semibold text-white">${s.customerName}</div>
@@ -971,10 +1000,17 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="md:hidden mobile-sales-cards">
         ${sorted.map(s => `
           <div class="sale-card-single">
-            <div class="flex items-center justify-between pb-2 border-b border-subtle">
-              <div>
-                <span class="text-xs font-bold text-white">${formatBengaliDate(s.timestamp, 'shortDate')}</span>
-                <span class="text-xs text-zinc-400 font-mono ml-1">(${formatBengaliDate(s.timestamp, 'timeOnly')})</span>
+            <div class="flex flex-wrap items-center justify-between pb-2 border-b border-subtle gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-semibold text-goldLight bg-goldPrimary/10 px-2.5 py-0.5 rounded border border-goldPrimary/20 flex items-center gap-1">
+                  <i class="fa-regular fa-calendar-days text-[10px]"></i>
+                  <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                </span>
+                <span class="text-xs font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded border border-subtle flex items-center gap-1">
+                  <i class="fa-regular fa-clock text-[10px] text-zinc-400"></i>
+                  <span>${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                </span>
+                <span class="text-[10px] text-zinc-500 font-mono">#${s.memoNo || 'SL-100'}</span>
               </div>
               <div class="text-right">
                 <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
@@ -1402,11 +1438,14 @@ document.addEventListener('DOMContentLoaded', () => {
     customSaleForm.reset();
     modalSelectedChips = [];
 
-    // 1. Auto-populate Local Datetime
+    // 1. Auto-populate Local Datetime and block past dates
     const now = new Date();
     const offsetMs = now.getTimezoneOffset() * 60000;
     const localIso = new Date(now.getTime() - offsetMs).toISOString().slice(0, 16);
-    if (saleDateTimeInput) saleDateTimeInput.value = localIso;
+    if (saleDateTimeInput) {
+      saleDateTimeInput.value = localIso;
+      saleDateTimeInput.min = `${localTodayStr}T00:00`;
+    }
 
     // 2. Populate Customers dropdown
     if (saleCustomerSelect) {
@@ -1601,10 +1640,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Sales Period Filter Pills
+  // Sales Period Filter Pills & Calendar Setup (Blocking Past Dates)
   const salesFilterPills = document.querySelectorAll('.sales-filter-pill');
   const salesLedgerDatePicker = document.getElementById('salesLedgerDatePicker');
   const clearDatePickerBtn = document.getElementById('clearDatePickerBtn');
+
+  // Compute local today YYYY-MM-DD
+  const todayDateObj = new Date();
+  const yyyy = todayDateObj.getFullYear();
+  const mm = String(todayDateObj.getMonth() + 1).padStart(2, '0');
+  const dd = String(todayDateObj.getDate()).padStart(2, '0');
+  const localTodayStr = `${yyyy}-${mm}-${dd}`;
+
+  // Block previous/past dates in calendar picker
+  if (salesLedgerDatePicker) {
+    salesLedgerDatePicker.min = localTodayStr;
+    salesLedgerDatePicker.addEventListener('change', (e) => {
+      if (e.target.value) {
+        if (e.target.value < localTodayStr) {
+          e.target.value = localTodayStr;
+          showToast('⚠️ পেছনের তারিখ নির্বাচন করা যাবে না! শুধুমাত্র আজ ও ভবিষ্যতের তারিখ প্রযোজ্য।');
+        }
+        currentLedgerPeriod = e.target.value;
+        salesFilterPills.forEach(p => p.classList.remove('active'));
+        if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
+        renderComprehensiveSalesLedger();
+      }
+    });
+  }
 
   salesFilterPills.forEach(pill => {
     pill.addEventListener('click', () => {
@@ -1616,17 +1679,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderComprehensiveSalesLedger();
     });
   });
-
-  if (salesLedgerDatePicker) {
-    salesLedgerDatePicker.addEventListener('change', (e) => {
-      if (e.target.value) {
-        currentLedgerPeriod = e.target.value;
-        salesFilterPills.forEach(p => p.classList.remove('active'));
-        if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
-        renderComprehensiveSalesLedger();
-      }
-    });
-  }
 
   if (clearDatePickerBtn) {
     clearDatePickerBtn.addEventListener('click', () => {

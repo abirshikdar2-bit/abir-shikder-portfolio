@@ -472,19 +472,19 @@
         </button>
       </div>
 
-      <!-- Date Filter Bar & Specific Date Picker -->
+      <!-- Date Filter Bar & Specific Date Picker (Past dates blocked) -->
       <div class="search-filter-bar mb-6">
         <div class="filter-pills flex-wrap">
-          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের হিসাব</button>
-          <button class="filter-pill sales-filter-pill" data-period="yesterday">গতকাল</button>
+          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের দিন</button>
+          <button class="filter-pill sales-filter-pill" data-period="tomorrow">আগামীকাল</button>
+          <button class="filter-pill sales-filter-pill" data-period="next3">পরশু ও আগামী ৩ দিন</button>
           <button class="filter-pill sales-filter-pill" data-period="week">চলতি সপ্তাহ</button>
-          <button class="filter-pill sales-filter-pill" data-period="month">চলতি মাস</button>
-          <button class="filter-pill sales-filter-pill" data-period="all">সব লেনদেন</button>
+          <button class="filter-pill sales-filter-pill" data-period="all">সব হিসাব</button>
         </div>
 
         <div class="flex items-center gap-2">
-          <span class="text-xs text-zinc-400 hidden sm:inline">নির্দিষ্ট তারিখ:</span>
-          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary">
+          <span class="text-xs text-zinc-400 hidden sm:inline"><i class="fa-regular fa-calendar text-goldPrimary mr-1"></i>ক্যালেন্ডার (আজ ও ভবিষ্যৎ):</span>
+          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary" title="অতীতের পেছনের তারিখ ব্লক করা">
           <button id="clearDatePickerBtn" class="text-xs text-zinc-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-subtle hidden" title="তারিখ ফিল্টার মুছুন">
             <i class="fa-solid fa-xmark"></i>
           </button>
