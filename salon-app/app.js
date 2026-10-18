@@ -2890,6 +2890,48 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bottomBadge) bottomBadge.textContent = activeConfirmedCount;
   }
 
+  // Helper to determine time slot status relative to live clock (30-min buffer rule for today)
+  function getSlotTimeStatus(slotTimeStr, selectedDateStr) {
+    const now = new Date();
+    const liveToday = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const targetDate = (selectedDateStr || liveToday).trim();
+
+    if (targetDate < liveToday) {
+      return { status: 'past', diffMins: -999999 };
+    }
+    if (targetDate > liveToday) {
+      return { status: 'open', diffMins: 999999 };
+    }
+
+    // It's TODAY! Parse slotTimeStr e.g. "12:15 PM"
+    const match = (slotTimeStr || '').trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!match) return { status: 'open', diffMins: 999999 };
+
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const ampm = match[3].toUpperCase();
+
+    if (ampm === 'PM' && hours < 12) hours += 12;
+    if (ampm === 'AM' && hours === 12) hours = 0;
+
+    const slotDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
+    const diffMs = slotDateTime.getTime() - now.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+
+    // If slot ended > 30 mins ago today
+    if (diffMins < -30) {
+      return { status: 'passed', diffMins };
+    }
+
+    // If slot starts in less than 30 minutes, or is running now (-30 to +29 mins)
+    // Instant online booking is locked to avoid walk-in collision!
+    if (diffMins < 30) {
+      return { status: 'near_time_locked', diffMins };
+    }
+
+    return { status: 'open', diffMins };
+  }
+
   function renderBookingSlots(forceDate = null, forceBarber = null) {
     if (!chairSlotsGrid) return;
 
@@ -2902,6 +2944,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let bookedCount = 0;
     let completedCount = 0;
+    let lockedCount = 0;
     let availableCount = 0;
 
     const visibleSlotsHtml = TIME_SLOTS.map(slot => {
@@ -3102,7 +3145,85 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }
 
-      // 4. IF FREE: Show GREEN / AVAILABLE!
+      // 4. CHECK TIME BUFFER & STATUS (30-minute notice rule for today)
+      const timeCheck = getSlotTimeStatus(slot.time, selectedDate);
+
+      // 4A. Past or expired slot
+      if (timeCheck.status === 'past' || timeCheck.status === 'passed') {
+        return `
+          <div class="slot-card border border-white/5 bg-surface/40 opacity-60">
+            <div>
+              <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-white/10">
+                <span class="text-xs font-bold text-zinc-400 font-mono flex items-center gap-1.5">
+                  <i class="fa-regular fa-clock text-zinc-500"></i>
+                  <span>${slot.label}</span>
+                </span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-medium bg-white/5 text-zinc-400 border border-white/10">
+                  ⌛ সময় অতিক্রান্ত
+                </span>
+              </div>
+              <div class="py-3 text-center text-zinc-500 text-xs">
+                এই সময়টি পার হয়ে গেছে
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 4B. Near-Time Locked Slot (< 30 minutes notice on Today, or running now)
+      // Per user's exact instruction: "locked দেখাবে আর লেখা আসবে যে সেলুনে call দিয়ে যাচাই করুন যে এখন এই slot এ কোন customer আছে কিনা"
+      if (timeCheck.status === 'near_time_locked') {
+        lockedCount++;
+        const phone = salon.phone || '01789064356';
+        const minsLeftText = timeCheck.diffMins > 0 
+          ? `শুরু হতে মাত্র <strong>${timeCheck.diffMins} মিনিট</strong> বাকি` 
+          : `এই স্লটটি বর্তমানে <strong>চলমান</strong>`;
+
+        return `
+          <div class="slot-card border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/25 via-surfaceElevated to-surface shadow-md">
+            <div>
+              <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-amber-500/25">
+                <span class="text-xs font-bold text-white font-mono flex items-center gap-1.5">
+                  <i class="fa-regular fa-clock text-amber-400"></i>
+                  <span>${slot.label}</span>
+                </span>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/35 flex items-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-lock text-amber-400 text-[10px]"></i>
+                  <span>অনলাইন বুকিং লকড 🔒</span>
+                </span>
+              </div>
+
+              <!-- Clear Instruction: Call salon for verification as requested by user -->
+              <div class="py-2.5 px-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-center space-y-1.5 mb-2">
+                <div class="text-xs font-bold text-amber-300 flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-phone-volume text-amber-400 animate-pulse text-xs"></i>
+                  <span>সেলুনে কল দিয়ে যাচাই করুন</span>
+                </div>
+                <p class="text-[11px] text-zinc-300 leading-relaxed">
+                  এই সময়টি ${minsLeftText}। অন-স্পট চেয়ারে কোনো কাস্টমার আছেন কিনা বা সিট ফাঁকা আছে কিনা তা সরাসরি সেলুনে ফোন দিয়ে জেনে নিন।
+                </p>
+                <div class="inline-block px-2 py-0.5 rounded bg-black/40 text-[10px] text-amber-200 font-mono border border-amber-500/20">
+                  ⚠️ তাৎক্ষণিক ডাবল-বুকিং এড়াতে ওয়েবসাইট বুকিং বন্ধ
+                </div>
+              </div>
+            </div>
+
+            <!-- Call & WhatsApp Action Buttons -->
+            <div class="pt-2 border-t border-amber-500/20 flex flex-col sm:flex-row items-center gap-1.5">
+              <a href="tel:${phone}" class="w-full sm:flex-1 py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <i class="fa-solid fa-phone text-xs"></i>
+                <span>কল দিয়ে জানুন (${phone})</span>
+              </a>
+              <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`আসসালামু আলাইকুম ওস্তাদ, আজকের (${selectedDate}) ${slot.time} স্লটে কি কোনো চেয়ার ফাঁকা আছে? আমি এখনই সেলুনে আসতে চাচ্ছি।`)}" target="_blank" rel="noopener" class="w-full sm:w-auto p-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/35 text-emerald-400 border border-emerald-500/30 text-xs font-bold flex items-center justify-center gap-1 transition-all" title="হোয়াটসঅ্যাপে সরাসরি জিজ্ঞেস করুন">
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span class="sm:hidden text-xs">হোয়াটসঅ্যাপ</span>
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
+      // 4C. IF FREE AND >= 30 MINUTES AWAY: Show GREEN / AVAILABLE!
       availableCount++;
       return `
         <div class="slot-card available border-2 border-emerald-500/35 bg-gradient-to-b from-emerald-950/20 via-surfaceElevated to-surface shadow-md">
@@ -3135,7 +3256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chairSlotsGrid.innerHTML = visibleSlotsHtml;
 
-    const summaryText = `🟢 ফাঁকা: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔴 বুকড/পেন্ডিং: <strong class="text-rose-400">${bookedCount}</strong> টি${completedCount > 0 ? ` | ✓ সম্পন্ন: <strong class="text-blue-400">${completedCount}</strong> টি` : ''}`;
+    const summaryText = `🟢 অগ্রিম বুকিংযোগ্য: <strong class="text-emerald-400">${availableCount}</strong> টি | 🔒 কল যাচাই (লকড): <strong class="text-amber-400">${lockedCount}</strong> টি | 🔴 বুকড: <strong class="text-rose-400">${bookedCount}</strong> টি${completedCount > 0 ? ` | ✓ সম্পন্ন: <strong class="text-blue-400">${completedCount}</strong> টি` : ''}`;
     if (bookingSlotCountSummary) {
       bookingSlotCountSummary.innerHTML = summaryText;
     }
@@ -3369,6 +3490,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const bookingTrxId = document.getElementById('bookingTrxId');
   const bookingEstimatedDurationBadge = document.getElementById('bookingEstimatedDurationBadge');
 
+  function updateBookingModalTimeSlots() {
+    if (!bookingModalTimeSlot || !bookingModalDate) return;
+    const selectedDate = bookingModalDate.value || localTodayStr;
+
+    Array.from(bookingModalTimeSlot.options).forEach(opt => {
+      const slotTime = opt.value;
+      const tc = getSlotTimeStatus(slotTime, selectedDate);
+      const baseLabel = opt.getAttribute('data-base-label') || opt.textContent.replace(/\s*—\s*\[.*?\]$/, '');
+      opt.setAttribute('data-base-label', baseLabel);
+
+      if (tc.status === 'near_time_locked') {
+        opt.disabled = true;
+        opt.textContent = `${baseLabel} — [🔒 লকড: সেলুনে কল দিন]`;
+      } else if (tc.status === 'passed' || tc.status === 'past') {
+        opt.disabled = true;
+        opt.textContent = `${baseLabel} — [⌛ সময় পার হয়ে গেছে]`;
+      } else {
+        opt.disabled = false;
+        opt.textContent = baseLabel;
+      }
+    });
+
+    // Auto-select first enabled option if current selected is disabled
+    const currentOpt = bookingModalTimeSlot.options[bookingModalTimeSlot.selectedIndex];
+    if (currentOpt && currentOpt.disabled) {
+      const firstEnabled = Array.from(bookingModalTimeSlot.options).find(o => !o.disabled);
+      if (firstEnabled) {
+        bookingModalTimeSlot.value = firstEnabled.value;
+      }
+    }
+  }
+
+  if (bookingModalDate) {
+    bookingModalDate.addEventListener('change', updateBookingModalTimeSlots);
+  }
+
   function openAdvanceBookingModal(prefillDate = null, prefillTime = null, prefillBarber = null) {
     if (!advanceBookingModal) return;
     if (advanceBookingForm) advanceBookingForm.reset();
@@ -3378,7 +3535,12 @@ document.addEventListener('DOMContentLoaded', () => {
       bookingModalDate.min = localTodayStr;
       bookingModalDate.value = d;
     }
-    if (bookingModalTimeSlot && prefillTime) bookingModalTimeSlot.value = prefillTime;
+
+    updateBookingModalTimeSlots();
+
+    if (bookingModalTimeSlot && prefillTime) {
+      bookingModalTimeSlot.value = prefillTime;
+    }
     if (bookingModalBarber && prefillBarber) bookingModalBarber.value = prefillBarber;
 
     // Reset default checkbox
@@ -3424,6 +3586,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const customerPhone = (bookingModalCustPhone && bookingModalCustPhone.value.trim()) || '';
       const method = bookingPaymentMethod ? bookingPaymentMethod.value : 'বিকাশ';
       const trxId = (bookingTrxId && bookingTrxId.value.trim()) || 'ADV30';
+
+      // 30-minute notice buffer check for online booking
+      const timeCheck = getSlotTimeStatus(timeSlot, date);
+      if (timeCheck.status === 'near_time_locked') {
+        showToast(`⚠️ এই স্লটটি (${timeSlot}) শুরু হতে ৩০ মিনিটের কম সময় বাকি বা চলমান! অন-স্পট চেয়ার ফাঁকা আছে কিনা নিশ্চিত হতে সরাসরি সেলুনে কল করুন: ${salon.phone || '01789064356'}`, 6500);
+        return;
+      }
+      if (timeCheck.status === 'passed' || timeCheck.status === 'past') {
+        showToast(`⚠️ এই স্লটটি (${timeSlot}) ইতোমধ্যে পার হয়ে গেছে! অনুগ্রহ করে পরবর্তী কোনো উপযুক্ত স্লট নির্বাচন করুন।`, 5000);
+        return;
+      }
 
       // Conflict Check: Check if slot is already booked for this barber
       const conflict = bookings.find(b => 

@@ -850,11 +850,15 @@
               <option value="কারিগর রনি">চেয়ার ৩: কারিগর রনি</option>
             </select>
           </div>
-          <div class="sm:col-span-1 md:col-span-2 flex items-center justify-between gap-3 pt-2 sm:pt-0">
-            <div class="flex items-center gap-3 text-xs">
+          <div class="sm:col-span-1 md:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 sm:pt-0">
+            <div class="flex items-center gap-3 text-xs flex-wrap">
               <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
                 <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-                <span>ফাঁকা (বুকিংযোগ্য)</span>
+                <span>ফাঁকা (অগ্রিম বুকিং)</span>
+              </span>
+              <span class="flex items-center gap-1.5 text-amber-400 font-medium">
+                <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                <span>তাৎক্ষণিক সিট (কল যাচাই)</span>
               </span>
               <span class="flex items-center gap-1.5 text-rose-400 font-medium">
                 <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
@@ -865,6 +869,14 @@
               <span class="text-xs text-goldLight font-mono font-bold" id="bookingSlotCountSummary">লোড হচ্ছে...</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- 30-min Notice Collision Guard Policy Notice -->
+      <div class="mb-4 px-3.5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2 text-amber-200">
+          <i class="fa-solid fa-shield-halved text-amber-400 text-sm flex-shrink-0"></i>
+          <span><strong>তাৎক্ষণিক সিট নিরাপত্তা নীতি:</strong> কোনো স্লট শুরু হতে ৩০ মিনিটের কম সময় বাকি থাকলে ওয়াক-ইন ভিড় এড়াতে সরাসরি অনলাইন বুকিং বন্ধ থাকে। এই মুহূর্তে চেয়ার খালি আছে কিনা জানতে সরাসরি সেলুনে ফোন দিন: <a href="tel:01789064356" class="text-goldLight font-bold underline font-mono">০১৭৮৯০৬৪৩৫৬</a></span>
         </div>
       </div>
 
@@ -1480,6 +1492,15 @@
               <option value="08:00 PM">০৮:০০ PM (রাত)</option>
               <option value="08:45 PM">০৮:৪৫ PM (রাত)</option>
             </select>
+          </div>
+        </div>
+
+        <!-- 30-min buffer policy note -->
+        <div class="mb-3 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-start gap-2 text-[11px] text-zinc-300">
+          <i class="fa-solid fa-clock-rotate-left text-amber-400 text-xs mt-0.5 flex-shrink-0"></i>
+          <div>
+            <strong class="text-amber-300">৩০ মিনিট পূর্ব-নোটিশ নিয়ম:</strong>
+            <span>আজকের দিনে যে সময় চলছে, তার অন্তত ৩০ মিনিট পরের স্লট ছাড়া অনলাইন বুকিং সম্ভব নয়। যদি ৩০ মিনিটের কম সময় বাকি থাকে, তবে সিট খালি আছে কিনা নিশ্চিত হতে সরাসরি সেলুনে ফোন দিন: <a href="tel:01789064356" class="text-goldLight font-bold underline font-mono">০১৭৮৯০৬৪৩৫৬</a></span>
           </div>
         </div>
 
