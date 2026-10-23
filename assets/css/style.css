@@ -637,42 +637,6 @@ body.cursor-hover .custom-cursor-follower {
   color: #10b981;
 }
 
-/* Center Floating Holographic Badge over Hand (Pinterest olivar.dsgn Concept) */
-.hero-floating-glass-badge {
-  position: absolute;
-  bottom: 23%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 72%;
-  max-width: 310px;
-  padding: 14px 20px;
-  border-radius: 16px;
-  background: rgba(12, 14, 20, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9),
-              0 0 25px rgba(255, 90, 31, 0.3),
-              0 0 35px rgba(56, 189, 248, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  z-index: 20;
-  pointer-events: none;
-  border: 1.5px solid rgba(56, 189, 248, 0.6);
-  animation: floatCard 4s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0%, 100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, -5px);
-  }
-}
-
 .holo-card-top {
   display: flex;
   align-items: center;
