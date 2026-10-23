@@ -580,36 +580,45 @@
         </button>
       </div>
 
-      <!-- Interactive Period & Upcoming Days Strip (Past Blocked, Upcoming Available) -->
+      <!-- Interactive Day Navigation Strip with Smooth Slider Buttons -->
       <div class="calendar-day-strip mb-5">
-        <div class="flex items-center justify-between mb-2">
-          <div class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+        <div class="flex items-center justify-between mb-2.5">
+          <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
             <i class="fa-solid fa-calendar-days text-goldPrimary"></i>
-            <span>খাতার দিন ও মাস নির্বাচন (পেছনের দিন/মাস ব্লকড 🔒 • আজ ও আগামী দিনগুলো সক্রিয়):</span>
+            <span>খাতার দিন নির্বাচন (পিছনের দিনগুলোর হিসাব দেখতে বামে স্লাইড করুন):</span>
           </div>
-          <span class="text-[11px] text-zinc-400 font-mono hidden sm:inline">🔒 পেছনের তারিখ ব্লকড • আজ ও আগামী দিন/মাস নির্বাচনযোগ্য</span>
+          <div class="flex items-center gap-1.5 text-xs">
+            <button id="dayStripSlideLeft" class="px-2.5 py-1 rounded-lg bg-surfaceElevated hover:bg-surfaceHover text-zinc-300 border border-subtle transition-all flex items-center gap-1" title="পিছনের দিনে যান (বামে স্লাইড)">
+              <i class="fa-solid fa-chevron-left text-xs text-goldLight"></i>
+              <span class="text-[11px] hidden sm:inline">অতীতের দিন</span>
+            </button>
+            <button id="dayStripSlideRight" class="px-2.5 py-1 rounded-lg bg-surfaceElevated hover:bg-surfaceHover text-zinc-300 border border-subtle transition-all flex items-center gap-1" title="সামনের দিনে যান (ডানে স্লাইড)">
+              <span class="text-[11px] hidden sm:inline">পরবর্তী দিন</span>
+              <i class="fa-solid fa-chevron-right text-xs text-goldLight"></i>
+            </button>
+          </div>
         </div>
         
         <div class="day-pills-scroll" id="quickDayNavStrip">
-          <!-- Populated by JavaScript: Past Days Locked, Today & Upcoming Future Days/Months Available -->
+          <!-- Populated by JavaScript: Past Days (Yesterday, Day Before...), Today, Tomorrow, Day 2, Current Month, All -->
         </div>
       </div>
 
-      <!-- Scope Filter Bar & Date Picker (Past dates blocked, Future dates allowed) -->
+      <!-- Scope Filter Bar & Date Picker (Past dates fully enabled, Future cleaned up) -->
       <div class="search-filter-bar mb-6">
         <div class="filter-pills flex-wrap">
-          <button class="filter-pill sales-filter-pill active" data-period="today">আজকের দিন</button>
+          <button class="filter-pill sales-filter-pill active" data-period="today">⭐ আজকের দিন</button>
+          <button class="filter-pill sales-filter-pill" data-period="yesterday">গতকাল</button>
+          <button class="filter-pill sales-filter-pill" data-period="day_before_yesterday">গত পরশু</button>
           <button class="filter-pill sales-filter-pill" data-period="tomorrow">আগামীকাল</button>
-          <button class="filter-pill sales-filter-pill" data-period="next3">পরশু ও আগামী ৩ দিন</button>
-          <button class="filter-pill sales-filter-pill" data-period="next_week">আগামী ১ সপ্তাহ</button>
-          <button class="filter-pill sales-filter-pill" data-period="running_month">চলতি মাস (অক্টোবর)</button>
-          <button class="filter-pill sales-filter-pill" data-period="next_month">আগামী মাস (নভেম্বর)</button>
+          <button class="filter-pill sales-filter-pill" data-period="day_2">পরশু</button>
+          <button class="filter-pill sales-filter-pill" data-period="running_month">চলতি মাস (<span id="runningMonthLabel">অক্টোবর</span>)</button>
           <button class="filter-pill sales-filter-pill" data-period="all">সব রেকর্ড</button>
         </div>
 
         <div class="flex items-center gap-2">
           <span class="text-xs text-zinc-400 hidden sm:inline"><i class="fa-regular fa-calendar text-goldPrimary mr-1"></i>নির্দিষ্ট তারিখ:</span>
-          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary" title="নির্দিষ্ট তারিখের বিক্রয় দেখুন">
+          <input type="date" id="salesLedgerDatePicker" class="bg-surfaceElevated border border-card rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-goldPrimary" title="যেকোনো অতীত বা বর্তমান তারিখের বিক্রয় দেখুন">
           <button id="clearDatePickerBtn" class="text-xs text-zinc-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-subtle hidden" title="তারিখ ফিল্টার মুছুন">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -636,68 +645,105 @@
         </div>
       </div>
 
-      <div class="pos-layout">
-        <!-- Left: Quick POS Buttons -->
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="text-sm font-bold text-white">দ্রুত ক্যাশ বোতাম (Touchpad)</h4>
-            <span class="text-[11px] text-zinc-500 font-mono">১-ক্লিক এন্ট্রি</span>
+      <!-- Executive 1-Click Quick POS Touchpad Strip -->
+      <div class="quick-pos-panel mb-6">
+        <div class="flex items-center justify-between mb-3.5 flex-wrap gap-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-goldPrimary/15 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-sm shadow-sm">
+              <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <span>দ্রুত ক্যাশ বোতাম (Quick POS Touchpad)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-goldPrimary/15 text-goldLight border border-goldPrimary/30 font-mono">১-ক্লিক এন্ট্রি</span>
+              </h4>
+              <p class="text-xs text-zinc-400">সার্ভিসে চাপ দিলেই তাৎক্ষণিক আজকের ক্যাশ খাতায় সেল রেকর্ড হয়ে যাবে</p>
+            </div>
           </div>
-          <div class="service-buttons-grid mb-6">
-            <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150">
-              <div class="service-icon-box">✂️</div>
-              <div class="service-name">চুল কাটা</div>
-              <div class="service-price">৳১৫০</div>
-            </button>
-            <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80">
-              <div class="service-icon-box">🪒</div>
-              <div class="service-name">দাড়ি ট্রিম ও শেভ</div>
-              <div class="service-price">৳৮০</div>
-            </button>
-            <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220">
-              <div class="service-icon-box">💈</div>
-              <div class="service-name">চুল + দাড়ি কম্বো</div>
-              <div class="service-price">৳২২০</div>
-            </button>
-            <button class="service-btn" data-service-name="ফেস ওয়াশ ও স্ক্রাব" data-service-price="100">
-              <div class="service-icon-box">💆</div>
-              <div class="service-name">ফেস ওয়াশ ও স্ক্রাব</div>
-              <div class="service-price">৳১০০</div>
-            </button>
-            <button class="service-btn" data-service-name="হার্বাল ফেসিয়াল" data-service-price="300">
-              <div class="service-icon-box">🌿</div>
-              <div class="service-name">হার্বাল ফেসিয়াল</div>
-              <div class="service-price">৳৩০০</div>
-            </button>
-            <button class="service-btn" data-service-name="হেয়ার স্পা ও ম্যাসাজ" data-service-price="250">
-              <div class="service-icon-box">✨</div>
-              <div class="service-name">হেয়ার স্পা ও ম্যাসাজ</div>
-              <div class="service-price">৳২৫০</div>
-            </button>
-            <button class="service-btn" data-service-name="হেয়ার কালার" data-service-price="250">
-              <div class="service-icon-box">🎨</div>
-              <div class="service-name">হেয়ার কালার</div>
-              <div class="service-price">৳২৫০</div>
-            </button>
-            <button class="service-btn open-custom-sale-btn">
-              <div class="service-icon-box">➕</div>
-              <div class="service-name">অন্যান্য সেবা</div>
-              <div class="service-price text-zinc-400">কাস্টম</div>
-            </button>
-          </div>
+          <button class="btn-gold-action open-custom-sale-btn text-xs py-1.5 px-3.5">
+            <i class="fa-solid fa-plus text-xs"></i>
+            <span>কাস্টম হিসাব যোগ করুন</span>
+          </button>
         </div>
 
-        <!-- Right: Comprehensive Transactions Ledger -->
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="font-bold text-white text-sm" id="ledgerListHeading">আজকের বিস্তারিত ক্যাশ বিবরণী</h4>
-            <span class="text-xs text-goldLight font-mono" id="ledgerListCount">০ টি এন্ট্রি</span>
-          </div>
+        <div class="service-buttons-grid">
+          <button class="service-btn" data-service-name="চুল কাটা" data-service-price="150" title="১-ক্লিকে চুল কাটা সেল করুন">
+            <div class="service-icon-box">✂️</div>
+            <div class="service-info">
+              <div class="service-name">চুল কাটা</div>
+              <div class="service-price">৳১৫০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="দাড়ি ট্রিম ও শেভ" data-service-price="80" title="১-ক্লিকে দাড়ি ট্রিম সেল করুন">
+            <div class="service-icon-box">🪒</div>
+            <div class="service-info">
+              <div class="service-name">দাড়ি ট্রিম ও শেভ</div>
+              <div class="service-price">৳৮০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="চুল + দাড়ি কম্বো" data-service-price="220" title="১-ক্লিকে চুল+দাড়ি কম্বো সেল করুন">
+            <div class="service-icon-box">💈</div>
+            <div class="service-info">
+              <div class="service-name">চুল + দাড়ি কম্বো</div>
+              <div class="service-price">৳২২০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="ফেস ওয়াশ ও স্ক্রাব" data-service-price="100" title="১-ক্লিকে ফেস ওয়াশ সেল করুন">
+            <div class="service-icon-box">💆</div>
+            <div class="service-info">
+              <div class="service-name">ফেস ওয়াশ ও স্ক্রাব</div>
+              <div class="service-price">৳১০০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="হার্বাল ফেসিয়াল" data-service-price="300" title="১-ক্লিকে ফেসিয়াল সেল করুন">
+            <div class="service-icon-box">🌿</div>
+            <div class="service-info">
+              <div class="service-name">হার্বাল ফেসিয়াল</div>
+              <div class="service-price">৳৩০০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="হেয়ার স্পা ও ম্যাসাজ" data-service-price="250" title="১-ক্লিকে হেয়ার স্পা সেল করুন">
+            <div class="service-icon-box">✨</div>
+            <div class="service-info">
+              <div class="service-name">হেয়ার স্পা ও ম্যাসাজ</div>
+              <div class="service-price">৳২৫০</div>
+            </div>
+          </button>
+          <button class="service-btn" data-service-name="হেয়ার কালার" data-service-price="250" title="১-ক্লিকে হেয়ার কালার সেল করুন">
+            <div class="service-icon-box">🎨</div>
+            <div class="service-info">
+              <div class="service-name">হেয়ার কালার</div>
+              <div class="service-price">৳২৫০</div>
+            </div>
+          </button>
+          <button class="service-btn open-custom-sale-btn" title="অন্যান্য বা একাধিক সেবা একসাথে যোগ করুন">
+            <div class="service-icon-box">➕</div>
+            <div class="service-info">
+              <div class="service-name">অন্যান্য সেবা</div>
+              <div class="service-price text-zinc-400">কাস্টম</div>
+            </div>
+          </button>
+        </div>
+      </div>
 
-          <!-- Container rendered by JS: Desktop Table or Mobile Cards -->
-          <div id="comprehensiveSalesLedger">
-            <!-- Populated by JavaScript -->
+      <!-- Full-Width Executive Sales Ledger Section -->
+      <div class="sales-ledger-section">
+        <div class="flex items-center justify-between mb-3.5 flex-wrap gap-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm shadow-sm">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-white text-base font-bangla" id="ledgerListHeading">আজকের বিস্তারিত ক্যাশ বিবরণী</h4>
+              <p class="text-xs text-zinc-400">স্বচ্ছ ডিজিটাল খাতা: গ্রাহকের বিবরণ, সেবাসমূহ ও পেমেন্ট হিস্ট্রি</p>
+            </div>
           </div>
+          <span class="text-xs px-3.5 py-1.5 rounded-full bg-surfaceElevated border border-goldPrimary/30 text-goldLight font-mono font-bold shadow-sm" id="ledgerListCount">০ টি এন্ট্রি</span>
+        </div>
+
+        <!-- Container rendered by JS: Desktop Table or Mobile Cards -->
+        <div id="comprehensiveSalesLedger">
+          <!-- Populated by JavaScript -->
         </div>
       </div>
     </section>

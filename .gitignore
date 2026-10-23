@@ -6,6 +6,8 @@
 *.tmp
 .DS_Store
 Docs/
+!docs/TODO.md
+!Docs/TODO.md
 deploy-vercel.ps1
 server.ps1
 assets/*.webp

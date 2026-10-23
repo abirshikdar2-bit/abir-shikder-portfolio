@@ -296,6 +296,96 @@ document.addEventListener('DOMContentLoaded', () => {
       timestamp: getDateOffset(-3, 17, 10),
       paymentMethod: 'বিকাশ',
       notes: ''
+    },
+    {
+      id: 'sale_10',
+      memoNo: 'SL-110',
+      customerName: 'মো. রফিকুল ইসলাম',
+      customerPhone: '01911223344',
+      serviceName: 'চুল + দাড়ি কম্বো',
+      services: [{ name: 'চুল + দাড়ি কম্বো', price: 220 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 220,
+      paidAmount: 220,
+      dueAmount: 0,
+      timestamp: getDateOffset(-1, 11, 20),
+      paymentMethod: 'বিকাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_11',
+      memoNo: 'SL-111',
+      customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
+      serviceName: 'চুল কাটা',
+      services: [{ name: 'চুল কাটা', price: 150 }],
+      barberName: 'কারিগর রনি',
+      totalAmount: 150,
+      paidAmount: 150,
+      dueAmount: 0,
+      timestamp: getDateOffset(-2, 11, 15),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_12',
+      memoNo: 'SL-112',
+      customerName: 'ইমতিয়াজ হক',
+      customerPhone: '01744112233',
+      serviceName: 'চুল কাটা ও শেভ',
+      services: [{ name: 'চুল কাটা', price: 150 }, { name: 'দাড়ি শেভ', price: 80 }],
+      barberName: 'কারিগর সুজন',
+      totalAmount: 230,
+      paidAmount: 230,
+      dueAmount: 0,
+      timestamp: getDateOffset(-4, 14, 0),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_13',
+      memoNo: 'SL-113',
+      customerName: 'আরিফ আহমেদ',
+      customerPhone: '01822334455',
+      serviceName: 'হার্বাল ফেসিয়াল',
+      services: [{ name: 'হার্বাল ফেসিয়াল', price: 300 }],
+      barberName: 'কারিগর রনি',
+      totalAmount: 300,
+      paidAmount: 300,
+      dueAmount: 0,
+      timestamp: getDateOffset(-5, 12, 15),
+      paymentMethod: 'বিকাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_14',
+      memoNo: 'SL-114',
+      customerName: 'ওয়াক-ইন কাস্টমার',
+      customerPhone: '',
+      serviceName: 'চুল কাটা + হেড ম্যাসাজ',
+      services: [{ name: 'চুল কাটা', price: 150 }, { name: 'হেড ম্যাসাজ', price: 70 }],
+      barberName: 'ওস্তাদ মো. আবুল বাশার (মালিক)',
+      totalAmount: 220,
+      paidAmount: 220,
+      dueAmount: 0,
+      timestamp: getDateOffset(-6, 16, 30),
+      paymentMethod: 'ক্যাশ',
+      notes: ''
+    },
+    {
+      id: 'sale_15',
+      memoNo: 'SL-115',
+      customerName: 'তানভীর আহমেদ',
+      customerPhone: '01711223344',
+      serviceName: 'চুল কাটা + কালার',
+      services: [{ name: 'চুল কাটা', price: 150 }, { name: 'হেয়ার কালার', price: 250 }],
+      barberName: 'কারিগর সুজন',
+      totalAmount: 400,
+      paidAmount: 400,
+      dueAmount: 0,
+      timestamp: getDateOffset(-7, 15, 0),
+      paymentMethod: 'বিকাশ',
+      notes: ''
     }
   ];
 
@@ -557,6 +647,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let salon = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALON)) || DEFAULT_SALON;
   let customers = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) || DEFAULT_CUSTOMERS;
   let sales = JSON.parse(localStorage.getItem(STORAGE_KEYS.SALES)) || DEFAULT_SALES;
+  if (Array.isArray(sales)) {
+    DEFAULT_SALES.forEach(ds => {
+      if (!sales.some(s => s.id === ds.id)) {
+        sales.push(ds);
+      }
+    });
+  }
   let monthlyHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.MONTHLY_HISTORY)) || DEFAULT_MONTHLY_HISTORY;
   let bookings = JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKINGS)) || DEFAULT_BOOKINGS;
 
@@ -1431,16 +1528,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPastMonthScope = false;
     let pastMonthObj = null;
 
-    if (currentLedgerPeriod === 'today') {
+    const todayYMD = now.toISOString().slice(0, 10);
+    const yesterdayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    const yesterdayYMD = yesterdayDate.toISOString().slice(0, 10);
+    const dayBeforeDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2);
+    const dayBeforeYMD = dayBeforeDate.toISOString().slice(0, 10);
+    const tomorrowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const tomorrowYMD = tomorrowDate.toISOString().slice(0, 10);
+    const day2Date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
+    const day2YMD = day2Date.toISOString().slice(0, 10);
+
+    if (currentLedgerPeriod === 'today' || currentLedgerPeriod === todayYMD) {
       filtered = filtered.filter(s => {
         const d = new Date(s.timestamp);
         return isSameDay(d, now);
       });
-      headingText = `আজকের রানিং দিন (${formatBengaliDate(now, 'dateMonthYear')})`;
-    } else if (currentLedgerPeriod === 'tomorrow') {
-      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), tomorrow));
-      headingText = `আগামীকাল (${formatBengaliDate(tomorrow, 'dateMonthYear')})-এর অগ্রিম সেল ও শিডিউল`;
+      headingText = `আজকের রানিং দিন (${formatBengaliDate(now, 'dateMonthYear')}) - সেল বিবরণী`;
+    } else if (currentLedgerPeriod === 'yesterday' || currentLedgerPeriod === yesterdayYMD) {
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), yesterdayDate));
+      headingText = `গতকাল (${formatBengaliDate(yesterdayDate, 'dateMonthYear')})-এর বিক্রয় রেকর্ড`;
+    } else if (currentLedgerPeriod === 'day_before_yesterday' || currentLedgerPeriod === dayBeforeYMD) {
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), dayBeforeDate));
+      headingText = `গত পরশু (${formatBengaliDate(dayBeforeDate, 'dateMonthYear')})-এর বিক্রয় রেকর্ড`;
+    } else if (currentLedgerPeriod === 'tomorrow' || currentLedgerPeriod === tomorrowYMD) {
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), tomorrowDate));
+      headingText = `আগামীকাল (${formatBengaliDate(tomorrowDate, 'dateMonthYear')})-এর অগ্রিম সেল ও শিডিউল`;
+    } else if (currentLedgerPeriod === 'day_2' || currentLedgerPeriod === day2YMD) {
+      filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), day2Date));
+      headingText = `পরশু (${formatBengaliDate(day2Date, 'dateMonthYear')})-এর অগ্রিম সেল ও শিডিউল`;
     } else if (currentLedgerPeriod === 'next3') {
       const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
       const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59);
@@ -1491,9 +1606,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (currentLedgerPeriod === 'all') {
       headingText = 'সকল বিক্রয় ও শিডিউল রেকর্ড';
     } else if (currentLedgerPeriod.includes('-')) {
-      const targetDate = new Date(currentLedgerPeriod + 'T00:00:00');
+      const parts = currentLedgerPeriod.split('-');
+      const targetDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
       filtered = filtered.filter(s => isSameDay(new Date(s.timestamp), targetDate));
-      headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর সেল ও শিডিউল বিবরণী`;
+      const todayZero = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      if (targetDate.getTime() < todayZero.getTime()) {
+        headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর বিক্রয় ও আয় রেকর্ড`;
+      } else if (targetDate.getTime() > todayZero.getTime()) {
+        headingText = `${formatBengaliDate(targetDate, 'dateMonthYear')}-এর অগ্রিম সেল ও শিডিউল`;
+      } else {
+        headingText = `আজকের রানিং দিন (${formatBengaliDate(targetDate, 'dateMonthYear')}) - সেল বিবরণী`;
+      }
     }
 
     // Special view for Past 10 Months & Individual Past Months
@@ -1649,7 +1772,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     if (filtered.length === 0) {
-      const isFutureScope = (currentLedgerPeriod === 'tomorrow' || currentLedgerPeriod === 'next3' || currentLedgerPeriod === 'next_week' || currentLedgerPeriod === 'next_month' || currentLedgerPeriod === 'month_dec' || (currentLedgerPeriod.includes('-') && currentLedgerPeriod > localTodayStr));
+      const isFutureScope = (currentLedgerPeriod === 'tomorrow' || currentLedgerPeriod === 'day_2' || currentLedgerPeriod === 'next3' || currentLedgerPeriod === 'next_week' || (currentLedgerPeriod.includes('-') && currentLedgerPeriod > localTodayStr));
       container.innerHTML = `
         <div class="p-8 text-center bg-surface border border-card rounded-xl text-zinc-400">
           <div class="w-12 h-12 rounded-full bg-goldPrimary/10 border border-goldPrimary/30 flex items-center justify-center text-goldLight text-xl mx-auto mb-3">
@@ -1677,136 +1800,242 @@ document.addEventListener('DOMContentLoaded', () => {
     const sorted = [...filtered].reverse();
 
     container.innerHTML = `
-      <!-- Desktop View Table (Customer Name & Phone FIRST, Date & Time SECOND) -->
+      <!-- Desktop View Table (Full-Width Executive Luxury Ledger) -->
       <div class="hidden md:block sales-table-wrapper">
         <table class="sales-table">
           <thead>
             <tr>
-              <th>কাস্টমারের নাম ও মোবাইল</th>
-              <th>তারিখ, মাস ও সময়</th>
-              <th>সেবা</th>
-              <th>কারিগর</th>
-              <th>বিল ও পরিশোধ</th>
-              <th>মাধ্যম</th>
-              <th class="text-right">রশিদ ও অ্যাকশন</th>
+              <th style="width: 220px;">কাস্টমার ও মোবাইল</th>
+              <th style="width: 170px;">তারিখ ও সময়</th>
+              <th style="min-width: 260px;">গৃহীত সেবাসমূহ</th>
+              <th style="width: 170px;">কারিগর (স্টাফ)</th>
+              <th style="width: 130px;">বিল ও পরিশোধ</th>
+              <th style="width: 110px;">মাধ্যম</th>
+              <th style="width: 130px;" class="text-right">রশিদ ও অ্যাকশন</th>
             </tr>
           </thead>
           <tbody>
-            ${sorted.map(s => `
-              <tr>
-                <td>
-                  <div class="font-bold text-white text-sm flex items-center gap-1.5">
-                    <span>${s.customerName}</span>
-                  </div>
-                  ${s.customerPhone ? `<div class="text-xs text-goldLight font-mono mt-0.5"><i class="fa-solid fa-phone text-[10px] text-zinc-500 mr-1"></i>${s.customerPhone}</div>` : '<div class="text-[10px] text-zinc-500 mt-0.5">ওয়াক-ইন</div>'}
-                </td>
-                <td>
-                  <div class="sale-date-badge-box">
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-goldPrimary/10 border border-goldPrimary/30 text-xs font-bold text-goldLight">
-                      <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
-                      <span>তারিখ: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+            ${sorted.map(s => {
+              let servicesList = [];
+              if (Array.isArray(s.services) && s.services.length > 0) {
+                servicesList = s.services.map(item => item.name);
+              } else if (s.serviceName) {
+                servicesList = s.serviceName.split(/[+,]/).map(t => t.trim()).filter(Boolean);
+              } else {
+                servicesList = ['সাধারণ সেবা'];
+              }
+
+              let barberRaw = s.barberName || salon.ownerName || 'ওস্তাদ আবুল বাশার';
+              let barberNameClean = barberRaw;
+              let barberRoleBadge = 'কারিগর';
+              if (barberRaw.includes('বাশার') || barberRaw.includes('মালিক')) {
+                barberNameClean = 'মো. আবুল বাশার';
+                barberRoleBadge = 'মালিক ও ওস্তাদ';
+              } else if (barberRaw.includes('সুজন')) {
+                barberNameClean = 'সুজন আহমেদ';
+                barberRoleBadge = 'হেয়ার স্টাইলিস্ট';
+              } else if (barberRaw.includes('রনি')) {
+                barberNameClean = 'রনি হোসেন';
+                barberRoleBadge = 'ফেসিয়াল এক্সপার্ট';
+              }
+
+              const initialChar = (s.customerName || 'ক').trim().charAt(0);
+
+              return `
+                <tr>
+                  <!-- 1. Customer & Mobile -->
+                  <td>
+                    <div class="flex items-center gap-2.5">
+                      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-goldPrimary/20 to-amber-600/30 border border-goldPrimary/40 flex items-center justify-center text-xs font-bold text-goldLight flex-shrink-0 shadow-sm">
+                        ${initialChar}
+                      </div>
+                      <div class="min-w-0">
+                        <div class="font-bold text-white text-sm truncate" title="${s.customerName}">${s.customerName}</div>
+                        ${s.customerPhone ? `
+                          <div class="text-xs text-goldLight font-mono mt-0.5 flex items-center gap-1">
+                            <i class="fa-solid fa-phone text-[9px] text-zinc-500"></i>
+                            <span>${s.customerPhone}</span>
+                          </div>
+                        ` : `
+                          <div class="text-[11px] text-zinc-500 font-mono mt-0.5">ওয়াক-ইন কাস্টমার</div>
+                        `}
+                      </div>
                     </div>
-                    <div class="inline-flex items-center gap-1.5 text-[11px] text-zinc-300 font-mono mt-1 pl-0.5">
-                      <span class="text-zinc-400">সময়:</span>
-                      <span class="text-white font-bold">${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-                      <span class="text-zinc-600">•</span>
-                      <span class="text-goldLight">#${s.memoNo || 'SL-100'}</span>
+                  </td>
+
+                  <!-- 2. Date & Time -->
+                  <td>
+                    <div class="leading-tight">
+                      <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
+                        <i class="fa-regular fa-calendar text-[11px] text-goldPrimary"></i>
+                        <span>${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
+                      </div>
+                      <div class="text-[11px] text-zinc-400 font-mono mt-1 flex items-center gap-1.5 pl-4">
+                        <span class="text-white font-medium">${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
+                        <span class="text-zinc-600">•</span>
+                        <span class="text-goldLight font-bold">#${s.memoNo || 'SL-100'}</span>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <span class="inline-block px-2.5 py-1 rounded bg-white/5 border border-subtle text-xs text-zinc-200">
-                    ${s.serviceName}
-                  </span>
-                </td>
-                <td>
-                  <div class="text-xs text-zinc-300 flex items-center gap-1">
-                    <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
-                    <span>${s.barberName || salon.ownerName}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</div>
-                  ${s.dueAmount > 0 ? `<div class="text-[10px] text-red-400 font-bold">বকেয়া: ${formatTaka(s.dueAmount)}</div>` : ''}
-                </td>
-                <td>
-                  <span class="text-[11px] font-medium px-2 py-0.5 rounded ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}">
-                    ${s.paymentMethod}
-                  </span>
-                </td>
-                <td class="text-right">
-                  <div class="flex items-center justify-end gap-1.5">
-                    <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-2.5 py-1.5 rounded-lg border border-goldPrimary/30 transition-all" data-receipt-id="${s.id}">
-                      <i class="fa-solid fa-receipt text-xs"></i>
-                      <span>রশিদ</span>
-                    </button>
-                    <button class="btn-delete-sale text-xs text-zinc-500 hover:text-red-400 p-1.5 rounded hover:bg-white/5 transition-all" data-delete-sale-id="${s.id}" title="মুছুন">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            `).join('')}
+                  </td>
+
+                  <!-- 3. Services (Horizontal Sleek Chips - No Vertical Wrapping!) -->
+                  <td>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                      ${servicesList.map(srv => `
+                        <span class="service-pill-chip">
+                          <span class="service-pill-dot"></span>
+                          <span>${srv}</span>
+                        </span>
+                      `).join('')}
+                    </div>
+                  </td>
+
+                  <!-- 4. Barber / Staff -->
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 flex items-center justify-center text-xs flex-shrink-0">
+                        <i class="fa-solid fa-scissors"></i>
+                      </div>
+                      <div class="min-w-0">
+                        <div class="text-xs font-semibold text-zinc-100 whitespace-nowrap">${barberNameClean}</div>
+                        <div class="text-[10px] text-zinc-400 whitespace-nowrap font-medium">${barberRoleBadge}</div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- 5. Bill & Payment Status -->
+                  <td>
+                    <div class="leading-tight">
+                      <div class="font-outfit font-extrabold text-emerald-400 text-base tracking-tight">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</div>
+                      ${s.dueAmount > 0 
+                        ? `<div class="text-[10px] text-rose-400 font-bold mt-0.5 flex items-center gap-1"><i class="fa-solid fa-triangle-exclamation text-[9px]"></i>বকেয়া: ${formatTaka(s.dueAmount)}</div>`
+                        : `<div class="text-[10px] text-emerald-500 font-medium mt-0.5 flex items-center gap-1"><i class="fa-solid fa-circle-check text-[9px]"></i>পরিশোধিত</div>`
+                      }
+                    </div>
+                  </td>
+
+                  <!-- 6. Payment Method -->
+                  <td>
+                    ${s.paymentMethod === 'ক্যাশ' ? `
+                      <span class="payment-badge-cash">
+                        <i class="fa-solid fa-money-bill-wave text-[10px]"></i>
+                        <span>ক্যাশ</span>
+                      </span>
+                    ` : s.paymentMethod === 'বিকাশ' ? `
+                      <span class="payment-badge-bkash">
+                        <i class="fa-solid fa-mobile-screen-button text-[10px]"></i>
+                        <span>বিকাশ</span>
+                      </span>
+                    ` : `
+                      <span class="payment-badge-digital">
+                        <i class="fa-solid fa-wallet text-[10px]"></i>
+                        <span>${s.paymentMethod || 'ডিজিটাল'}</span>
+                      </span>
+                    `}
+                  </td>
+
+                  <!-- 7. Receipt & Delete Action -->
+                  <td class="text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                      <button class="btn-view-receipt receipt-action-btn" data-receipt-id="${s.id}" title="ক্যাশ মানি রশিদ দেখুন">
+                        <i class="fa-solid fa-receipt text-[11px] text-goldLight"></i>
+                        <span>রশিদ</span>
+                      </button>
+                      <button class="btn-delete-sale delete-action-btn" data-delete-sale-id="${s.id}" title="হিসাব রেকর্ড মুছুন">
+                        <i class="fa-regular fa-trash-can text-xs"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
           </tbody>
         </table>
       </div>
 
-      <!-- Mobile View Cards: Customer Name & Phone FIRST, Date & Time SECOND -->
+      <!-- Mobile View Cards: Luxury Fintech Single Card View -->
       <div class="md:hidden mobile-sales-cards">
-        ${sorted.map(s => `
-          <div class="sale-card-single">
-            <!-- 1. Customer Name and Phone Number (সবার আগে) -->
-            <div class="p-2.5 rounded-lg bg-surfaceElevated border border-subtle mb-2">
-              <div class="flex items-center justify-between">
-                <h4 class="font-bold text-white text-base">${s.customerName}</h4>
-                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${s.paymentMethod === 'ক্যাশ' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-purple-500/20 text-purple-300'}">${s.paymentMethod}</span>
-              </div>
-              <div class="text-xs text-goldLight font-mono mt-0.5 flex items-center gap-1">
-                <i class="fa-solid fa-phone text-[10px] text-zinc-400"></i>
-                <span>${s.customerPhone || 'সাধারণ / ওয়াক-ইন গ্রাহক'}</span>
-              </div>
-            </div>
+        ${sorted.map(s => {
+          let servicesList = [];
+          if (Array.isArray(s.services) && s.services.length > 0) {
+            servicesList = s.services.map(item => item.name);
+          } else if (s.serviceName) {
+            servicesList = s.serviceName.split(/[+,]/).map(t => t.trim()).filter(Boolean);
+          } else {
+            servicesList = ['সাধারণ সেবা'];
+          }
 
-            <!-- 2. Date, Month, Year & Time (কাস্টমারের নাম ও নাম্বারের পরে) -->
-            <div class="p-2 rounded-lg bg-black/20 border border-subtle mb-2.5 flex items-center justify-between flex-wrap gap-1.5 text-xs">
-              <div class="flex items-center gap-1.5 font-bold text-zinc-200">
-                <i class="fa-regular fa-calendar-days text-goldPrimary text-xs"></i>
-                <span>তারিখ: ${formatBengaliDate(s.timestamp, 'dateMonthYear')}</span>
-              </div>
-              <div class="font-mono text-goldLight flex items-center gap-1">
-                <i class="fa-regular fa-clock text-zinc-400 text-[10px]"></i>
-                <span>সময়: ${formatBengaliDate(s.timestamp, 'timeOnly')}</span>
-              </div>
-            </div>
+          let barberRaw = s.barberName || salon.ownerName || 'ওস্তাদ আবুল বাশার';
+          let barberNameClean = barberRaw;
+          if (barberRaw.includes('বাশার') || barberRaw.includes('মালিক')) barberNameClean = 'মো. আবুল বাশার (মালিক)';
+          else if (barberRaw.includes('সুজন')) barberNameClean = 'সুজন আহমেদ';
+          else if (barberRaw.includes('রনি')) barberNameClean = 'রনি হোসেন';
 
-            <div class="flex items-center justify-between pb-2 border-b border-subtle gap-2">
-              <span class="text-[11px] text-zinc-400 font-mono">মেমো নং: #${s.memoNo || 'SL-100'}</span>
-              <div class="text-right">
-                <span class="font-outfit font-bold text-emeraldLight text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</span>
-                ${s.dueAmount > 0 ? `<div class="text-[10px] text-red-400 font-bold">বকেয়া: ${formatTaka(s.dueAmount)}</div>` : ''}
-              </div>
-            </div>
+          const initialChar = (s.customerName || 'ক').trim().charAt(0);
 
-            <div class="flex items-center justify-between pt-2">
-              <div>
-                <div class="text-xs text-zinc-200 font-medium">✂️ ${s.serviceName}</div>
-                <div class="text-[11px] text-zinc-400 mt-1 flex items-center gap-1">
-                  <i class="fa-solid fa-user-gear text-[10px] text-blue-400"></i>
-                  <span>${s.barberName || salon.ownerName}</span>
+          return `
+            <div class="sale-card-single">
+              <!-- Customer Header & Amount -->
+              <div class="flex items-center justify-between pb-3 border-b border-subtle">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-9 h-9 rounded-full bg-gradient-to-br from-goldPrimary/20 to-amber-600/30 border border-goldPrimary/40 flex items-center justify-center text-xs font-bold text-goldLight flex-shrink-0 shadow-sm">
+                    ${initialChar}
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">${s.customerName}</h4>
+                    <div class="text-xs text-goldLight font-mono flex items-center gap-1">
+                      <i class="fa-solid fa-phone text-[9px] text-zinc-400"></i>
+                      <span>${s.customerPhone || 'ওয়াক-ইন কাস্টমার'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-right">
+                  <div class="font-outfit font-extrabold text-emerald-400 text-base">+${formatTaka(s.paidAmount || s.totalAmount || s.amount)}</div>
+                  ${s.paymentMethod === 'ক্যাশ' ? `
+                    <span class="payment-badge-cash text-[10px] px-2 py-0.5 mt-0.5">ক্যাশ</span>
+                  ` : `
+                    <span class="payment-badge-bkash text-[10px] px-2 py-0.5 mt-0.5">${s.paymentMethod}</span>
+                  `}
                 </div>
               </div>
 
-              <div class="flex items-center gap-1.5">
-                <button class="btn-view-receipt text-xs bg-goldPrimary/10 hover:bg-goldPrimary/20 text-goldLight px-3 py-1.5 rounded-lg border border-goldPrimary/30" data-receipt-id="${s.id}">
-                  <i class="fa-solid fa-receipt text-xs mr-1"></i> রশিদ
-                </button>
-                <button class="btn-delete-sale text-[11px] text-zinc-500 hover:text-red-400 py-1" data-delete-sale-id="${s.id}" title="মুছুন">
-                  <i class="fa-solid fa-trash-can text-xs"></i>
-                </button>
+              <!-- Services Chips (Horizontal, no vertical breaking) -->
+              <div class="py-1">
+                <div class="text-[11px] text-zinc-400 font-medium mb-1.5 flex items-center gap-1">
+                  <i class="fa-solid fa-scissors text-goldLight text-[10px]"></i>
+                  <span>গৃহীত সেবা:</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${servicesList.map(srv => `
+                    <span class="service-pill-chip text-xs">
+                      <span class="service-pill-dot"></span>
+                      <span>${srv}</span>
+                    </span>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Meta Footer & Action Buttons -->
+              <div class="pt-2 border-t border-subtle flex items-center justify-between flex-wrap gap-2 text-xs">
+                <div class="leading-tight text-zinc-400 font-mono text-[11px]">
+                  <div class="text-zinc-300 font-medium">${formatBengaliDate(s.timestamp, 'dateMonthYear')} • ${formatBengaliDate(s.timestamp, 'timeOnly')}</div>
+                  <div class="text-[10px] text-zinc-500 mt-0.5">#${s.memoNo || 'SL-100'} • কারিগর: ${barberNameClean}</div>
+                </div>
+
+                <div class="flex items-center gap-2 ml-auto">
+                  <button class="btn-view-receipt receipt-action-btn" data-receipt-id="${s.id}">
+                    <i class="fa-solid fa-receipt text-[11px]"></i>
+                    <span>রশিদ</span>
+                  </button>
+                  <button class="btn-delete-sale delete-action-btn" data-delete-sale-id="${s.id}" title="মুছুন">
+                    <i class="fa-regular fa-trash-can text-xs"></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     `;
 
@@ -2548,121 +2777,152 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Sales Period Filter Pills & Calendar Setup (Blocking Past Dates)
+  // Sales Period Filter Pills & Calendar Setup (Past Dates 100% Unlocked & Active)
   const salesFilterPills = document.querySelectorAll('.sales-filter-pill');
   const salesLedgerDatePicker = document.getElementById('salesLedgerDatePicker');
   const clearDatePickerBtn = document.getElementById('clearDatePickerBtn');
+  const dayStripSlideLeft = document.getElementById('dayStripSlideLeft');
+  const dayStripSlideRight = document.getElementById('dayStripSlideRight');
 
-  // Interactive Day & Month Navigation Strip (Past Days Blocked 🔒 • Today & Upcoming Days/Months Available)
+  // Interactive Day Navigation Strip (Past Days Fully Unlocked & Clickable, Today Anchored, Tomorrow & Day After)
   function renderQuickDayNavStrip() {
     const strip = document.getElementById('quickDayNavStrip');
     if (!strip) return;
 
     const todayDate = new Date();
+    const todayYMD = todayDate.toISOString().slice(0, 10);
+    const yesterdayDate = new Date(todayDate.getTime() - 24 * 60 * 60 * 1000);
+    const yesterdayYMD = yesterdayDate.toISOString().slice(0, 10);
+    const dayBeforeDate = new Date(todayDate.getTime() - 2 * 24 * 60 * 60 * 1000);
+    const dayBeforeYMD = dayBeforeDate.toISOString().slice(0, 10);
+    const tomorrowDate = new Date(todayDate.getTime() + 24 * 60 * 60 * 1000);
+    const tomorrowYMD = tomorrowDate.toISOString().slice(0, 10);
+    const day2Date = new Date(todayDate.getTime() + 2 * 24 * 60 * 60 * 1000);
+    const day2YMD = day2Date.toISOString().slice(0, 10);
 
     const items = [
-      // 1. Past Days (Strictly Blocked / Locked)
-      { type: 'day', offset: -2, label: 'গত পরশু', isPast: true },
-      { type: 'day', offset: -1, label: 'গতকাল', isPast: true },
-      // 2. Today (Active / Available)
+      // Past Days (100% Unblocked & Clickable - Allows viewing historical sales)
+      { type: 'day', offset: -7, label: '৭ দিন আগে', isPast: true },
+      { type: 'day', offset: -6, label: '৬ দিন আগে', isPast: true },
+      { type: 'day', offset: -5, label: '৫ দিন আগে', isPast: true },
+      { type: 'day', offset: -4, label: '৪ দিন আগে', isPast: true },
+      { type: 'day', offset: -3, label: '৩ দিন আগে', isPast: true },
+      { type: 'day', offset: -2, periodId: 'day_before_yesterday', label: 'গত পরশু', isPast: true },
+      { type: 'day', offset: -1, periodId: 'yesterday', label: 'গতকাল', isPast: true },
+      // Today (Center Anchor)
       { type: 'day', offset: 0, periodId: 'today', label: '⭐ আজকের দিন', isToday: true },
-      // 3. Upcoming Future Days (Fully Available & Selectable)
+      // Upcoming Days (Only Tomorrow & Day 2)
       { type: 'day', offset: 1, periodId: 'tomorrow', label: 'আগামীকাল', isFuture: true },
       { type: 'day', offset: 2, periodId: 'day_2', label: 'পরশু', isFuture: true },
-      { type: 'day', offset: 3, periodId: 'day_3', label: 'পরশুর পর', isFuture: true },
-      { type: 'day', offset: 4, periodId: 'day_4', label: '৪ দিন পর', isFuture: true },
-      { type: 'day', offset: 5, periodId: 'day_5', label: '৫ দিন পর', isFuture: true },
-      { type: 'day', offset: 6, periodId: 'day_6', label: '৬ দিন পর', isFuture: true },
-      { type: 'day', offset: 7, periodId: 'day_7', label: '১ সপ্তাহ পর', isFuture: true },
-      // 4. Upcoming Future Months (যেসব মাস আসতেছে - Fully Available & Selectable)
-      { type: 'month', periodId: 'running_month', label: 'চলতি মাস (অক্টোবর)', sub: 'রানিং ২০২৬', isCurrentMonth: true },
-      { type: 'month', periodId: 'next_month', label: 'আগামী মাস (নভেম্বর)', sub: 'আসন্ন ২০২৬', isFutureMonth: true },
-      { type: 'month', periodId: 'month_dec', label: 'পরবর্তী মাস (ডিসেম্বর)', sub: 'আসন্ন ২০২৬', isFutureMonth: true },
-      { type: 'month', periodId: 'month_jan27', label: 'নতুন বছর (জানুয়ারি)', sub: 'আসন্ন ২০২৭', isFutureMonth: true }
+      // Running Month & All Records
+      { type: 'month', periodId: 'running_month', label: 'চলতি মাস (অক্টোবর)', sub: 'রানিং ২০২৬' },
+      { type: 'all', periodId: 'all', label: 'সব রেকর্ড', sub: 'সকল বিক্রয়' }
     ];
 
     strip.innerHTML = items.map(item => {
-      if (item.isPast) {
-        const targetDate = new Date(todayDate.getTime() + item.offset * 24 * 60 * 60 * 1000);
-        const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
-        return `
-          <button type="button" class="day-pill locked" title="পেছনের দিন নির্বাচন করা যাবে না (ব্লক করা হয়েছে)">
-            <span class="day-pill-label flex items-center gap-1 text-zinc-400">
-              <i class="fa-solid fa-lock text-[10px] text-red-400"></i>
-              <span>${item.label}</span>
-            </span>
-            <span class="day-pill-sub text-red-400/80">${dateBengali} (ব্লক)</span>
-          </button>
-        `;
-      } else if (item.isToday) {
-        const isoYMD = todayDate.toISOString().slice(0, 10);
+      if (item.isToday) {
         const dateBengali = todayDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
-        const isActive = (currentLedgerPeriod === 'today' || currentLedgerPeriod === isoYMD);
+        const isActive = (currentLedgerPeriod === 'today' || currentLedgerPeriod === todayYMD);
         return `
-          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="today" data-date-str="${isoYMD}">
+          <button type="button" class="day-pill today-pill ${isActive ? 'active' : ''}" data-day-period="today" data-date-str="${todayYMD}" title="আজকের রানিং সেল দেখুন">
             <span class="day-pill-label flex items-center gap-1">
-              <i class="fa-solid fa-star text-[10px]"></i>
+              <i class="fa-solid fa-star text-[10px] text-goldLight"></i>
               <span>${item.label}</span>
             </span>
-            <span class="day-pill-sub">${dateBengali} (সক্রিয়)</span>
+            <span class="day-pill-sub">${dateBengali} (লাইভ)</span>
           </button>
         `;
-      } else if (item.type === 'day' && item.isFuture) {
+      } else if (item.isPast) {
         const targetDate = new Date(todayDate.getTime() + item.offset * 24 * 60 * 60 * 1000);
         const isoYMD = targetDate.toISOString().slice(0, 10);
         const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
-        const isActive = (currentLedgerPeriod === item.periodId || currentLedgerPeriod === isoYMD);
+        const periodKey = item.periodId || isoYMD;
+        let isActive = (currentLedgerPeriod === isoYMD);
+        if (item.offset === -1 && (currentLedgerPeriod === 'yesterday' || currentLedgerPeriod === isoYMD)) isActive = true;
+        if (item.offset === -2 && (currentLedgerPeriod === 'day_before_yesterday' || currentLedgerPeriod === isoYMD)) isActive = true;
         return `
-          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${isoYMD}" data-date-str="${isoYMD}">
+          <button type="button" class="day-pill past-day ${isActive ? 'active' : ''}" data-day-period="${periodKey}" data-date-str="${isoYMD}" title="${item.label}-এর বিক্রয় রেকর্ড দেখুন">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-solid fa-clock-rotate-left text-[10px] text-amber-400"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub">${dateBengali} (অতীত)</span>
+          </button>
+        `;
+      } else if (item.isFuture) {
+        const targetDate = new Date(todayDate.getTime() + item.offset * 24 * 60 * 60 * 1000);
+        const isoYMD = targetDate.toISOString().slice(0, 10);
+        const dateBengali = targetDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+        const periodKey = item.periodId || isoYMD;
+        let isActive = (currentLedgerPeriod === isoYMD);
+        if (item.offset === 1 && (currentLedgerPeriod === 'tomorrow' || currentLedgerPeriod === isoYMD)) isActive = true;
+        if (item.offset === 2 && (currentLedgerPeriod === 'day_2' || currentLedgerPeriod === isoYMD)) isActive = true;
+        return `
+          <button type="button" class="day-pill future-day ${isActive ? 'active' : ''}" data-day-period="${periodKey}" data-date-str="${isoYMD}" title="${item.label}-এর অগ্রিম সেল ও শিডিউল">
             <span class="day-pill-label flex items-center gap-1">
               <i class="fa-regular fa-calendar text-[10px] text-blue-400"></i>
               <span>${item.label}</span>
             </span>
-            <span class="day-pill-sub text-zinc-300">${dateBengali}</span>
+            <span class="day-pill-sub">${dateBengali}</span>
           </button>
         `;
       } else if (item.type === 'month') {
-        const isActive = (currentLedgerPeriod === item.periodId);
+        const isActive = (currentLedgerPeriod === 'running_month' || currentLedgerPeriod === 'month');
         return `
-          <button type="button" class="day-pill ${isActive ? 'active' : ''}" data-day-period="${item.periodId}">
+          <button type="button" class="day-pill month-pill ${isActive ? 'active' : ''}" data-day-period="running_month" title="চলতি মাসের মোট হিসাব">
             <span class="day-pill-label flex items-center gap-1">
-              <i class="fa-regular fa-calendar-days text-[10px] text-purple-400"></i>
+              <i class="fa-solid fa-chart-pie text-[10px] text-purple-400"></i>
               <span>${item.label}</span>
             </span>
-            <span class="day-pill-sub text-zinc-300">${item.sub}</span>
+            <span class="day-pill-sub">${item.sub}</span>
+          </button>
+        `;
+      } else if (item.type === 'all') {
+        const isActive = (currentLedgerPeriod === 'all');
+        return `
+          <button type="button" class="day-pill all-pill ${isActive ? 'active' : ''}" data-day-period="all" title="সর্বকালের সকল বিক্রয় ও হিসাব">
+            <span class="day-pill-label flex items-center gap-1">
+              <i class="fa-solid fa-list-check text-[10px] text-emerald-400"></i>
+              <span>${item.label}</span>
+            </span>
+            <span class="day-pill-sub">${item.sub}</span>
           </button>
         `;
       }
     }).join('');
 
-    // Attach click events to locked past days
-    strip.querySelectorAll('.day-pill.locked').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast('⚠️ পেছনের কোনো তারিখ বা মাস নির্বাচন করা যাবে না (ব্লক করা হয়েছে)! শুধুমাত্র আজ এবং আগামী দিনগুলো প্রযোজ্য।');
-      });
-    });
-
-    // Attach click events to active & future days and months
-    strip.querySelectorAll('.day-pill:not(.locked)').forEach(btn => {
+    // Attach click events to all day-pills
+    strip.querySelectorAll('.day-pill').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const period = btn.getAttribute('data-day-period');
+        const dateStr = btn.getAttribute('data-date-str');
         currentLedgerPeriod = period;
 
         // sync with filter pills and date picker
         salesFilterPills.forEach(p => {
-          if (p.getAttribute('data-period') === period) p.classList.add('active');
+          const pPeriod = p.getAttribute('data-period');
+          let match = false;
+          if (pPeriod === period) match = true;
+          else if (pPeriod === 'today' && (period === 'today' || period === todayYMD)) match = true;
+          else if (pPeriod === 'yesterday' && (period === 'yesterday' || period === yesterdayYMD)) match = true;
+          else if (pPeriod === 'day_before_yesterday' && (period === 'day_before_yesterday' || period === dayBeforeYMD)) match = true;
+          else if (pPeriod === 'tomorrow' && (period === 'tomorrow' || period === tomorrowYMD)) match = true;
+          else if (pPeriod === 'day_2' && (period === 'day_2' || period === day2YMD)) match = true;
+          else if (pPeriod === 'running_month' && (period === 'running_month' || period === 'month')) match = true;
+          else if (pPeriod === 'all' && period === 'all') match = true;
+
+          if (match) p.classList.add('active');
           else p.classList.remove('active');
         });
 
         if (salesLedgerDatePicker) {
-          if (period === 'today') {
+          if (dateStr && period !== 'today') {
+            salesLedgerDatePicker.value = dateStr;
+            if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
+          } else if (period === 'today') {
             salesLedgerDatePicker.value = '';
             if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
-          } else if (period.includes('-')) {
-            salesLedgerDatePicker.value = period;
-            if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');
           } else {
             salesLedgerDatePicker.value = '';
             if (clearDatePickerBtn) clearDatePickerBtn.classList.add('hidden');
@@ -2673,18 +2933,39 @@ document.addEventListener('DOMContentLoaded', () => {
         renderComprehensiveSalesLedger();
       });
     });
+
+    // Auto-scroll active pill into view smoothly
+    setTimeout(() => {
+      const activePill = strip.querySelector('.day-pill.active');
+      if (activePill) {
+        const scrollPos = activePill.offsetLeft - (strip.clientWidth / 2) + (activePill.offsetWidth / 2);
+        strip.scrollTo({ left: Math.max(0, scrollPos), behavior: 'smooth' });
+      }
+    }, 50);
   }
 
-  // Calendar picker for selecting a specific date (Past dates blocked, today and upcoming dates available)
+  // Smooth Slider Left/Right Buttons for Quick Day Strip
+  if (dayStripSlideLeft) {
+    dayStripSlideLeft.addEventListener('click', (e) => {
+      e.preventDefault();
+      const strip = document.getElementById('quickDayNavStrip');
+      if (strip) strip.scrollBy({ left: -220, behavior: 'smooth' });
+    });
+  }
+  if (dayStripSlideRight) {
+    dayStripSlideRight.addEventListener('click', (e) => {
+      e.preventDefault();
+      const strip = document.getElementById('quickDayNavStrip');
+      if (strip) strip.scrollBy({ left: 220, behavior: 'smooth' });
+    });
+  }
+
+  // Calendar picker for selecting any specific date (Past, Today, and Future are 100% UNLOCKED)
   if (salesLedgerDatePicker) {
-    salesLedgerDatePicker.min = localTodayStr; // Past dates strictly blocked in picker!
-    salesLedgerDatePicker.removeAttribute('max'); // Today and future dates fully enabled!
+    salesLedgerDatePicker.removeAttribute('min');
+    salesLedgerDatePicker.removeAttribute('max');
     const handleDatePickerChange = (e) => {
       if (e.target.value) {
-        if (e.target.value < localTodayStr) {
-          e.target.value = localTodayStr;
-          showToast('⚠️ পেছনের কোনো তারিখ বা মাস নির্বাচন করা যাবে না (ব্লক করা হয়েছে)! শুধুমাত্র আজ ও আগামী দিনগুলো প্রযোজ্য।');
-        }
         currentLedgerPeriod = e.target.value;
         salesFilterPills.forEach(p => p.classList.remove('active'));
         if (clearDatePickerBtn) clearDatePickerBtn.classList.remove('hidden');

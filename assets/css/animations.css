@@ -1,31 +1,61 @@
 /* ==========================================================================
-   ABIR SHIKDER PORTFOLIO - ADVANCED ANIMATIONS & KEYFRAMES
+   ABIR SHIKDER PORTFOLIO - LUXURY EDITORIAL ANIMATIONS
    ========================================================================== */
 
-/* Ambient Floating Orbs */
-@keyframes floatOrb {
+/* Ambient Floating Blobs */
+@keyframes floatBlobA {
   0% {
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(60px, 40px) scale(1.15);
+    transform: translate(50px, 35px) scale(1.12);
   }
   100% {
-    transform: translate(-40px, 70px) scale(0.9);
+    transform: translate(-30px, 60px) scale(0.92);
   }
 }
 
-/* Floating Avatar Badges */
-@keyframes floatBadge {
+@keyframes floatBlobB {
   0% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-40px, -45px) scale(1.15);
   }
   100% {
-    transform: translateY(-8px) rotate(1.5deg);
+    transform: translate(35px, -20px) scale(0.88);
   }
 }
 
-/* Status Dot Pulse */
+/* 60fps Infinite Marquee Scroll */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hologram Specular Line Sweep */
+@keyframes shineLine {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Pulse Beacon Dot */
 @keyframes pulseDot {
   0% {
     transform: scale(0.95);
@@ -41,24 +71,6 @@
   }
 }
 
-/* Cursor Blink for Typewriter */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* Mouse Wheel Scroll Indicator */
-@keyframes mouseWheel {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(14px);
-  }
-}
-
 /* Toast Slide In */
 @keyframes slideToast {
   from {
@@ -71,79 +83,14 @@
   }
 }
 
-/* Shimmer Sweep Animation */
-@keyframes shimmerSweep {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Neon Cyber Glow Pulse */
-@keyframes cyberGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
-  }
-  50% {
-    filter: drop-shadow(0 0 25px rgba(0, 242, 254, 0.8));
-  }
-}
-
-/* Scroll Reveal Initial Classes (Applied via JS on scroll) */
+/* Reveal Fade Up */
 .reveal-fade-up {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-fade-up.active {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Stagger Delays */
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
-
-/* Hologram Edge Light Effect */
-.avatar-card::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.5), transparent 40%, rgba(138, 43, 226, 0.4));
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.avatar-card:hover::after {
-  opacity: 1;
-}
-
-/* Button Wave Glow */
-.btn-primary-glow::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-  pointer-events: none;
-}
-
-.btn-primary-glow:hover::after {
-  transform: scale(1);
-  opacity: 1;
-}
-

@@ -938,79 +938,106 @@ body {
 /* ==========================================
    DAILY SALES & CASH REGISTER STYLES
    ========================================== */
-.pos-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+.quick-pos-panel {
+  background: linear-gradient(135deg, rgba(24, 28, 42, 0.95) 0%, rgba(14, 18, 28, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 
-@media (min-width: 1024px) {
-  .pos-layout {
-    grid-template-columns: 5fr 7fr;
-  }
+.quick-pos-panel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.5), transparent);
 }
 
 .service-buttons-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 @media (min-width: 640px) {
   .service-buttons-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
   }
 }
 
 .service-btn {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-card);
+  background: linear-gradient(135deg, rgba(26, 32, 48, 0.7) 0%, rgba(16, 20, 32, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  padding: 16px 12px;
+  padding: 10px 14px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
-  gap: 6px;
+  text-align: left;
+  gap: 12px;
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .service-btn:hover {
-  background: var(--bg-surface-elevated);
-  border-color: var(--border-gold);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(30, 36, 54, 0.95) 100%);
+  border-color: rgba(245, 158, 11, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.15);
 }
 
 .service-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 .service-icon-box {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: var(--gold-light);
+  flex-shrink: 0;
+}
+
+.service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .service-name {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: #f4f4f5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .service-price {
   font-family: var(--font-outfit);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--gold-primary);
+  color: var(--gold-light);
+}
+
+.sales-ledger-section {
+  width: 100%;
 }
 
 /* Daily Sales Sector & Ledger */
@@ -1048,67 +1075,215 @@ body {
 }
 
 .sales-summary-box {
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(135deg, rgba(24, 29, 44, 0.95) 0%, rgba(14, 18, 28, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.22);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.sales-summary-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4), transparent);
+}
+
+.sales-summary-box:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.15);
 }
 
 .sales-summary-label {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 500;
 }
 
 .sales-summary-val {
   font-family: var(--font-outfit);
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: #fff;
+  letter-spacing: -0.02em;
 }
 
 /* Sales Ledger Table */
 .sales-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: linear-gradient(180deg, rgba(22, 27, 42, 0.98) 0%, rgba(13, 17, 27, 0.99) 100%);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .sales-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   text-align: left;
   font-size: 0.88rem;
 }
 
 .sales-table th {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 12px 14px;
-  font-weight: 600;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(245, 158, 11, 0.07);
+  padding: 14px 18px;
+  font-weight: 700;
+  color: #e4e4e7;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
   white-space: nowrap;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
 .sales-table td {
-  padding: 14px;
+  padding: 16px 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   vertical-align: middle;
+  transition: background var(--transition-fast);
 }
 
-.sales-table tr:last-child td {
+.sales-table tbody tr:hover td {
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.sales-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.sales-table tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+/* Service Multi-Pill Chips */
+.service-pill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f4f4f5;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.service-pill-chip:hover {
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.service-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+  flex-shrink: 0;
+}
+
+/* Payment Badges */
+.payment-badge-cash {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  white-space: nowrap;
+}
+
+.payment-badge-bkash {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(236, 72, 153, 0.12);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.25);
+  white-space: nowrap;
+}
+
+.payment-badge-digital {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  white-space: nowrap;
+}
+
+/* Action Buttons */
+.receipt-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.2) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fef08a;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.receipt-action-btn:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.4) 100%);
+  border-color: #fef08a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.delete-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.delete-action-btn:hover {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.4);
+  color: #fb7185;
+  transform: translateY(-1px);
 }
 
 /* Mobile Sales Cards */
@@ -1119,18 +1294,20 @@ body {
 }
 
 .sale-card-single {
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(24, 28, 42, 0.95) 0%, rgba(14, 18, 28, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   transition: all var(--transition-fast);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .sale-card-single:hover {
-  border-color: var(--border-gold);
+  border-color: rgba(245, 158, 11, 0.45);
+  transform: translateY(-2px);
 }
 
 /* Service Multi-Select Chips in Modal */
@@ -1408,28 +1585,35 @@ body {
    SMART CALENDAR DAY STRIP (PAST DATES BLOCKED)
    ========================================== */
 .calendar-day-strip {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(24, 28, 42, 0.9) 0%, rgba(14, 18, 28, 0.95) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .day-pills-scroll {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding: 6px 2px 10px 2px;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 .day-pills-scroll::-webkit-scrollbar {
-  height: 4px;
+  height: 6px;
+}
+
+.day-pills-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 9999px;
 }
 
 .day-pills-scroll::-webkit-scrollbar-thumb {
-  background: var(--border-card);
-  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.4), rgba(245, 158, 11, 0.8));
+  border-radius: 9999px;
 }
 
 .day-pill {
@@ -1438,49 +1622,69 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d4d4d8;
   font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
-  min-width: 90px;
+  min-width: 100px;
 }
 
-.day-pill:hover:not(.locked) {
+.day-pill:hover {
   border-color: var(--border-gold);
+  background: rgba(245, 158, 11, 0.12);
   color: #fff;
   transform: translateY(-2px);
 }
 
-.day-pill.active {
-  background: var(--gold-gradient);
-  border-color: var(--gold-primary);
-  color: #000;
+.day-pill.today-pill {
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(20, 24, 36, 0.8) 100%);
+  color: #fef08a;
   font-weight: 700;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.day-pill.past-day {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+}
+
+.day-pill.future-day {
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+.day-pill.month-pill {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.day-pill.all-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.day-pill.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+  border-color: #fef08a !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45) !important;
+  transform: scale(1.04);
 }
 
 .day-pill.active .day-pill-sub {
-  color: #1e1b4b;
-  font-weight: 600;
+  color: #1c1917 !important;
+  font-weight: 700 !important;
 }
 
-.day-pill.locked {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px dashed rgba(239, 68, 68, 0.3);
-  color: #71717a;
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-
-.day-pill.locked:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.5);
+.day-pill.active i {
+  color: #000 !important;
 }
 
 .day-pill-label {

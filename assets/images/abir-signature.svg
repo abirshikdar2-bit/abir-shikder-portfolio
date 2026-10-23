@@ -1,0 +1,35 @@
+<svg role="img" aria-label="Abir Shikder signature" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" preserveAspectRatio="xMidYMid meet" class="signature-svg">
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Capital 'A' with expansive expressive calligraphic loop -->
+    <path d="M 40 130 C 38 108 48 72 65 38 C 74 20 86 14 96 22 C 104 29 108 48 110 72 C 112 96 114 122 118 132 C 121 140 124 136 126 126 C 130 106 132 78 128 62 C 124 45 106 44 82 58 C 56 74 38 100 42 118 C 46 134 70 136 96 122 C 122 108 144 88 158 72" 
+          stroke-width="3.4" />
+    
+    <!-- 'b' looping gracefully up and into smooth base -->
+    <path d="M 158 72 C 162 58 172 28 178 30 C 184 32 181 54 177 74 C 174 92 172 112 176 116 C 180 118 190 108 198 96 C 204 86 206 75 201 73 C 196 71 190 77 187 86 C 185 94 188 102 198 100 C 208 97 218 88 226 76" 
+          stroke-width="2.8" />
+
+    <!-- 'i' & 'r' (Abir) -->
+    <path d="M 226 76 C 230 70 236 66 240 72 C 244 78 240 94 242 98 C 245 100 252 90 258 82 C 264 74 270 70 274 74 C 278 78 274 88 276 94 C 280 98 288 94 296 84" 
+          stroke-width="2.6" />
+    <!-- dot for 'i' in Abir -->
+    <circle cx="239" cy="50" r="2.2" fill="#ffffff" stroke="none" />
+
+    <!-- Flourish connector sweeping up into capital 'S' of Shikder -->
+    <path d="M 296 84 C 310 66 328 32 342 24 C 352 18 360 22 355 35 C 348 52 326 72 318 88 C 310 104 315 116 328 118 C 340 119 354 106 364 92" 
+          stroke-width="3.2" />
+
+    <!-- 'h' tall loop -->
+    <path d="M 364 92 C 368 74 378 38 384 40 C 390 42 384 68 380 88 C 378 98 382 106 390 102 C 398 97 404 84 410 74" 
+          stroke-width="2.6" />
+
+    <!-- 'i', 'k', 'd', 'e', 'r' (Shikder) flowing cursive -->
+    <path d="M 410 74 C 414 82 414 94 418 96 C 422 97 426 88 430 76 C 434 60 438 44 442 46 C 445 48 438 72 436 84 C 434 94 440 96 446 90 C 452 84 454 74 458 74 C 462 74 460 84 462 90 C 464 96 470 96 476 86 C 482 74 484 54 486 48 C 488 44 492 52 490 70 C 489 86 486 98 494 96 C 502 93 508 82 516 70" 
+          stroke-width="2.6" />
+    <!-- dot for 'i' in Shikder -->
+    <circle cx="414" cy="54" r="2.2" fill="#ffffff" stroke="none" />
+
+    <!-- Confident sweeping dynamic underline flourish -->
+    <path d="M 80 144 C 160 138 280 132 400 136 C 460 138 505 142 530 134" 
+          stroke-width="2.8" opacity="0.95" />
+  </g>
+</svg>

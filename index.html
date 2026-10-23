@@ -3,32 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abir Shikder — Full-Stack Web Developer & Creative Designer</title>
-  
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="Abir Shikder — Full-Stack Web Developer & Creative Designer">
-  <meta name="description" content="Portfolio of Abir Shikder, Full-Stack Web Developer & Creative Designer from Bangladesh. Specializing in modern web applications, Next.js, React, high-performance architecture, and bespoke UI/UX design.">
-  <meta name="author" content="Abir Shikder">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://abir-shikder-portfolio-abir-s-squad1.vercel.app">
-  <meta property="og:title" content="Abir Shikder — Full-Stack Web Developer & Creative Designer">
-  <meta property="og:description" content="Portfolio of Abir Shikder — High-performance web development, Next.js, React, modern UI/UX design, and clean scalable software engineering.">
-  <meta property="og:image" content="assets/images/chatgpt-hero-visual.png">
+  <title>Abir Shikder — Web Developer & Creative Designer</title>
+  <meta name="description" content="Portfolio of Abir Shikder - Web Developer & Creative Designer crafting high-conversion digital experiences, bespoke websites, and modern automated workflows.">
+  <meta name="keywords" content="Abir Shikder, Web Developer, Creative Designer, Portfolio, Frontend, Jashore Bangladesh, Tailwind CSS, JavaScript">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2308090C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='50' fill='%23FFFFFF'>A</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
 
-  <!-- Google Fonts: Outfit (Vexoo style headline) & Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono, Pinyon Script (Elegance Typography), Cormorant Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- FontAwesome Icons 6.5 -->
+  <!-- Font Awesome 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Tailwind CSS CDN for utility classes -->
+  <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -36,13 +26,17 @@
       theme: {
         extend: {
           colors: {
-            darkBg: '#000000',
-            darkCard: '#08090d',
-            darkCardHover: '#14161f',
-            vexooBlue: '#3b82f6',
-            vexooCyan: '#06b6d4',
-            vexooPurple: '#8b5cf6',
-            vexooEmerald: '#10b981'
+            obsidian: '#0a0a0c',
+            surface: '#111115',
+            ember: {
+              DEFAULT: '#ff5a1f',
+              light: '#ff7843',
+              dark: '#e0440b'
+            },
+            gold: {
+              DEFAULT: '#f59e0b',
+              light: '#fbbf24'
+            }
           },
           fontFamily: {
             heading: ['Outfit', 'sans-serif'],
@@ -54,905 +48,828 @@
     }
   </script>
 
-  <!-- Core Custom Stylesheet -->
+  <!-- Master Stylesheets -->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/animations.css">
 </head>
+<body class="bg-[#0a0a0c] text-slate-100 antialiased selection:bg-ember/40 selection:text-white">
 
-<body class="bg-black text-white selection:bg-blue-600 selection:text-white">
+  <!-- Background Atmosphere: Gradient Blobs & Fine Film Grain Overlay -->
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div class="hero-blob hero-blob-a"></div>
+    <div class="hero-blob hero-blob-b"></div>
+    <div class="hero-blob hero-blob-c"></div>
+  </div>
+  <div class="grain-overlay" aria-hidden="true"></div>
 
-  <!-- Ambient Backdrop Lighting & Architectural Grid -->
-  <div class="ambient-backdrop"></div>
-  <div class="grid-backdrop"></div>
+  <!-- Custom Magnetic Cursor with Ember Glow -->
+  <div class="custom-cursor" id="cursorDot"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
 
-  <!-- ==================== TOP NAVIGATION BAR ==================== -->
-  <header class="topbar" id="topbar">
-    <div class="max-w-[1360px] mx-auto px-6 py-4 flex items-center justify-between">
-      
-      <!-- Brand & Role -->
-      <a href="#home" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center font-heading font-bold text-white text-sm group-hover:bg-blue-600 transition-all duration-300">
-          AS
+  <!-- Floating WhatsApp Quick Connect Button -->
+  <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Chat on WhatsApp" title="Chat on WhatsApp: 01734018155">
+    <div class="whatsapp-pulse"></div>
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with Abir (01734018155)</span>
+  </a>
+
+  <!-- ==================== LUXURY FLOATING PILL NAVIGATION ==================== -->
+  <header class="header-wrapper">
+    <nav class="nav-pill">
+      <!-- Brand Mark -->
+      <a href="#hero" class="brand-badge-pill group">
+        <div class="brand-mark">
+          <span>AS</span>
         </div>
         <div class="flex flex-col">
-          <span class="brand-title">Abir Shikder</span>
-          <span class="brand-role">Full-Stack Developer</span>
+          <span class="brand-title">Abir<span class="text-ember">.</span>dev</span>
         </div>
       </a>
 
-      <!-- Center Nav Pills (Desktop) -->
-      <nav class="hidden md:flex items-center nav-pill-bar">
-        <a href="#home" class="nav-item active">Home</a>
-        <a href="#about" class="nav-item">About</a>
-        <a href="#work" class="nav-item">Selected Work</a>
-        <a href="#stack" class="nav-item">Tech Stack</a>
-        <a href="#contact" class="nav-item">Contact</a>
-        <button class="nav-item open-cv-btn bg-transparent border-none cursor-pointer">Official CV</button>
-      </nav>
-
-      <!-- Right Location & Actions -->
-      <div class="flex items-center gap-3">
-        <!-- Live Bangladesh Time & Status -->
-        <div class="status-indicator hidden sm:flex">
-          <span class="status-pulse-dot"></span>
-          <span>Jashore, BD</span>
-          <span class="text-white/40">•</span>
-          <span id="liveClock" class="text-white font-mono">03:00 AM</span>
-        </div>
-
-        <a href="#contact" class="btn-vexoo-primary hidden lg:inline-flex text-xs py-2 px-4">
-          <span>Let's Talk</span>
-          <i class="fa-solid fa-arrow-right text-[10px]"></i>
-        </a>
-
-        <!-- Mobile Hamburger Menu Button -->
-        <button id="mobileMenuBtn" class="mobile-menu-btn md:hidden" aria-label="Toggle navigation">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+      <!-- Desktop Nav Links -->
+      <div class="nav-links-desktop">
+        <a href="#journey" class="nav-item-link">Journey</a>
+        <a href="#works" class="nav-item-link">Works</a>
+        <a href="#services" class="nav-item-link">Services</a>
+        <a href="#process" class="nav-item-link">Process</a>
+        <a href="#faq" class="nav-item-link">FAQ</a>
+        <a href="#contact" class="nav-item-link">Contact</a>
       </div>
 
-    </div>
-
-    <!-- Mobile Slide-Down Drawer -->
-    <div id="mobileDrawer" class="mobile-drawer">
-      <a href="#home" class="mobile-nav-link active">Home</a>
-      <a href="#about" class="mobile-nav-link">About & Experience</a>
-      <a href="#work" class="mobile-nav-link">Selected Work</a>
-      <a href="#stack" class="mobile-nav-link">Tech Stack</a>
-      <a href="#contact" class="mobile-nav-link">Contact</a>
-      <button class="mobile-nav-link open-cv-btn text-left bg-transparent border-none cursor-pointer">Official CV Document</button>
-      <div class="pt-3 border-t border-white/10 flex items-center justify-between">
-        <div class="status-indicator">
-          <span class="status-pulse-dot"></span>
-          <span>Jashore, BD • GMT+6</span>
-        </div>
-        <a href="https://wa.me/8801734018155" target="_blank" class="text-emerald-400 text-sm font-mono flex items-center gap-1">
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp
-        </a>
+      <!-- Live Bangladesh Local Time Indicator -->
+      <div class="live-time-badge" title="Local time in Jashore, Bangladesh (GMT+6)">
+        <span class="beacon-dot"></span>
+        <span class="font-mono">BD <span id="liveClockDisplay">00:00:00</span></span>
       </div>
-    </div>
+
+      <!-- CTA Button -->
+      <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="btn-shine">
+        <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
+        <span>Book a Call</span>
+      </a>
+    </nav>
   </header>
 
-  <!-- ==================== SECTION 1: SPACIOUS & ELEGANT HERO ==================== -->
-  <main id="home" class="hero-section">
-    <!-- Ambient Glow Sphere -->
-    <div class="hero-glow-sphere"></div>
-
-    <!-- Status Pill -->
-    <div class="hero-status-pill">
-      <span class="status-pulse-dot"></span>
-      <span>Available for Full-Stack & UI/UX Roles • Q4 2026</span>
-    </div>
-
-    <!-- Main Hero Title -->
-    <h1 class="hero-main-title">
-      Architecting High-Performance Web Products with <span class="hero-gradient-text">Precision & Craft.</span>
-    </h1>
-
-    <!-- Dynamic Rotating Role Subtitle -->
-    <div class="hero-role-wrapper">
-      <span class="text-zinc-400">Specializing in</span>
-      <span id="heroRoleSwitcher" class="hero-role-tag">Full-Stack Web Engineering</span>
-    </div>
-
-    <!-- Subtitle Description -->
-    <p class="hero-description">
-      Hi, I'm <strong class="text-white font-medium">Abir Shikder</strong> — a full-stack web developer and creative designer from Bangladesh. I build scalable, lightning-fast digital applications where robust architecture meets meticulous aesthetic craft.
-    </p>
-
-    <!-- Call-to-Action Buttons -->
-    <div class="hero-actions">
-      <a href="#work" class="btn-hero-primary">
-        <i class="fa-solid fa-layer-group"></i>
-        <span>Explore Selected Work</span>
-        <i class="fa-solid fa-arrow-down text-xs"></i>
-      </a>
-      <a href="#contact" class="btn-hero-secondary">
-        <i class="fa-regular fa-paper-plane"></i>
-        <span>Let's Talk</span>
-      </a>
-      <button class="btn-hero-ghost open-cv-btn">
-        <i class="fa-regular fa-file-lines"></i>
-        <span>Official CV</span>
-      </button>
-    </div>
-
-    <!-- Flagship Architecture Showcase Box -->
-    <div class="hero-showcase-box">
-      <div class="showcase-glass-header">
-        <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-          <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-          <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
-          <span class="text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">abirshikder.dev — flagship architecture & design showcase</span>
-        </div>
-        <div class="flex items-center gap-3 text-xs text-zinc-400 font-mono">
-          <span class="text-emerald-400">● 60 FPS</span>
-          <span>Sub-800ms LCP</span>
-        </div>
-      </div>
-
-      <div class="showcase-image-container">
-        <img src="assets/images/chatgpt-hero-visual.png" alt="Abir Shikder Design & Engineering Suite" class="showcase-image">
-        
-        <!-- Floating Micro Badges -->
-        <div class="showcase-badge-pill showcase-badge-top-left">
-          <i class="fa-solid fa-bolt text-amber-400"></i>
-          <span>Sub-800ms Load Time</span>
-        </div>
-        <div class="showcase-badge-pill showcase-badge-bottom-right">
-          <i class="fa-solid fa-code text-cyan-400"></i>
-          <span>Clean Scalable Architecture</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Trust Metric Counter Bar -->
-    <div class="hero-metrics-grid">
-      <div class="metric-card">
-        <span class="metric-num">15+</span>
-        <span class="metric-label">Projects Delivered</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-num">100%</span>
-        <span class="metric-label">Client Satisfaction</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-num">2+</span>
-        <span class="metric-label">Years Crafting</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-num">UTC+6</span>
-        <span class="metric-label">Asia/Dhaka Live Sync</span>
-      </div>
-    </div>
-  </main>
-
-  <!-- ==================== SECTION 2: ABOUT WITH PROFILE SHOWCASE ==================== -->
-  <section id="about" class="section-wrapper border-t border-white/5">
-    <div class="max-w-[1360px] mx-auto px-6">
+  <main>
+    <!-- ==================== HERO SECTION (Modeled on rishad.digital & Pinterest olivar.dsgn) ==================== -->
+    <section id="hero" class="hero-editorial">
       
-      <!-- Section Header Block -->
-      <div class="max-w-3xl mb-12">
-        <span class="section-label">01 // About Me & Philosophy</span>
-        <h2 class="section-heading">
-          Where Architectural Rigor Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">Meticulous Aesthetic Craft</span>
-        </h2>
-      </div>
+      <!-- Giant Background Editorial Watermark Name (Beloved by user, inspired by rishad.digital) -->
+      <div class="hero-watermark-name" aria-hidden="true">ABIR SHIKDER</div>
 
-      <!-- Master 2-Column Split Layout -->
-      <div class="about-grid">
-        
-        <!-- Left Column: Abir's Profile Portrait Feature Showcase -->
-        <div class="portrait-showcase-card">
-          <div class="portrait-image-wrapper">
-            <img src="assets/images/abir-profile.jpg" alt="Abir Shikder - Full-Stack Developer">
-            <div class="portrait-ambient-glow"></div>
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center min-h-[82vh]">
+          
+          <!-- Hero Left Column: Clean Editorial Title & Direct Actions (rishad.digital style) -->
+          <div class="lg:col-span-7 flex flex-col items-start pt-6 lg:pt-8">
             
-            <!-- Floating Badge Over Image -->
-            <div class="portrait-floating-badge">
-              <div>
-                <h3 class="text-sm font-bold text-white font-heading">Abir Shikder</h3>
-                <p class="text-xs text-zinc-400 font-mono">Full-Stack Web Developer</p>
-              </div>
-              <div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full text-emerald-400 font-mono text-[11px]">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Available</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Portrait Card Footer Details -->
-          <div class="portrait-footer-details">
-            <div class="meta-pill-list">
-              <div class="meta-pill-item">
-                <i class="fa-solid fa-location-dot text-red-400"></i>
-                <span>Jashore / Dhaka, Bangladesh (UTC+6)</span>
-              </div>
-              <div class="meta-pill-item">
-                <i class="fa-solid fa-graduation-cap text-amber-400"></i>
-                <span>SSC Distinction 2022 • GPA: 3.61</span>
-              </div>
-              <div class="meta-pill-item">
-                <i class="fa-solid fa-laptop-code text-cyan-400"></i>
-                <span>Next.js • React • Node.js • Tailwind</span>
-              </div>
-              <div class="meta-pill-item">
-                <i class="fa-solid fa-language text-purple-400"></i>
-                <span>English (Professional) • Bengali (Native)</span>
-              </div>
+            <!-- Availability Badge -->
+            <div class="status-badge-chip mb-6" data-tilt data-tilt-max="6">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] animate-pulse"></span>
+              <span class="font-medium text-white">Available for High-Impact Projects &amp; Remote Contracts</span>
             </div>
 
-            <!-- Quick Action Links -->
-            <div class="portrait-quick-actions">
-              <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="quick-action-pill">
-                <div class="flex items-center gap-2">
-                  <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-                  <span class="text-xs">WhatsApp Direct (+880 1734018155)</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-zinc-400"></i>
-              </a>
+            <!-- Clean, Sleek Primary Title (Full Proper White Theme - No Color Added) -->
+            <h1 class="hero-clean-title mb-6 text-white">
+              Web Developer<br>
+              &amp; Automation
+            </h1>
 
-              <div class="quick-action-pill copy-email-btn">
-                <div class="flex items-center gap-2 overflow-hidden">
-                  <i class="fa-regular fa-envelope text-blue-400"></i>
-                  <span class="font-mono text-xs truncate">abirshikdar2@gmail.com</span>
-                </div>
-                <span class="text-xs text-zinc-400 hover:text-white flex items-center gap-1 font-mono shrink-0">
-                  <i class="fa-regular fa-copy"></i> Copy
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Narrative, Philosophy & Pillars -->
-        <div class="about-narrative-card">
-          <blockquote class="story-lead-quote">
-            "I believe the best digital products live at the intersection of architectural clarity, peak performance, and meticulous craft."
-          </blockquote>
-
-          <p class="story-text">
-            I am a self-directed, passionate full-stack developer and creative designer based in Bangladesh. My focus is engineering fast, responsive web products where clean system architecture meets modern visual aesthetics.
-          </p>
-
-          <p class="story-text">
-            From completing my science foundation with distinction (GPA 3.61) in Jashore to dedicating thousands of hours mastering modern web ecosystems (React, Next.js, Node.js, Tailwind CSS), I approach every project with discipline, curiosity, and high standards. I do not just write code; I design systems that solve problems and convert visitors.
-          </p>
-
-          <!-- 3 Value Pillars Grid -->
-          <div class="pillars-grid">
-            <div class="pillar-item">
-              <div class="pillar-icon-box bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <h4 class="pillar-heading">Performance First</h4>
-              <p class="pillar-desc">Sub-second LCP, minimal bundle weight, and smooth 60fps animations.</p>
-            </div>
-
-            <div class="pillar-item">
-              <div class="pillar-icon-box bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                <i class="fa-solid fa-bezier-curve"></i>
-              </div>
-              <h4 class="pillar-heading">UI/UX Precision</h4>
-              <p class="pillar-desc">Pixel-perfect Figma translations, accessible contrast, and intuitive ergonomics.</p>
-            </div>
-
-            <div class="pillar-item">
-              <div class="pillar-icon-box bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                <i class="fa-solid fa-code"></i>
-              </div>
-              <h4 class="pillar-heading">Clean Code</h4>
-              <p class="pillar-desc">Modular, semantic, maintainable codebases built to scale without tech debt.</p>
-            </div>
-          </div>
-
-          <!-- Bottom Action Buttons -->
-          <div class="flex items-center gap-3 pt-2 flex-wrap">
-            <button class="btn-vexoo-primary open-cv-btn">
-              <i class="fa-regular fa-file-lines text-xs"></i>
-              <span>View Official CV</span>
-            </button>
-            <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-ghost">
-              <i class="fa-solid fa-download text-xs"></i>
-              <span>Download Resume</span>
-            </a>
-            <a href="#contact" class="btn-vexoo-ghost">
-              <i class="fa-regular fa-paper-plane text-xs"></i>
-              <span>Get in Touch</span>
-            </a>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- Experience & Collaborator Endorsements Sub-Section -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-8">
-        
-        <!-- Left: Career Journey Timeline -->
-        <div class="lg:col-span-6">
-          <h3 class="text-xl font-bold font-heading text-white mb-8 flex items-center gap-3">
-            <i class="fa-solid fa-timeline text-blue-400 text-sm"></i>
-            <span>Experience & Academic Milestones</span>
-          </h3>
-
-          <div class="space-y-6">
-            
-            <div class="timeline-item">
-              <span class="timeline-dot"></span>
-              <div class="timeline-year">2024 — PRESENT</div>
-              <div class="timeline-role">Independent Full-Stack Developer & Freelancer</div>
-              <div class="timeline-company">Global Clients & Custom Web Engineering</div>
-              <p class="timeline-desc">
-                Architecting high-performance web applications, SaaS dashboards, and bespoke client platforms using Next.js, React, Tailwind CSS, and Node.js. Delivered 15+ successful projects with 100% positive feedback.
-              </p>
-            </div>
-
-            <div class="timeline-item">
-              <span class="timeline-dot"></span>
-              <div class="timeline-year">2023 — 2024</div>
-              <div class="timeline-role">Creative Frontend Engineer & UI/UX Specialist</div>
-              <div class="timeline-company">Digital Product Design & Prototyping</div>
-              <p class="timeline-desc">
-                Engineered responsive design systems, headless frontend architectures, and component libraries with sub-second LCP and 98+ Google Lighthouse scores.
-              </p>
-            </div>
-
-            <div class="timeline-item">
-              <span class="timeline-dot"></span>
-              <div class="timeline-year">2022</div>
-              <div class="timeline-role">Secondary School Certificate (SSC) Milestone</div>
-              <div class="timeline-company">Academic Foundation (GPA: 3.61 Distinction)</div>
-              <p class="timeline-desc">
-                Completed science and computational foundations with distinction in Jashore, accelerating full-time dedication to software engineering and modern web development.
-              </p>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Right: What People Say (Client Testimonials) -->
-        <div class="lg:col-span-6">
-          <h3 class="text-xl font-bold font-heading text-white mb-8 flex items-center gap-3">
-            <i class="fa-regular fa-comments text-emerald-400 text-sm"></i>
-            <span>Collaborator Endorsements</span>
-          </h3>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Abir has that rare ability to see both the architectural big picture and the smallest UI interaction. He brought our web dashboard to life with speed and precision."
-              </p>
-              <div class="testimonial-author-name">Marcus Holm</div>
-              <div class="testimonial-author-role">Founder, Fenwick Studio</div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Working with Abir elevated our entire product presence. He doesn't just write code — he actively suggests UX enhancements that make real business impact."
-              </p>
-              <div class="testimonial-author-name">Layla Thornton</div>
-              <div class="testimonial-author-role">Product Lead, Dayloom</div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Exceptional communication, clean code, and zero friction. Abir delivered our e-commerce platform ahead of schedule with flawless responsiveness."
-              </p>
-              <div class="testimonial-author-name">Jin Park</div>
-              <div class="testimonial-author-role">Creative Director, Haulk</div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "His understanding of modern design systems and performance optimization makes him an invaluable engineering partner. Highly recommended!"
-              </p>
-              <div class="testimonial-author-name">Nadia Osei</div>
-              <div class="testimonial-author-role">Technical Producer, Morsel</div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ==================== SECTION 3: SELECTED WORK & CASE STUDIES ==================== -->
-  <section id="work" class="section-wrapper border-t border-white/5">
-    <div class="max-w-[1360px] mx-auto px-6">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
-        <div>
-          <span class="section-label">02 // Portfolio & Case Studies</span>
-          <h2 class="section-heading mb-0">Featured Engineering & Design</h2>
-        </div>
-        <p class="text-sm text-zinc-400 max-w-md mt-4 md:mt-0 font-mono">
-          Each project represents an intentional fusion of performant code, accessible interaction design, and verified business outcomes.
-        </p>
-      </div>
-
-      <!-- Project Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- Project 1: Apex Analytics Pro -->
-        <div class="project-card group">
-          <div class="project-img-box">
-            <img src="assets/images/project-analytics.jpg" alt="Apex Analytics">
-          </div>
-          <div class="project-content">
-            <span class="project-tag-pill">Cloud SaaS • Real-Time Telemetry</span>
-            <h3 class="project-title">Apex Analytics Pro</h3>
-            <p class="project-desc">
-              High-throughput cloud monitoring dashboard processing 1.2 TB/hr ingestion with real-time WebSocket telemetry, interactive WebGL curves, and sub-800ms initial load.
+            <!-- Concise 2-line Subtext (Pure White) -->
+            <p class="hero-clean-desc mb-8 text-white">
+              Websites and automated lead follow-up systems for clinics, high-ticket services, and global brands. Fixed scope, clear prices, zero middlemen.
             </p>
-            <div class="project-actions">
-              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="analytics">
-                <i class="fa-regular fa-file-lines text-xs"></i>
-                <span>Case Study</span>
-              </button>
-              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
-                <span>Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
-            </div>
-          </div>
-        </div>
 
-        <!-- Project 2: Aether Luxury E-Commerce -->
-        <div class="project-card group">
-          <div class="project-img-box">
-            <img src="assets/images/project-ecommerce.jpg" alt="Aether Commerce">
-          </div>
-          <div class="project-content">
-            <span class="project-tag-pill">Headless E-Commerce • Next.js</span>
-            <h3 class="project-title">Aether Luxury Audio Store</h3>
-            <p class="project-desc">
-              Cinematic shopping experience for audiophile hardware with instant slide-over shopping bag, 3D variant inspector, and frictionless multi-currency Stripe checkout.
-            </p>
-            <div class="project-actions">
-              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="ecommerce">
-                <i class="fa-regular fa-file-lines text-xs"></i>
-                <span>Case Study</span>
-              </button>
-              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
-                <span>Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: Synthesis AI Workflow Studio -->
-        <div class="project-card group">
-          <div class="project-img-box">
-            <img src="assets/images/project-ai.jpg" alt="Synthesis AI">
-          </div>
-          <div class="project-content">
-            <span class="project-tag-pill">Generative AI • Workflow Canvas</span>
-            <h3 class="project-title">Synthesis AI Workflow Studio</h3>
-            <p class="project-desc">
-              Visual node-based prompt orchestration platform connecting multi-modal LLMs, latent diffusion models, and upscalers into unified collaborative boards.
-            </p>
-            <div class="project-actions">
-              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="ai">
-                <i class="fa-regular fa-file-lines text-xs"></i>
-                <span>Case Study</span>
-              </button>
-              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
-                <span>Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: Aether Pay Neobank -->
-        <div class="project-card group">
-          <div class="project-img-box">
-            <img src="assets/images/project-fintech.jpg" alt="Aether Pay">
-          </div>
-          <div class="project-content">
-            <span class="project-tag-pill">FinTech • Digital Banking</span>
-            <h3 class="project-title">Aether Pay & Neobank Platform</h3>
-            <p class="project-desc">
-              Modern digital banking portal and companion mobile web experience featuring virtual titanium card provisioning, real-time transaction categorizing, and asset allocation.
-            </p>
-            <div class="project-actions">
-              <button class="btn-vexoo-primary text-xs py-2 px-4" data-open-case-study="fintech">
-                <i class="fa-regular fa-file-lines text-xs"></i>
-                <span>Case Study</span>
-              </button>
-              <a href="https://abir-shikder-portfolio-abir-s-squad1.vercel.app" target="_blank" class="btn-vexoo-ghost text-xs py-2 px-4">
-                <span>Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ==================== SECTION 4: TECH STACK & TOOLS ==================== -->
-  <section id="stack" class="section-wrapper border-t border-white/5">
-    <div class="max-w-[1360px] mx-auto px-6">
-      
-      <div class="max-w-3xl mb-12">
-        <span class="section-label">03 // Tech Stack & Ecosystem</span>
-        <h2 class="section-heading">Modern Tools for High-Performance Engineering</h2>
-        <p class="text-zinc-400 text-sm">
-          A carefully curated stack prioritized for developer velocity, type safety, sub-second latency, and accessibility.
-        </p>
-      </div>
-
-      <div class="stack-category-grid">
-        
-        <!-- Category 1: Frontend Core -->
-        <div class="stack-category-card">
-          <div class="stack-category-header">
-            <div class="stack-category-icon bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-              <i class="fa-brands fa-react"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white font-heading">Frontend Core</h3>
-              <p class="text-xs text-zinc-400 font-mono">Modern UI Systems</p>
-            </div>
-          </div>
-          <div class="stack-badge-list">
-            <span class="stack-badge-item"><i class="fa-brands fa-react text-cyan-400"></i> React.js</span>
-            <span class="stack-badge-item"><span class="font-bold">N</span> Next.js 14+</span>
-            <span class="stack-badge-item"><i class="fa-brands fa-js text-yellow-400"></i> JavaScript ES6+</span>
-            <span class="stack-badge-item"><span class="text-blue-400 font-bold">TS</span> TypeScript</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-wind text-teal-400"></i> Tailwind CSS</span>
-            <span class="stack-badge-item"><i class="fa-brands fa-html5 text-orange-400"></i> HTML5 Semantic</span>
-          </div>
-        </div>
-
-        <!-- Category 2: Backend & Data -->
-        <div class="stack-category-card">
-          <div class="stack-category-header">
-            <div class="stack-category-icon bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <i class="fa-brands fa-node"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white font-heading">Backend & APIs</h3>
-              <p class="text-xs text-zinc-400 font-mono">Scalable Architecture</p>
-            </div>
-          </div>
-          <div class="stack-badge-list">
-            <span class="stack-badge-item"><i class="fa-brands fa-node text-emerald-500"></i> Node.js</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-server text-zinc-300"></i> Express.js</span>
-            <span class="stack-badge-item"><i class="fa-brands fa-python text-yellow-500"></i> Python</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-network-wired text-purple-400"></i> RESTful APIs</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-bolt text-amber-400"></i> WebSockets</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-database text-blue-400"></i> PostgreSQL / Mongo</span>
-          </div>
-        </div>
-
-        <!-- Category 3: UI/UX & Design -->
-        <div class="stack-category-card">
-          <div class="stack-category-header">
-            <div class="stack-category-icon bg-pink-500/10 text-pink-400 border border-pink-500/20">
-              <i class="fa-brands fa-figma"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white font-heading">Design Systems</h3>
-              <p class="text-xs text-zinc-400 font-mono">Figma to Code</p>
-            </div>
-          </div>
-          <div class="stack-badge-list">
-            <span class="stack-badge-item"><i class="fa-brands fa-figma text-pink-400"></i> Figma UI/UX</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-mobile-screen text-indigo-400"></i> Responsive Layouts</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-palette text-amber-400"></i> Design Tokens</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-universal-access text-teal-400"></i> WCAG Accessibility</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Micro-Animations</span>
-          </div>
-        </div>
-
-        <!-- Category 4: DevOps & Cloud -->
-        <div class="stack-category-card">
-          <div class="stack-category-header">
-            <div class="stack-category-icon bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              <i class="fa-solid fa-cloud"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white font-heading">DevOps & Cloud</h3>
-              <p class="text-xs text-zinc-400 font-mono">Continuous Delivery</p>
-            </div>
-          </div>
-          <div class="stack-badge-list">
-            <span class="stack-badge-item"><i class="fa-brands fa-github text-white"></i> Git & GitHub</span>
-            <span class="stack-badge-item"><span class="font-bold">▲</span> Vercel Edge</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-gauge-high text-emerald-400"></i> Lighthouse 99+</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-shield-halved text-cyan-400"></i> Security & SSL</span>
-            <span class="stack-badge-item"><i class="fa-solid fa-magnifying-glass text-amber-400"></i> SEO Optimization</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ==================== SECTION 5: CONTACT & INQUIRY ==================== -->
-  <section id="contact" class="section-wrapper border-t border-white/5">
-    <div class="max-w-[1360px] mx-auto px-6">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
-        <!-- Left: Contact Information -->
-        <div class="lg:col-span-5">
-          <span class="section-label">04 // Get In Touch</span>
-          <h2 class="section-heading mb-6">Let's discuss your next project.</h2>
-          <p class="text-zinc-400 mb-8 leading-relaxed">
-            Whether you need a full-scale web application engineered from scratch, a high-converting landing page, or a meticulous UI overhaul, I'm here to bring your vision to life.
-          </p>
-
-          <div class="space-y-4 mb-8">
-            <div class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/10">
-              <div class="flex items-center gap-3">
-                <i class="fa-regular fa-envelope text-blue-400"></i>
-                <div>
-                  <div class="text-xs text-zinc-500 font-mono">Email Address</div>
-                  <div class="text-sm font-mono text-white">abirshikdar2@gmail.com</div>
-                </div>
-              </div>
-              <button class="copy-email-btn text-xs text-zinc-400 hover:text-white font-mono bg-white/5 py-1.5 px-3 rounded-lg border border-white/10">
-                <i class="fa-regular fa-copy"></i> Copy
-              </button>
-            </div>
-
-            <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/10 hover:border-emerald-500/40 transition-all text-decoration-none">
-              <div class="flex items-center gap-3">
+            <!-- Clean Action Buttons (Book a free consult & See my work) -->
+            <div class="hero-clean-actions mb-10">
+              <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20would%20like%20to%20book%20a%20free%20consult%20for%20a%20website%20or%20automation%20project." target="_blank" rel="noopener noreferrer" class="btn-clean-consult">
                 <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
-                <div>
-                  <div class="text-xs text-zinc-500 font-mono">WhatsApp Direct</div>
-                  <div class="text-sm text-white">+880 1734018155</div>
-                </div>
-              </div>
-              <span class="text-xs text-emerald-400 font-mono flex items-center gap-1">
-                Chat Now <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </span>
-            </a>
+                <span>Book a free consult</span>
+              </a>
+              <a href="#works" class="btn-clean-work">
+                <span>See my work</span>
+                <i class="fa-solid fa-arrow-down-long text-white text-sm"></i>
+              </a>
+              <button id="viewCvBtnHero" class="btn-glass-subtle text-xs py-2.5 px-4 text-white" title="View Official Resume">
+                <i class="fa-regular fa-file-pdf text-white"></i>
+                <span>View CV</span>
+              </button>
+            </div>
 
-            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex items-center gap-3">
-              <i class="fa-solid fa-location-dot text-red-400"></i>
-              <div>
-                <div class="text-xs text-zinc-500 font-mono">Based In</div>
-                <div class="text-sm text-white">Jashore / Dhaka Division, Bangladesh (GMT+6)</div>
+            <!-- Elegance Theme Typography Name & Personal Quote (User Requested Elegance Theme) -->
+            <div class="hero-quote max-w-[360px]">
+              <div class="hero-elegance-name text-white">Abir Shikder</div>
+              <p class="flex gap-2 text-base text-white/90 md:text-lg">
+                <span aria-hidden="true" class="text-3xl leading-none text-white/60 md:text-4xl">“</span>
+                I build websites that bring the right clients in, and automations that keep them coming.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Hero Right Column: Pinterest 3D Holographic Hand Card Portrait (olivar.dsgn concept) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="hero-portrait-stage">
+              <div class="hero-pinterest-frame" data-tilt data-tilt-max="8" data-tilt-glare data-tilt-max-glare="0.18">
+                <img src="assets/images/abir-hero-pinterest.jpg" alt="Abir Shikder — Web Developer &amp; Automation Specialist" class="hero-pinterest-img">
+                <div class="hero-photo-badge">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>Verified Creator</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.03] flex items-center gap-3">
-            <span class="status-pulse-dot"></span>
-            <span class="text-xs font-mono text-emerald-300">
-              Current Status: Open for freelance inquiries & full-time engineering roles
-            </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== INFINITE MARQUEE TECH RIBBON ==================== -->
+    <div class="marquee-section" aria-label="Core Technologies & Tools">
+      <div class="marquee-track">
+        <!-- Loop Track Items -->
+        <div class="marquee-item"><i class="fa-solid fa-code"></i> CLAUDE</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-react"></i> NEXT.JS</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-js"></i> REACT</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-file-code"></i> TYPESCRIPT</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-database"></i> SUPABASE</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-css3-alt"></i> TAILWIND CSS</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-wand-magic-sparkles"></i> GSAP</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-python"></i> PYTHON</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-robot"></i> N8N AUTOMATION</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-microchip"></i> ANTIGRAVITY</div>
+        <span class="marquee-slash">/</span>
+
+        <!-- Duplicate for continuous 60fps loop -->
+        <div class="marquee-item"><i class="fa-solid fa-code"></i> CLAUDE</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-react"></i> NEXT.JS</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-js"></i> REACT</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-file-code"></i> TYPESCRIPT</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-database"></i> SUPABASE</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-css3-alt"></i> TAILWIND CSS</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-wand-magic-sparkles"></i> GSAP</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-brands fa-python"></i> PYTHON</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-robot"></i> N8N AUTOMATION</div>
+        <span class="marquee-slash">/</span>
+        <div class="marquee-item"><i class="fa-solid fa-microchip"></i> ANTIGRAVITY</div>
+        <span class="marquee-slash">/</span>
+      </div>
+    </div>
+
+    <!-- ==================== MY 2 YEARS JOURNEY (Directly from user instruction & rishad.digital) ==================== -->
+    <section id="journey" class="section-editorial">
+      <div class="container mx-auto px-6">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+          <div>
+            <span class="section-tag"><i class="fa-solid fa-timeline text-white"></i> Proven Track Record</span>
+            <h2 class="section-headline">My 2 years journey</h2>
+          </div>
+          <p class="text-slate-400 max-w-md text-sm md:text-base leading-relaxed">
+            From crafting high-conversion landing pages to architecting enterprise automation pipelines and high-ticket service portals.
+          </p>
+        </div>
+
+        <!-- 4-Stat Metric Grid -->
+        <div class="journey-stats-grid">
+          <div class="journey-stat-card" data-tilt data-tilt-max="6">
+            <span class="journey-stat-number text-white">25+</span>
+            <span class="journey-stat-label">Clients &amp; Projects Worldwide</span>
+          </div>
+          <div class="journey-stat-card" data-tilt data-tilt-max="6">
+            <span class="journey-stat-number text-white">2+</span>
+            <span class="journey-stat-label">Years Active Freelancing</span>
+          </div>
+          <div class="journey-stat-card" data-tilt data-tilt-max="6">
+            <span class="journey-stat-number text-white">15+</span>
+            <span class="journey-stat-label">Production Web Systems Built</span>
+          </div>
+          <div class="journey-stat-card" data-tilt data-tilt-max="6">
+            <span class="journey-stat-number text-white">100%</span>
+            <span class="journey-stat-label">On-Time Delivery &amp; Direct Comms</span>
           </div>
         </div>
 
-        <!-- Right: Interactive Project Inquiry Form -->
-        <div class="lg:col-span-7">
-          <div class="bg-darkCard border border-white/10 rounded-3xl p-8 shadow-2xl relative">
-            <h3 class="text-xl font-bold font-heading text-white mb-6">Interactive Project Inquiry</h3>
+        <!-- 3 Core Service / Capability Cards (rishad.digital style 01, 02, 03) -->
+        <div class="journey-services-grid">
+          
+          <!-- Card 01: Web Development -->
+          <div class="journey-service-card group" data-tilt data-tilt-max="6">
+            <div>
+              <span class="journey-service-num">01</span>
+              <div class="journey-service-subtitle">You need a site, or yours broke</div>
+              <h3 class="journey-service-title group-hover:text-ember transition-colors">Web Development</h3>
+              <p class="journey-service-desc">
+                Fast, mobile-ready, search-friendly websites and complete redesigns. When a site breaks or converts poorly, I fix it.
+              </p>
+              <ul class="journey-service-bullets">
+                <li><i class="fa-solid fa-check text-ember"></i> React &amp; Next.js builds</li>
+                <li><i class="fa-solid fa-check text-ember"></i> SEO &amp; Core Web Vitals built in</li>
+                <li><i class="fa-solid fa-check text-ember"></i> High-converting landing pages</li>
+                <li><i class="fa-solid fa-check text-ember"></i> Fixes, responsiveness &amp; maintenance</li>
+              </ul>
+            </div>
+            <div class="journey-service-meta">
+              <span class="journey-works-as">WORKS AS: Project or Retainer</span>
+              <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20Web%20Development." target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white group-hover:text-ember flex items-center gap-1.5 transition-colors">
+                <span>Inquire</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
 
-            <form id="inquiryForm" class="space-y-6">
-              
-              <!-- Project Type Selection -->
+          <!-- Card 02: Workflow Automation & Dashboards -->
+          <div class="journey-service-card group" data-tilt data-tilt-max="6">
+            <div>
+              <span class="journey-service-num">02</span>
+              <div class="journey-service-subtitle">The same task keeps coming back</div>
+              <h3 class="journey-service-title group-hover:text-gold transition-colors">Workflow Automation &amp; Dashboards</h3>
+              <p class="journey-service-desc">
+                Same repetitive work every week? I build custom dashboards, admin portals, and autonomous workflows that handle it on autopilot.
+              </p>
+              <ul class="journey-service-bullets">
+                <li><i class="fa-solid fa-check text-gold"></i> Custom dashboards &amp; admin panels</li>
+                <li><i class="fa-solid fa-check text-gold"></i> Multi-agent automated workflows</li>
+                <li><i class="fa-solid fa-check text-gold"></i> WhatsApp &amp; Email lead intake</li>
+                <li><i class="fa-solid fa-check text-gold"></i> Built seamlessly around your tools</li>
+              </ul>
+            </div>
+            <div class="journey-service-meta">
+              <span class="journey-works-as">WORKS AS: Project</span>
+              <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20Workflow%20Automation." target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white group-hover:text-gold flex items-center gap-1.5 transition-colors">
+                <span>Inquire</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 03: UI/UX & High-Performance Design -->
+          <div class="journey-service-card group" data-tilt data-tilt-max="6">
+            <div>
+              <span class="journey-service-num">03</span>
+              <div class="journey-service-subtitle">Your brand deserves world-class presence</div>
+              <h3 class="journey-service-title group-hover:text-ember transition-colors">UI/UX &amp; Creative Systems</h3>
+              <p class="journey-service-desc">
+                Editorial dark interfaces, modern typography hierarchy, and interactive 60fps micro-animations that captivate international clients.
+              </p>
+              <ul class="journey-service-bullets">
+                <li><i class="fa-solid fa-check text-ember"></i> Figma to pixel-perfect code</li>
+                <li><i class="fa-solid fa-check text-ember"></i> Luxury dark theme design tokens</li>
+                <li><i class="fa-solid fa-check text-ember"></i> 60fps micro-interactions &amp; 3D canvas</li>
+                <li><i class="fa-solid fa-check text-ember"></i> High-ticket conversion optimization</li>
+              </ul>
+            </div>
+            <div class="journey-service-meta">
+              <span class="journey-works-as">WORKS AS: Scoped Project</span>
+              <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20UI/UX%20Design." target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white group-hover:text-ember flex items-center gap-1.5 transition-colors">
+                <span>Inquire</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Consult Callout Box (from rishad.digital) -->
+        <div class="journey-callout-box">
+          <div>
+            <h4 class="text-xl font-bold font-heading text-white mb-1">Not sure which one fits?</h4>
+            <p class="text-slate-400 text-sm">Tell me what's eating your week and I'll tell you where to start.</p>
+          </div>
+          <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20not%20sure%20which%20service%20fits%20my%20business%20best.%20Can%20we%20have%20a%20free%20consult%3F" target="_blank" rel="noopener noreferrer" class="btn-clean-consult flex-shrink-0">
+            <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+            <span>Book a free consult</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== FEATURED WORKS & PROJECTS (Cedar Style) ==================== -->
+    <section id="works" class="section-editorial">
+      <div class="container mx-auto px-6">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span class="section-tag"><i class="fa-solid fa-fire text-white"></i> Portfolio Showcase</span>
+            <h2 class="section-headline">Selected Creations &amp; Client Projects</h2>
+          </div>
+          <p class="text-slate-400 max-w-md text-sm md:text-base leading-relaxed">
+            Engineered with obsessive attention to typography, 60fps interaction polish, and high-conversion client funnels.
+          </p>
+        </div>
+
+        <!-- Projects Grid (Framer Cedar Inspired with Photorealistic AI Mockups) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- Project 1: FinTech & SaaS Platform -->
+          <div class="project-card-cedar group" data-tilt data-tilt-max="6">
+            <div class="project-visual-preview">
+              <img src="assets/images/project-fintech.jpg" alt="Zenith FinTech Analytics SaaS Dashboard on MacBook Pro" class="project-img-thumb">
+              <span class="project-badge-top">FinTech &amp; SaaS</span>
+            </div>
+            <div class="project-body">
               <div>
-                <label class="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-3">
-                  01 // What kind of project are you planning?
-                </label>
-                <div class="flex flex-wrap gap-2">
-                  <button type="button" class="project-type-pill active bg-blue-600 text-white text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="Full-Stack Web App">
-                    Full-Stack Web App
-                  </button>
-                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="Landing Page & Marketing">
-                    Landing Page & Marketing
-                  </button>
-                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="E-Commerce Platform">
-                    E-Commerce Platform
-                  </button>
-                  <button type="button" class="project-type-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2 px-3.5 rounded-lg border border-white/10" data-value="UI/UX Design System">
-                    UI/UX Design System
-                  </button>
+                <div class="project-tags-row">
+                  <span class="tech-tag-pill">Next.js</span>
+                  <span class="tech-tag-pill">Tailwind CSS</span>
+                  <span class="tech-tag-pill">Dynamic Charts</span>
+                  <span class="tech-tag-pill">Dark Mode</span>
                 </div>
+                <h3 class="project-title-h3 group-hover:text-ember transition-colors">
+                  Zenith FinTech Asset Analytics OS
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                  High-performance financial management dashboard built with real-time portfolio metrics ($148K+ assets), crypto/equities analytics, and zero-lag state handling.
+                </p>
               </div>
-
-              <!-- Budget Tier Selection -->
-              <div>
-                <label class="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-3">
-                  02 // Anticipated Budget Range
-                </label>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$500 — $1k">
-                    $500 — $1k
-                  </button>
-                  <button type="button" class="budget-pill active bg-blue-600 text-white text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$1k — $3k">
-                    $1k — $3k
-                  </button>
-                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$3k — $5k">
-                    $3k — $5k
-                  </button>
-                  <button type="button" class="budget-pill text-zinc-400 bg-white/5 hover:bg-white/10 text-xs py-2.5 px-3 rounded-lg border border-white/10 text-center" data-value="$5k+">
-                    $5k+
-                  </button>
-                </div>
-              </div>
-
-              <!-- Name & Email Inputs -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label for="inquiryName" class="block text-xs font-mono text-zinc-400 mb-2">Your Name</label>
-                  <input type="text" id="inquiryName" required placeholder="e.g. John Doe" class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors">
-                </div>
-                <div>
-                  <label for="inquiryEmail" class="block text-xs font-mono text-zinc-400 mb-2">Your Email</label>
-                  <input type="email" id="inquiryEmail" required placeholder="john@example.com" class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors">
-                </div>
-              </div>
-
-              <!-- Project Details -->
-              <div>
-                <label for="inquiryDetails" class="block text-xs font-mono text-zinc-400 mb-2">Project Brief & Details</label>
-                <textarea id="inquiryDetails" rows="4" placeholder="Tell me about your goals, timelines, and requirements..." class="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition-colors"></textarea>
-              </div>
-
-              <!-- Submit CTAs -->
-              <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                <button type="submit" class="btn-vexoo-primary flex-1 justify-center py-3">
-                  <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
-                  <span>Send via WhatsApp Direct</span>
-                </button>
-                <a href="mailto:abirshikdar2@gmail.com" class="btn-vexoo-ghost justify-center py-3 text-center">
-                  <i class="fa-regular fa-envelope text-xs"></i>
-                  <span>Send via Email</span>
+              <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span class="text-xs font-mono text-gold flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-check"></i> Production Ready
+                </span>
+                <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20building%20a%20dashboard%20like%20Zenith%20FinTech." target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-white group-hover:text-ember flex items-center gap-2 transition-colors">
+                  <span>Inquire Build</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                 </a>
               </div>
-
-            </form>
+            </div>
           </div>
+
+          <!-- Project 2: High-Conversion Clinic & Agency Booking Platform -->
+          <div class="project-card-cedar group" data-tilt data-tilt-max="6">
+            <div class="project-visual-preview">
+              <img src="assets/images/project-agency.jpg" alt="Aura Health Concierge Clinic Booking Web Application" class="project-img-thumb">
+              <span class="project-badge-top">Clinic &amp; High-Ticket</span>
+            </div>
+            <div class="project-body">
+              <div>
+                <div class="project-tags-row">
+                  <span class="tech-tag-pill">Semantic HTML5</span>
+                  <span class="tech-tag-pill">Conversion Funnel</span>
+                  <span class="tech-tag-pill">Calendar Booking</span>
+                  <span class="tech-tag-pill">WhatsApp Intake</span>
+                </div>
+                <h3 class="project-title-h3 group-hover:text-gold transition-colors">
+                  Aura Health Concierge Booking Platform
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                  Engineered specifically for high-ticket wellness clinics and aesthetic doctors. Turns cold web traffic into pre-qualified patient appointments with automated intake.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-check"></i> 99% PageSpeed
+                </span>
+                <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20building%20a%20booking%20platform%20like%20Aura%20Health." target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-white group-hover:text-gold flex items-center gap-2 transition-colors">
+                  <span>Inquire Build</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: 3D Interactive WebGL Brand Experience -->
+          <div class="project-card-cedar group" data-tilt data-tilt-max="6">
+            <div class="project-visual-preview">
+              <img src="assets/images/project-canvas.jpg" alt="Nebula Interactive 3D WebGL Digital Experience" class="project-img-thumb">
+              <span class="project-badge-top">WebGL 3D &amp; Canvas</span>
+            </div>
+            <div class="project-body">
+              <div>
+                <div class="project-tags-row">
+                  <span class="tech-tag-pill">WebGL 3D</span>
+                  <span class="tech-tag-pill">Particle Physics</span>
+                  <span class="tech-tag-pill">60 FPS Smooth</span>
+                  <span class="tech-tag-pill">GSAP</span>
+                </div>
+                <h3 class="project-title-h3 group-hover:text-ember transition-colors">
+                  Nebula Interactive 3D WebGL Canvas
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                  Award-grade digital brand showcase featuring floating refractive 3D glass spheres, ambient ember wireframes, and silky smooth magnetic cursor physics.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span class="text-xs font-mono text-ember flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-check"></i> Zero Lag 60fps
+                </span>
+                <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20an%20interactive%203D%20website%20like%20Nebula." target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-white group-hover:text-ember flex items-center gap-2 transition-colors">
+                  <span>Inquire Build</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4: AI Agent Orchestrator & Workflow Platform -->
+          <div class="project-card-cedar group" data-tilt data-tilt-max="6">
+            <div class="project-visual-preview">
+              <img src="assets/images/project-automation.jpg" alt="NexusFlow AI Automation & Workflow Platform" class="project-img-thumb">
+              <span class="project-badge-top">AI Automation &amp; n8n</span>
+            </div>
+            <div class="project-body">
+              <div>
+                <div class="project-tags-row">
+                  <span class="tech-tag-pill">n8n / Node Graphs</span>
+                  <span class="tech-tag-pill">Autonomous Agents</span>
+                  <span class="tech-tag-pill">API Connectors</span>
+                  <span class="tech-tag-pill">Slack &amp; WhatsApp Alerts</span>
+                </div>
+                <h3 class="project-title-h3 group-hover:text-gold transition-colors">
+                  NexusFlow AI Agent Orchestrator
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                  Autonomous workflow orchestration platform connecting webhooks, data pipelines, and instant WhatsApp customer notifications with 99.7% execution reliability.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span class="text-xs font-mono text-gold flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-check"></i> 99.7% Reliability
+                </span>
+                <a href="https://wa.me/8801734018155?text=Hello%20Abir%2C%20I%20am%20interested%20in%20AI%20Automation%20like%20NexusFlow." target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-white group-hover:text-gold flex items-center gap-2 transition-colors">
+                  <span>Inquire Build</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ==================== SERVICES & CAPABILITIES BENTO ==================== -->
+    <section id="services" class="section-editorial bg-black/40">
+      <div class="container mx-auto px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="section-tag"><i class="fa-solid fa-gem text-white"></i> Capabilities</span>
+          <h2 class="section-headline">What I Build For Clients</h2>
+          <p class="text-slate-400 mt-4 text-base">
+            Fixed scope, high-velocity engineering, and direct developer communication with no account managers in the way.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <!-- Bento 1: High Performance Web Dev -->
+          <div class="bento-card" data-tilt data-tilt-max="8">
+            <div class="bento-icon-box">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <h3 class="text-xl font-bold font-heading text-white mb-3">Web Development</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Bespoke landing pages, marketing portals, and modern web applications built with semantic HTML5, modern CSS/Tailwind, and JavaScript.
+            </p>
+          </div>
+
+          <!-- Bento 2: UI/UX & Graphic Direction -->
+          <div class="bento-card" data-tilt data-tilt-max="8">
+            <div class="bento-icon-box text-gold border-gold/30 bg-gold/10">
+              <i class="fa-solid fa-palette"></i>
+            </div>
+            <h3 class="text-xl font-bold font-heading text-white mb-3">UI/UX & Creative</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Figma wireframes, modern dark typography systems, social creatives, and luxury editorial layouts that command premium prices.
+            </p>
+          </div>
+
+          <!-- Bento 3: Workflow Automation -->
+          <div class="bento-card" data-tilt data-tilt-max="8">
+            <div class="bento-icon-box">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <h3 class="text-xl font-bold font-heading text-white mb-3">Workflow Automation</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Connecting web forms, automated lead intake, WhatsApp instant alerts, and spreadsheet integrations to save dozens of manual hours.
+            </p>
+          </div>
+
+          <!-- Bento 4: Speed & SEO -->
+          <div class="bento-card" data-tilt data-tilt-max="8">
+            <div class="bento-icon-box text-emerald-400 border-emerald-500/30 bg-emerald-500/10">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3 class="text-xl font-bold font-heading text-white mb-3">Speed & SEO</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Sub-second load times, mobile responsiveness, structured metadata, and Google Core Web Vitals optimization built in from day one.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CLIENT WORKING PROCESS ==================== -->
+    <section id="process" class="section-editorial">
+      <div class="container mx-auto px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="section-tag"><i class="fa-solid fa-compass text-white"></i> Workflow</span>
+          <h2 class="section-headline">Simple, Transparent Process</h2>
+          <p class="text-slate-400 mt-4 text-base">From first WhatsApp message to production deployment in four disciplined steps.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <!-- Step 1 -->
+          <div class="process-step-card">
+            <span class="step-number-watermark">01</span>
+            <div class="text-ember font-mono text-xs font-bold uppercase mb-2">Step 01</div>
+            <h3 class="text-lg font-bold font-heading text-white mb-2">Discovery & Scope</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              We chat over WhatsApp or email, define clear deliverables, agree on a fixed timeline, and lock in the scope.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="process-step-card">
+            <span class="step-number-watermark">02</span>
+            <div class="text-gold font-mono text-xs font-bold uppercase mb-2">Step 02</div>
+            <h3 class="text-lg font-bold font-heading text-white mb-2">Design & Wireframe</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              I present high-fidelity wireframes, typography harmonies, and interactive visual concepts for your signoff.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="process-step-card">
+            <span class="step-number-watermark">03</span>
+            <div class="text-ember font-mono text-xs font-bold uppercase mb-2">Step 03</div>
+            <h3 class="text-lg font-bold font-heading text-white mb-2">Clean Engineering</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Writing clean, modern semantic code, 60fps micro-interactions, responsive testing across all devices.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="process-step-card">
+            <span class="step-number-watermark">04</span>
+            <div class="text-emerald-400 font-mono text-xs font-bold uppercase mb-2">Step 04</div>
+            <h3 class="text-lg font-bold font-heading text-white mb-2">Launch & Handover</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Instant live deployment on Vercel or custom domain, full documentation handover, and zero platform lock-in.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CLIENT FAQ ACCORDION ==================== -->
+    <section id="faq" class="section-editorial bg-black/40">
+      <div class="container mx-auto px-6 max-w-4xl">
+        
+        <div class="text-center mb-16">
+          <span class="section-tag"><i class="fa-solid fa-circle-question text-white"></i> Clarity</span>
+          <h2 class="section-headline">Frequently Asked Questions</h2>
+          <p class="text-slate-400 mt-4 text-base">Everything you need to know about partnering with me on your next project.</p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          
+          <div class="faq-accordion-item open">
+            <button class="faq-header-btn" type="button">
+              <span>How does communication work during a project?</span>
+              <i class="fa-solid fa-chevron-down faq-icon-chevron"></i>
+            </button>
+            <div class="faq-body-content">
+              Communication is async-first and rapid. We collaborate directly over WhatsApp (<strong class="text-white">+880 1734018155</strong>) or Email. You receive live preview links, transparent status updates, and video walk-throughs whenever helpful.
+            </div>
+          </div>
+
+          <div class="faq-accordion-item">
+            <button class="faq-header-btn" type="button">
+              <span>How long does a scoped website project take?</span>
+              <i class="fa-solid fa-chevron-down faq-icon-chevron"></i>
+            </button>
+            <div class="faq-body-content">
+              A standard high-conversion landing page or portfolio takes 1–2 weeks from initial brief to live production. Larger multi-page agency platforms or automation workflows typically take 2–4 weeks.
+            </div>
+          </div>
+
+          <div class="faq-accordion-item">
+            <button class="faq-header-btn" type="button">
+              <span>Do I get full ownership of the code and assets?</span>
+              <i class="fa-solid fa-chevron-down faq-icon-chevron"></i>
+            </button>
+            <div class="faq-body-content">
+              100% yes. Upon project completion and final milestone release, all source code, design assets, and deployment accounts are fully yours with zero lock-in to me.
+            </div>
+          </div>
+
+          <div class="faq-accordion-item">
+            <button class="faq-header-btn" type="button">
+              <span>Can you help me connect my own custom domain?</span>
+              <i class="fa-solid fa-chevron-down faq-icon-chevron"></i>
+            </button>
+            <div class="faq-body-content">
+              Yes, absolutely. I configure DNS records, SSL security certificates, and Vercel/Netlify hosting so your custom domain (e.g. yourname.com) is live with zero downtime.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT & SOCIAL HUB ==================== -->
+    <section id="contact" class="section-editorial">
+      <div class="container mx-auto px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="section-tag"><i class="fa-solid fa-paper-plane text-white"></i> Get In Touch</span>
+          <h2 class="section-headline">Let's Build Something Iconic</h2>
+          <p class="text-slate-400 mt-4 text-base">Have an upcoming project, freelance inquiry, or collaboration idea? Message me directly.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 max-w-5xl mx-auto items-start">
+          
+          <!-- Direct Channels Left -->
+          <div class="lg:col-span-5 flex flex-col gap-4">
+            
+            <!-- WhatsApp Channel -->
+            <a href="https://wa.me/8801734018155" target="_blank" rel="noopener noreferrer" class="contact-channel-pill group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono">WhatsApp (Instant Reply)</span>
+                  <span class="text-white font-bold group-hover:text-emerald-400 transition-colors">01734018155</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-emerald-400 transition-colors"></i>
+            </a>
+
+            <!-- Direct Phone -->
+            <div class="contact-channel-pill group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-ember/15 border border-ember/30 text-ember flex items-center justify-center text-xl">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono">Direct Phone Call</span>
+                  <a href="tel:+8801734018155" class="text-white font-bold group-hover:text-ember transition-colors">+880 1734018155</a>
+                </div>
+              </div>
+              <button class="copy-btn text-xs text-slate-400 hover:text-white p-2" data-copy="+8801734018155" title="Copy Phone Number">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+
+            <!-- Email -->
+            <div class="contact-channel-pill group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gold/15 border border-gold/30 text-gold flex items-center justify-center text-xl">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono">Official Email</span>
+                  <a href="mailto:abirshikdar2@gmail.com" class="text-white font-bold group-hover:text-gold transition-colors text-sm">abirshikdar2@gmail.com</a>
+                </div>
+              </div>
+              <button class="copy-btn text-xs text-slate-400 hover:text-white p-2" data-copy="abirshikdar2@gmail.com" title="Copy Email">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+
+            <!-- Base Location -->
+            <div class="contact-channel-pill">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 text-slate-300 flex items-center justify-center text-xl">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono">Current Location</span>
+                  <span class="text-white font-medium">Jashore, Khulna, Bangladesh</span>
+                </div>
+              </div>
+              <span class="text-xs font-mono text-ember">GMT+6</span>
+            </div>
+
+          </div>
+
+          <!-- Contact Form Right -->
+          <div class="lg:col-span-7">
+            <div class="bento-card">
+              <h3 class="text-2xl font-bold font-heading text-white mb-2">Send a Direct Message</h3>
+              <p class="text-slate-400 text-sm mb-6">Tell me about your project, timeline, and goals.</p>
+
+              <form id="contactForm" class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="senderName" class="block text-xs font-mono text-slate-400 mb-1.5">Your Name</label>
+                    <input type="text" id="senderName" class="input-editorial" placeholder="e.g. Alex Johnson" required>
+                  </div>
+                  <div>
+                    <label for="senderEmail" class="block text-xs font-mono text-slate-400 mb-1.5">Your Email</label>
+                    <input type="email" id="senderEmail" class="input-editorial" placeholder="alex@company.com" required>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="subject" class="block text-xs font-mono text-slate-400 mb-1.5">Project Scope / Budget</label>
+                  <input type="text" id="subject" class="input-editorial" placeholder="e.g. Website Redesign / Agency Portal" required>
+                </div>
+
+                <div>
+                  <label for="message" class="block text-xs font-mono text-slate-400 mb-1.5">Message Details</label>
+                  <textarea id="message" rows="4" class="input-editorial resize-none" placeholder="Share your vision or specific requirements..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-ember-glow w-full justify-center mt-2">
+                  <span>Send Message via Mail / WhatsApp</span>
+                  <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+                <div id="formFeedback" class="hidden text-sm p-3 rounded-xl"></div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="py-12 border-t border-white/5 bg-black relative z-10">
-    <div class="max-w-[1360px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+  <footer class="py-12 border-t border-white/5 relative z-10 bg-black/60">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
       
       <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded bg-white/10 flex items-center justify-center font-heading font-bold text-xs text-white">
-          AS
+        <div class="brand-mark">AS</div>
+        <div>
+          <span class="text-white font-bold font-heading text-lg">Abir Shikder</span>
+          <p class="text-xs text-slate-400">Web Developer & Creative Designer • Jashore, BD</p>
         </div>
-        <span class="text-sm font-medium text-white">Abir Shikder</span>
-        <span class="text-xs text-zinc-500 font-mono">© 2026. All rights reserved.</span>
       </div>
 
-      <div class="flex items-center gap-6 text-sm text-zinc-400 flex-wrap justify-center">
-        <a href="#home" class="hover:text-white transition-colors">Home</a>
-        <a href="#about" class="hover:text-white transition-colors">About</a>
-        <a href="#work" class="hover:text-white transition-colors">Selected Work</a>
-        <a href="#stack" class="hover:text-white transition-colors">Tech Stack</a>
-        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
-        <a href="https://github.com/abirshikdar2-bit" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+      <!-- Elegance Typography Name in Footer -->
+      <div class="flex flex-col items-center">
+        <span class="footer-elegance-name text-white">Abir Shikder</span>
+        <p class="text-xs text-slate-400">Designed &amp; Built with precision. All rights reserved &copy; 2026.</p>
       </div>
 
-      <div class="text-xs text-zinc-500 font-mono">
-        Framer Architecture • Engineered with Precision
-      </div>
+      <a href="#hero" class="btn-glass-subtle text-xs py-2 px-4 hover:border-ember">
+        <span>Back to top</span>
+        <i class="fa-solid fa-arrow-up ml-1 text-ember"></i>
+      </a>
 
     </div>
   </footer>
 
-  <!-- ==================== CASE STUDY MODAL ==================== -->
-  <div id="caseStudyModal" class="vexoo-modal">
-    <div class="vexoo-modal-card">
-      <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close modal">
-        <i class="fa-solid fa-xmark text-sm"></i>
-      </button>
-
-      <div class="mb-6">
-        <span id="csTag" class="text-xs font-mono text-blue-400 uppercase tracking-wider block mb-2">Category</span>
-        <h2 id="csTitle" class="text-2xl sm:text-3xl font-bold font-heading text-white">Project Case Study</h2>
-      </div>
-
-      <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/10 mb-6 font-mono text-xs">
+  <!-- ==================== CV MODAL ==================== -->
+  <div id="cvModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div class="modal-card rounded-3xl max-w-3xl w-full mx-4 max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="flex items-center justify-between p-6 border-b border-white/10">
         <div>
-          <span class="text-zinc-500 block">Client</span>
-          <span id="csClient" class="text-white font-medium">Confidential</span>
+          <h3 class="text-xl font-bold font-heading text-white">Curriculum Vitae</h3>
+          <p class="text-xs text-slate-400">Abir Shikder — Official Profile Document</p>
         </div>
-        <div>
-          <span class="text-zinc-500 block">Year</span>
-          <span id="csYear" class="text-white font-medium">2025</span>
-        </div>
-        <div>
-          <span class="text-zinc-500 block">Role</span>
-          <span id="csRole" class="text-white font-medium">Lead Developer</span>
-        </div>
-      </div>
-
-      <div class="rounded-xl overflow-hidden mb-6 border border-white/10 max-h-[360px]">
-        <img id="csImage" src="" alt="Project Visual" class="w-full h-full object-cover">
-      </div>
-
-      <div class="space-y-5 mb-8">
-        <div>
-          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">01 // The Challenge</h4>
-          <p id="csChallenge" class="text-sm text-zinc-300 leading-relaxed"></p>
-        </div>
-
-        <div>
-          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">02 // The Objective</h4>
-          <p id="csObjective" class="text-sm text-zinc-300 leading-relaxed"></p>
-        </div>
-
-        <div>
-          <h4 class="text-sm font-mono text-blue-400 uppercase mb-1">03 // The Engineering Solution</h4>
-          <p id="csSolution" class="text-sm text-zinc-300 leading-relaxed"></p>
-        </div>
-
-        <div>
-          <h4 class="text-sm font-mono text-emerald-400 uppercase mb-2">04 // Key Outcomes & Metrics</h4>
-          <ul id="csResults" class="space-y-2"></ul>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-        <a id="csDemoLink" href="#" target="_blank" class="btn-vexoo-primary flex-1 justify-center py-2.5">
-          <span>Explore Live Application</span>
-          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-        </a>
-        <a id="csGithubLink" href="#" target="_blank" class="btn-vexoo-ghost justify-center py-2.5">
-          <i class="fa-brands fa-github text-sm"></i>
-          <span>View Source</span>
-        </a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ==================== OFFICIAL CV LIGHTBOX MODAL ==================== -->
-  <div id="cvModal" class="vexoo-modal">
-    <div class="vexoo-modal-card max-w-3xl">
-      <button id="cvCloseBtn" class="modal-close-btn" aria-label="Close CV modal">
-        <i class="fa-solid fa-xmark text-sm"></i>
-      </button>
-
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h3 class="text-xl font-bold font-heading text-white">Official Curriculum Vitae</h3>
-          <p class="text-xs text-zinc-400 font-mono">Abir Shikder • Verified Credential Document</p>
-        </div>
-        <div class="flex gap-2">
-          <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-vexoo-primary text-xs py-2 px-3">
-            <i class="fa-solid fa-download text-xs"></i>
-            <span>Download</span>
+        <div class="flex items-center gap-2">
+          <a href="assets/documents/Abir-Shikder-CV.jpeg" download="Abir-Shikder-CV.jpeg" class="btn-shine text-xs py-2 px-4">
+            <i class="fa-solid fa-download mr-1"></i> Download
           </a>
+          <button id="closeCvModal" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
       </div>
-
-      <div class="rounded-xl overflow-hidden border border-white/10 max-h-[75vh] overflow-y-auto">
-        <img src="assets/documents/Abir-Shikder-CV.jpeg" alt="Abir Shikder Official CV" class="w-full h-auto">
+      <div class="p-6 overflow-y-auto flex justify-center bg-black/60">
+        <img src="assets/documents/Abir-Shikder-CV.jpeg" alt="Abir Shikder CV Document" class="rounded-xl max-w-full shadow-2xl">
       </div>
     </div>
   </div>
 
-  <!-- Floating Toast Notification -->
-  <div id="vexooToast" class="vexoo-toast">
-    <span id="toastText">Notification message</span>
-  </div>
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container fixed z-50 flex flex-col gap-2"></div>
 
-  <!-- Main JavaScript Engine -->
+  <!-- Scripts -->
+  <script src="assets/js/tilt.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
