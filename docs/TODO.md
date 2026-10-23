@@ -41,6 +41,11 @@ nobody notices.
 
 ## Done
 
+- `#15` **2026-10-24** Removed Custom Mouse Magnetic Cursor Effect & Verified Live Public Deployment:
+  1. **Purged Custom Cursor Elements & Listeners**: Removed `#cursorDot` and `#cursorFollower` DOM nodes from `index.html`, cleared all mousemove tracking loops, follower physics RAF, and `.cursor-hover` listeners from `assets/js/main.js`.
+  2. **Cleaned Cursor Styles**: Removed `.custom-cursor` and `.custom-cursor-follower` styles and hover glows from `assets/css/style.css`, returning native system mouse cursor behavior to all browsers and devices.
+  3. **Verified Live Production & Public Links**: Deployed clean build to Vercel, verified HTTP 200 on public URLs (`https://abir-shikder-portfolio.vercel.app` & `https://abir-shikder-portfolio-abir-s-squad1.vercel.app`), committed and pushed to GitHub main branch.
+
 - `#14` **2026-10-24** Removed All Assistant-Generated Portfolio Images from Today and Tidied Workspace Explorer:
   1. **Purged Today's Generated Images & Downloads**: Deleted all 10 temporary assets and Pinterest scrapes from `assets/images/` (`abir-card-avatar.jpg`, `pinterest-ref.jpg`, `pinterest-simple-signal-ref.jpg`, `pinterest-slide-2.jpg`, `pinterest-slide-3.jpg`, `pinterest-slide-4.jpg`, `project-agency.jpg`, `project-automation.jpg`, `project-canvas.jpg`, `project-fintech.jpg`).
   2. **Preserved Master Identity Assets**: Kept the user's authentic uploaded master image (`assets/images/abir-hero-pinterest.jpg` and `abir-hero-new.jpg`, 286,128 bytes) intact alongside the official `handhold-logo.png` and original profile photos.

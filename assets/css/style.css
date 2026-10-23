@@ -175,51 +175,6 @@ body {
   background-repeat: repeat;
 }
 
-/* Custom Magnetic Cursor with Ember Glow */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px var(--accent-primary);
-  transition: transform 0.05s ease, width 0.2s ease, height 0.2s ease;
-}
-.custom-cursor-follower {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid rgba(255, 90, 31, 0.5);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s ease-out, border-color 0.2s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
-}
-body.cursor-hover .custom-cursor {
-  width: 14px;
-  height: 14px;
-  background: var(--accent-gold);
-  box-shadow: 0 0 18px var(--accent-gold);
-}
-body.cursor-hover .custom-cursor-follower {
-  width: 54px;
-  height: 54px;
-  border-color: rgba(245, 158, 11, 0.6);
-  background: rgba(255, 90, 31, 0.06);
-}
-@media (hover: none) and (pointer: coarse) {
-  .custom-cursor, .custom-cursor-follower {
-    display: none !important;
-  }
-}
 
 /* ==========================================
    LUXURY FLOATING PILL NAVIGATION

@@ -1,6 +1,6 @@
 /**
  * ABIR SHIKDER PORTFOLIO - MASTER INTERACTION LOGIC
- * Live Clock (BD GMT+6) • Magnetic Cursor • FAQ Accordion • 1-Click WhatsApp
+ * Live Clock (BD GMT+6) • FAQ Accordion • 1-Click WhatsApp
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,49 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateLiveClock, 1000);
 
   // ==========================================
-  // 2. CUSTOM MAGNETIC CURSOR WITH EMBER GLOW
-  // ==========================================
-  const cursorDot = document.getElementById('cursorDot');
-  const cursorFollower = document.getElementById('cursorFollower');
-
-  if (cursorDot && cursorFollower && window.matchMedia('(pointer: fine)').matches) {
-    let mouseX = -100, mouseY = -100;
-    let followerX = -100, followerY = -100;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    });
-
-    function updateFollower() {
-      followerX += (mouseX - followerX) * 0.16;
-      followerY += (mouseY - followerY) * 0.16;
-      cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px)`;
-      requestAnimationFrame(updateFollower);
-    }
-    requestAnimationFrame(updateFollower);
-
-    // Hover state for interactive targets
-    const interactiveTargets = document.querySelectorAll(
-      'a, button, input, textarea, .project-card-cedar, .bento-card, .holo-profile-card, [data-tilt]'
-    );
-
-    interactiveTargets.forEach((el) => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-
-    window.addEventListener('mousedown', () => {
-      cursorFollower.style.transform += ' scale(0.85)';
-    });
-    window.addEventListener('mouseup', () => {
-      cursorFollower.style.transform = cursorFollower.style.transform.replace(' scale(0.85)', '');
-    });
-  }
-
-  // ==========================================
-  // 3. FAQ ACCORDION INTERACTIVITY
+  // 2. FAQ ACCORDION INTERACTIVITY
   // ==========================================
   const faqItems = document.querySelectorAll('.faq-accordion-item');
 
