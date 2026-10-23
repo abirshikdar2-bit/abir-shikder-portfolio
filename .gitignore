@@ -5,7 +5,8 @@
 *.log
 *.tmp
 .DS_Store
-Docs/
+Docs/*
+docs/*
 !docs/TODO.md
 !Docs/TODO.md
 deploy-vercel.ps1

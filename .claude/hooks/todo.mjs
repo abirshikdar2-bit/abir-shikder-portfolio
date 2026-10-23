@@ -901,7 +901,7 @@ function changedFiles(root) {
   try {
     // NOTE: must not trim the whole output — porcelain lines start with a
     // significant space (" M file"), and trimming it shifts every path by one.
-    const raw = execFileSync('git', ['status', '--porcelain'], {
+    const raw = execFileSync('git', ['status', '--porcelain', '-uall'], {
       cwd: root,
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
@@ -965,22 +965,14 @@ const CASE_INSENSITIVE_FS = process.platform === 'win32' || process.platform ===
 const samePath = (a, b) =>
   CASE_INSENSITIVE_FS ? a.toLowerCase() === b.toLowerCase() : a === b
 
-const vendoredHere = root && resolve(join(root, '.claude', 'hooks', 'todo.mjs'))
-
-// A repo's own vendored copy always wins, whether the outsider is the global
-// ~/.claude copy or the installed plugin. Exactly one of them must run: both
-// firing means the open items are injected twice and the Stop check runs
-// twice. Deferring to the repo also keeps a project that pinned a modified
-// harness in control of its own behaviour.
-//
-// The vendored copy is wired through the project's own settings.json, so it
-// still runs — this only silences the duplicate.
-const isOutsideCopy = !samePath(resolve(SELF), vendoredHere || '')
+const vendoredClaude = root && resolve(join(root, '.claude', 'hooks', 'todo.mjs'))
+const vendoredAg = root && resolve(join(root, '.agents', 'hooks', 'todo.mjs'))
+const isVendoredCopy = samePath(resolve(SELF), vendoredClaude || '') || samePath(resolve(SELF), vendoredAg || '')
 if (
   !root ||
   isProtected(root) ||
   existsSync(join(root, OPT_OUT)) ||
-  (isOutsideCopy && existsSync(vendoredHere))
+  (!isVendoredCopy && (existsSync(vendoredClaude) || existsSync(vendoredAg)))
 ) {
   process.exit(0)
 }

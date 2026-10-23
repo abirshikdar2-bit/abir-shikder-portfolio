@@ -465,10 +465,10 @@ body.cursor-hover .custom-cursor-follower {
 /* Minimalist Clean Editorial Headline (rishad.digital style) */
 .hero-clean-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.8rem, 6.2vw, 5.2rem);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.0rem, 3.6vw, 3.1rem);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
   color: #ffffff;
 }
 
