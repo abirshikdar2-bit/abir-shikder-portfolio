@@ -11,4 +11,6 @@ docs/*
 !Docs/TODO.md
 deploy-vercel.ps1
 server.ps1
+.superpowers/
+rishad_temp.html
 assets/*.webp

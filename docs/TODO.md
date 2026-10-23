@@ -41,6 +41,12 @@ nobody notices.
 
 ## Done
 
+- `#14` **2026-10-24** Removed All Assistant-Generated Portfolio Images from Today and Tidied Workspace Explorer:
+  1. **Purged Today's Generated Images & Downloads**: Deleted all 10 temporary assets and Pinterest scrapes from `assets/images/` (`abir-card-avatar.jpg`, `pinterest-ref.jpg`, `pinterest-simple-signal-ref.jpg`, `pinterest-slide-2.jpg`, `pinterest-slide-3.jpg`, `pinterest-slide-4.jpg`, `project-agency.jpg`, `project-automation.jpg`, `project-canvas.jpg`, `project-fintech.jpg`).
+  2. **Preserved Master Identity Assets**: Kept the user's authentic uploaded master image (`assets/images/abir-hero-pinterest.jpg` and `abir-hero-new.jpg`, 286,128 bytes) intact alongside the official `handhold-logo.png` and original profile photos.
+  3. **Purged Brain Artifacts & Scratch Image Files**: Deleted 17 generated image artifacts and 45 scratch images from the assistant conversation directory (`C:\Users\abirs\.gemini\antigravity\brain\38270093-9686-410d-9d8c-efc5220c8a0f`).
+  4. **Cleaned & Organized Workspace Explorer**: Deleted temporary scrape file `rishad_temp.html`, updated `.gitignore` to keep the explorer and git status pristine, committed changes, and pushed to GitHub.
+
 - `#13` **2026-10-24** Deployed User's Master Levitating Holographic Card Portrait & Refined Typography:
   1. **Direct Verbatim Integration of Master Portrait**: Completely replaced hero assets (`assets/images/abir-hero-pinterest.jpg` and `assets/images/abir-hero-new.jpg`, 286,128 bytes) with the user's authentic uploaded photo showing Abir Shikder leaning against a dark textured wall with vertical amber illumination, crisp black button-down collared shirt, wristwatch, and levitating glowing holographic identity card ("AS" avatar badge, "Abir Shikdar" with blue verified checkmark, 42 Posts | 12.4K Followers | 310 Following, "Bigger Dreams, Smarter Work, Same Boy, Higher Goals. 👑", "abirshikdar.com"). No synthetic alterations or composites applied.
   2. **Harmonized Hero Title Typography**: Scaled down the hero headline `.hero-clean-title` from aggressive `clamp(2.8rem, 6.2vw, 5.2rem)` and `800` weight to an elegant, balanced `clamp(2.0rem, 3.6vw, 3.1rem)` and `600` weight with `1.22` line height, creating proportional visual harmony alongside the portrait.
