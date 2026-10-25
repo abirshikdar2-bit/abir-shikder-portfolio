@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+  <script>
+    // Seamless OAuth return handler for AUVARE store admin
+    if (window.location.hash && (window.location.hash.includes('access_token=') || window.location.hash.includes('error_description='))) {
+      window.location.replace('/auvare-store/admin.html' + window.location.hash);
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Abir Shikder — Progressing On My Vision</title>
