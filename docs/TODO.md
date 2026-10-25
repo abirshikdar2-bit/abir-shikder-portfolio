@@ -43,6 +43,12 @@ nobody notices.
 
 ## Done
 
+- `#42` **2026-10-26** Direct Permanent Production Deployment of AUVARE Store & Admin on Vercel:
+  - Diagnosed root cause: project deployment was handled via Vercel Deployments REST API (`deploy-vercel.ps1`) rather than GitHub webhook autocommit.
+  - Executed automated full-payload deployment to Vercel production using authorized Vercel token with all `auvare-store/` assets (HTML, JS, CSS, images).
+  - Verified production readiness (`readyState: READY`, `aliasAssigned: true`) on `https://abir-shikder-portfolio.vercel.app/auvare-store/index.html` and `https://abir-shikder-portfolio.vercel.app/auvare-store/admin.html` with HTTP 200 responses.
+  - Decommissioned temporary localtunnel daemon so users access clean, permanent production URLs without any security prompts or passwords.
+
 - `#40` **2026-10-25** Comprehensive Pre-Deployment Audit, Dynamic Admin Navigation, Git Commit & Push, and Live Vercel Production Deployment:
   1. **Public Storefront Audit**: Thoroughly verified `auvare-store/index.html` across all viewport sizes. Validated sticky header navigation, sliding indicator bar, 4 service guarantee cards, catalog filtering (all drops, t-shirts, shirts/polo, jackets, pants), quick-view modals, cart drawer, direct WhatsApp ordering with dynamic admin phone number, and unified warm off-white editorial color palette. Zero console errors.
   2. **Admin Dashboard Audit & Dynamic Header**: Verified `auvare-store/admin.html` with real Supabase synchronization. Refined topbar to dynamically update titles and subtitles across tabs (Inventory, Orders, Team & Requests, Settings) and gracefully hide inventory-specific actions when managing team security or settings.
