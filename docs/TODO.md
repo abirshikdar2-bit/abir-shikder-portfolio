@@ -8,6 +8,10 @@ resume**, not just a task name.
 
 ## Backlog
 
+- `#41` Admin Dashboard Deep Review & Further Feature Enhancements:
+  - Detailed review and enhancement of owner/admin management interface based on user visual observations.
+  - Implement future recommendations from UX specialist on public store and enhance admin dashboard order processing & inventory metrics.
+
 ## In Progress
 
 Append-only session locks, keyed by each item's permanent `#N` id (one
