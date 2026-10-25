@@ -43,11 +43,11 @@ nobody notices.
 
 ## Done
 
-- `#42` **2026-10-26** Direct Permanent Production Deployment of AUVARE Store & Admin on Vercel:
-  - Diagnosed root cause: project deployment was handled via Vercel Deployments REST API (`deploy-vercel.ps1`) rather than GitHub webhook autocommit.
+- `#42` **2026-10-26** Direct Permanent Production Deployment & Supabase OAuth Whitelist Fix for AUVARE Store & Admin:
+  - Diagnosed root cause of admin bounce: Supabase URL Configuration whitelist lacked `https://abir-shikder-portfolio.vercel.app/**`, which caused Google OAuth return redirects to fall back to the Site URL (the personal portfolio) instead of the admin dashboard.
+  - Whitelisted `https://abir-shikder-portfolio.vercel.app/**` in Supabase Auth Redirect URLs, and injected an automatic hash redirect fallback on the root portfolio (`index.html`) to ensure seamless forwarding.
   - Executed automated full-payload deployment to Vercel production using authorized Vercel token with all `auvare-store/` assets (HTML, JS, CSS, images).
-  - Verified production readiness (`readyState: READY`, `aliasAssigned: true`) on `https://abir-shikder-portfolio.vercel.app/auvare-store/index.html` and `https://abir-shikder-portfolio.vercel.app/auvare-store/admin.html` with HTTP 200 responses.
-  - Decommissioned temporary localtunnel daemon so users access clean, permanent production URLs without any security prompts or passwords.
+  - Verified real browser authentication on `https://abir-shikder-portfolio.vercel.app/auvare-store/admin.html`: Google OAuth sign-in completed, unlocking the admin dashboard and loading products and orders with zero errors.
 
 - `#40` **2026-10-25** Comprehensive Pre-Deployment Audit, Dynamic Admin Navigation, Git Commit & Push, and Live Vercel Production Deployment:
   1. **Public Storefront Audit**: Thoroughly verified `auvare-store/index.html` across all viewport sizes. Validated sticky header navigation, sliding indicator bar, 4 service guarantee cards, catalog filtering (all drops, t-shirts, shirts/polo, jackets, pants), quick-view modals, cart drawer, direct WhatsApp ordering with dynamic admin phone number, and unified warm off-white editorial color palette. Zero console errors.
