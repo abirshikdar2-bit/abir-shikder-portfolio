@@ -43,6 +43,13 @@ nobody notices.
 
 ## Done
 
+- `#43` **2026-10-26** Complete Separation & Standalone Launch of AUVARE Clothing Store:
+  - Migrated entire clothing store project to its own dedicated folder `D:\Work's Station\Auvare Store`.
+  - Initialized dedicated Git repository and pushed to brand-new GitHub repo: `https://github.com/abirshikdar2-bit/auvare-store`.
+  - Created standalone Vercel project `auvare-store` and deployed production live to `https://auvare-store.vercel.app` (Storefront: `/`, Admin: `/admin.html`).
+  - Whitelisted `https://auvare-store.vercel.app/**` in Supabase Auth Redirect URLs and verified live Google login directly into admin dashboard with zero redirects to portfolio.
+  - Purged `auvare-store/` from `D:\Abir Protfolio`, restored clean portfolio root, and redeployed clean portfolio to `https://abir-shikder-portfolio.vercel.app`.
+
 - `#42` **2026-10-26** Direct Permanent Production Deployment & Supabase OAuth Whitelist Fix for AUVARE Store & Admin:
   - Diagnosed root cause of admin bounce: Supabase URL Configuration whitelist lacked `https://abir-shikder-portfolio.vercel.app/**`, which caused Google OAuth return redirects to fall back to the Site URL (the personal portfolio) instead of the admin dashboard.
   - Whitelisted `https://abir-shikder-portfolio.vercel.app/**` in Supabase Auth Redirect URLs, and injected an automatic hash redirect fallback on the root portfolio (`index.html`) to ensure seamless forwarding.
