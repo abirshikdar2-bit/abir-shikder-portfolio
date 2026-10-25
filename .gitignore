@@ -1,3 +1,10 @@
+# Environment and local secret configuration
+.env
+.env.local
+.env.*.local
+*.env
+env.local
+
 .agents/
 .gemini/
 .vscode/
@@ -14,3 +21,4 @@ server.ps1
 .superpowers/
 rishad_temp.html
 assets/*.webp
+
